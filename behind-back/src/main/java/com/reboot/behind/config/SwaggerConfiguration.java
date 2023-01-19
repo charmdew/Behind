@@ -1,6 +1,5 @@
 package com.reboot.behind.config;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -20,15 +19,15 @@ public class SwaggerConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.springboot.bc"))
+                .apis(RequestHandlerSelectors.basePackage("com.reboot.behind"))
                 .paths(PathSelectors.any())
-                .build();
+                .buils();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Spring Boot Open API Test with Swagger")
-                .description("설명 부분")
+                .title("Behind RestApi")
+                .description("Behind 서비스의 rest api 사용법에 대하여 설명합니다.")
                 .version("1.0.0")
                 .build();
     }
