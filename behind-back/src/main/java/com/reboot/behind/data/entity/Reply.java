@@ -1,6 +1,9 @@
 package com.reboot.behind.data.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,16 +13,18 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @Entity
-public class Comment {
+public class Reply {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int commentId;
+    private int replyId;
 
     @ManyToOne
-    private User writerUser;
+    private User writerId;
 
     @ManyToOne
-    private User profileUser;
+    private Comment comment;
+
     @Column(nullable = false)
     private String content;
 

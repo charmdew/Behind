@@ -1,10 +1,18 @@
-package com.reboot.behind.config.data.entity;
+package com.reboot.behind.data.entity;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Entity
 public class User {
     @Id
@@ -25,11 +33,18 @@ public class User {
     private String tag;
 
     @Column(nullable = false)
-    private int track2;
-
-    @Column(nullable = false)
     private int track1;
 
+    @Column(nullable = false)
+    private int track2;
+
     private String detail;
+
+    private String image;
+
+    private String profile;
+
+    @OneToMany(mappedBy="user", fetch = FetchType.EAGER)
+    private List<FollowUser> followUserList;
 
 }
