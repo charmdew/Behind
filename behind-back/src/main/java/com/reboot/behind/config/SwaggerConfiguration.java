@@ -21,7 +21,7 @@ public class SwaggerConfiguration {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.reboot.behind"))
                 .paths(PathSelectors.any())
-                .buils();
+                .build();
     }
 
     private ApiInfo apiInfo() {
