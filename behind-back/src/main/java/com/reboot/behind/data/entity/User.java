@@ -45,9 +45,13 @@ public class User {
 
     @ElementCollection
     @Column(nullable = false)
-    private List<String> tag ;
+
+    @ElementCollection
+    private List<String> tag;
 
     private String phoneNum;
+
+    private boolean isVisible;
 
     @Column(nullable = false)
     private int track1;
@@ -69,6 +73,7 @@ public class User {
 //
 //        return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 //    }
+
 
 //    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 //    @Override
