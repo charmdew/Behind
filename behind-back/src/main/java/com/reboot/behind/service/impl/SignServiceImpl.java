@@ -2,7 +2,9 @@ package com.reboot.behind.service.impl;
 
 import com.reboot.behind.common.CommonResponse;
 import com.reboot.behind.config.security.JwtTokenProvider;
+import com.reboot.behind.data.dto.SignInRequestDto;
 import com.reboot.behind.data.dto.SignInResultDto;
+import com.reboot.behind.data.dto.SignUpRequestDto;
 import com.reboot.behind.data.dto.SignUpResultDto;
 import com.reboot.behind.data.entity.User;
 import com.reboot.behind.data.repository.UserRepository;
@@ -35,7 +37,9 @@ public class SignServiceImpl implements SignService {
     }
 
     @Override
-    public SignUpResultDto signUp(String id, String password, String name, String role) {
+    public SignUpResultDto signUp(SignUpRequestDto signUpRequestDto) {
+        String id = signUpRequestDto.getId();
+        String password
         LOGGER.info("[getSignUpResult] 회원 가입 정보 전달");
         User user;
         if(role.equalsIgnoreCase("admin")){
@@ -81,7 +85,9 @@ public class SignServiceImpl implements SignService {
     }
 
     @Override
-    public SignInResultDto signIn(String id, String password) throws RuntimeException {
+    public SignInResultDto signIn(SignInRequestDto signInRequestDto) throws RuntimeException {
+        String id = signInRequestDto.getId();
+        String password = signInRequestDto.getPassword();
         LOGGER.info("[getSignInResult] signDataHandler 로 회원 정보 요청");
         User user = userRepository.getUserByUserId(id);
         LOGGER.info("[getSignInResult] Id : {}",id);
