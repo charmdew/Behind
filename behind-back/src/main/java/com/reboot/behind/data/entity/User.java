@@ -51,6 +51,8 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String tag;
 
+    private String phoneNum;
+
     @Column(nullable = false)
     private int track1;
 
@@ -59,7 +61,7 @@ public class User implements UserDetails {
 
     private String detail;
 
-    private String image;
+    private String images;
 
     private String profile;
 
