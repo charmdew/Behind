@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface CommentService {
 
-    List<Comment> getCommentList(UserResponseDto userResponseDto);
+    List<Comment> getCommentList(Integer id);
 
     CommentResponseDto saveComment(CommentDto commentDto);
 

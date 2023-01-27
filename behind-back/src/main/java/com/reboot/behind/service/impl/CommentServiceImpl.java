@@ -38,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setProfileUser(user2);
         comment.setContent(commentDto.getContent());
         comment.setCreatedTime(LocalDateTime.now());
-        comment.setUpdatedTime(LocalDateTime.now());
+        comment.setUpdatedTime(LocalDateTime.now()); // 업데이트 제거 시간도 보내줘야함 post 요청 물어보기 // 댓글 작성시 다시 불러오는가? // 댓글
 
         Comment saveComment = commentRepository.save(comment);
 
@@ -52,8 +52,8 @@ public class CommentServiceImpl implements CommentService {
 
     }
     @Override
-    public List<Comment> getCommentList(UserResponseDto userResponseDto){
-        User user = userRepository.findById(userResponseDto.getId()).get();
+    public List<Comment> getCommentList(Integer id){
+        User user = userRepository.findById(id).get();
         return commentRepository.findAllByProfileUser(user);
 
     }
