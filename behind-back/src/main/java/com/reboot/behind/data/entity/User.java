@@ -44,12 +44,6 @@ public class User {
     private int position2;
 
     @ElementCollection
-    @Column(nullable = false)
-<<<<<<< HEAD
-
-=======
->>>>>>> 7cb6627a780ffe625ef9f60e9ad71286900f5799
-    @ElementCollection
     private List<String> tag;
 
     private String phoneNum;
@@ -69,7 +63,11 @@ public class User {
     private String profile;
 
     @ElementCollection
-    private List<Integer> followUsers;
+    private List<Integer> followingUsers;
+
+    @ElementCollection
+    private List<Integer> followedUsers;
+
 
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
