@@ -29,13 +29,12 @@ public class UserDto {
 
     private String phoneNum;
 
+    private Integer phoneBoolean;
+
     private int track1;
 
 
     private int track2;
-
-    private String detail;
-
 
 
 
