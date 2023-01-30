@@ -24,30 +24,35 @@ public class UserServiceImpl implements UserService {
 
 
     public List<UserResponseDto> getUserList(){
-        List<User> userlist = userRepository.findAll();
+//        List<User> userlist = userRepository.findAll();
+//        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+//        int i;
+//        for(i=0;i<userlist.size();i++){
+//            System.out.println(userlist.get(i));
+//            System.out.println("호호호호호호호");
+//            UserResponseDto userResponseDto = new UserResponseDto();
+//            userResponseDto.setId(userlist.get(i).getId());
+//            userResponseDto.setUserId(userlist.get(i).getUserId());
+//            userResponseDto.setName(userlist.get(i).getName());
+//            userResponseDto.setEmail(userlist.get(i).getEmail());
+//            userResponseDto.setPosition1(userlist.get(i).getPosition1());
+//            userResponseDto.setPosition2(userlist.get(i).getPosition2());
+//            userResponseDto.setTag(userlist.get(i).getTag());
+//            userResponseDto.setTrack1(userlist.get(i).getTrack1());
+//            userResponseDto.setTrack2(userlist.get(i).getTrack2());
+//            userResponseDto.setDetail(userlist.get(i).getDetail());
+//            userResponseDto.setPhoneNum(userlist.get(i).getPhoneNum());
+//            userResponseDto.setFollowUsers(userlist.get(i).getFollowUsers());
+//            System.out.println(userResponseDto);
+//            userResponseDtoList.add(userResponseDto);
+//        }
+//        System.out.println(userResponseDtoList);
+//        return userResponseDtoList;
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
-        int i;
-        for(i=0;i<userlist.size();i++){
-            System.out.println(userlist.get(i));
-            System.out.println("호호호호호호호");
-            UserResponseDto userResponseDto = new UserResponseDto();
-            userResponseDto.setId(userlist.get(i).getId());
-            userResponseDto.setUserId(userlist.get(i).getUserId());
-            userResponseDto.setName(userlist.get(i).getName());
-            userResponseDto.setEmail(userlist.get(i).getEmail());
-            userResponseDto.setPosition1(userlist.get(i).getPosition1());
-            userResponseDto.setPosition2(userlist.get(i).getPosition2());
-            userResponseDto.setTag(userlist.get(i).getTag());
-            userResponseDto.setTrack1(userlist.get(i).getTrack1());
-            userResponseDto.setTrack2(userlist.get(i).getTrack2());
-            userResponseDto.setDetail(userlist.get(i).getDetail());
-            userResponseDto.setPhoneNum(userlist.get(i).getPhoneNum());
-            userResponseDto.setFollowUsers(userlist.get(i).getFollowUsers());
-            System.out.println(userResponseDto);
-            userResponseDtoList.add(userResponseDto);
-        }
-        System.out.println(userResponseDtoList);
-        return userResponseDtoList;
+        UserResponseDto userResponseDto = new UserResponseDto();
+
+        userResponseDtoList.add();
+
     }
     @Override
     public UserResponseDto saveUser(UserDto userDto){

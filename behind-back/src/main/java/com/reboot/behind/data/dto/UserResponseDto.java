@@ -26,6 +26,8 @@ public class UserResponseDto {
     private int position2;
 
     private String phoneNum;
+
+    private Integer phoneBoolean;
     private List<String> tag;
 
 
@@ -40,5 +42,7 @@ public class UserResponseDto {
 
     private String profile;
 
-    private List<Integer> followUsers;
+    private List<Integer> followingUsers;
+
+    private List<Integer> followedUsers;
 }
