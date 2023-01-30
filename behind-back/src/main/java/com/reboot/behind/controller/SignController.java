@@ -1,11 +1,13 @@
 package com.reboot.behind.controller;
 
+import com.reboot.behind.data.dto.SignInRequestDto;
 import com.reboot.behind.data.dto.SignInResultDto;
 import com.reboot.behind.service.SignService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,7 +23,8 @@ public class SignController {
     }
 
     @PostMapping("/in")
-    public SignInResultDto signIn(){
-
+    public SignInResultDto signIn(@RequestBody SignInRequestDto signInRequestDto){
+        LOGGER.info("[signIn] 로그인 시도 중 id : {}, pw : ****", signInDto.getId() );
+        signService.signIn(signInRequestDto);
     }
 }

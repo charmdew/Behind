@@ -49,9 +49,12 @@ public class User implements UserDetails {
     private int position2;
 
     @Column(nullable = false)
-    private String tag;
+    @ElementCollection
+    private List<String> tag;
 
     private String phoneNum;
+
+    private boolean isVisible;
 
     @Column(nullable = false)
     private int track1;
@@ -65,9 +68,8 @@ public class User implements UserDetails {
 
     private String profile;
 
-    @OneToMany(mappedBy="user", fetch = FetchType.EAGER)
-    private List<FollowUser> followUserList;
-
+    @ElementCollection
+    private List<Integer> followUsers;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
