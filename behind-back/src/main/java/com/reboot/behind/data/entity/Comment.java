@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +26,9 @@ public class Comment {
     private User profileUser;
     @Column(nullable = false)
     private String content;
+
+    @OneToMany(mappedBy = "comment")
+    private List<Reply> reply;
 
     private LocalDateTime createdTime;
 

@@ -49,6 +49,8 @@ public class User {
 
     private String phoneNum;
 
+    private boolean showPhoneNum;
+
     @Column(nullable = false)
     private int track1;
 
@@ -62,7 +64,10 @@ public class User {
     private String profile;
 
     @ElementCollection
-    private List<Integer> followUsers;
+    private List<Integer> followingUsers;
+
+    @ElementCollection
+    private List<Integer> followedUsers;
 
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
