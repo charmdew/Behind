@@ -45,7 +45,10 @@ public class User {
 
     @ElementCollection
     @Column(nullable = false)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7cb6627a780ffe625ef9f60e9ad71286900f5799
     @ElementCollection
     private List<String> tag;
 
@@ -73,7 +76,6 @@ public class User {
 //
 //        return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 //    }
-
 
 //    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 //    @Override
