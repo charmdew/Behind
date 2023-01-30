@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
 
     public List<UserResponseDto> getUserList(){
-        List<User> userlist = userRepository.findAll();
+
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
         int i;
         for(i=0;i<userlist.size();i++){
@@ -52,6 +52,9 @@ public class UserServiceImpl implements UserService {
         }
         System.out.println(userResponseDtoList);
         return userResponseDtoList;
+
+
+
     }
     @Override
     public UserResponseDto saveUser(UserDto userDto){

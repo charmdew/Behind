@@ -29,12 +29,14 @@ public class UserDto {
 
     private String phoneNum;
 
+
     private String track;
 
 
 
 
-    private String detail;
+
+
 
 
 

@@ -25,7 +25,10 @@ public class UserResponseDto {
 
     private String phoneNum;
 
+
     private Boolean showPhoneNum;
+
+
     private List<String> tag;
 
 
