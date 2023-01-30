@@ -2,6 +2,8 @@ package com.reboot.behind.data.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @Getter
 @Setter
@@ -18,17 +20,12 @@ public class SignUpRequestDto {
 
     private String phoneNum;
 
-    private boolean isVisible;
+    private boolean showPhoneNum;
 
-    private int position1;
+    private String position;
 
-    private int position2;
-
-    private int track1;
-
-    private int track2;
-
-    private String tag;
+    private String track;
+    private List<String> tag;
 
     private String detail;
 
