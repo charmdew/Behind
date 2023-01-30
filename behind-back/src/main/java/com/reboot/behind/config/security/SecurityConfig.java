@@ -14,9 +14,12 @@ public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    private final PrincipalOauth2UserService principalOauth2UserService;
+
     @Autowired
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider, PrincipalOauth2UserService principalOauth2UserService) {
         this.jwtTokenProvider = jwtTokenProvider;
+        this.principalOauth2UserService = principalOauth2UserService;
     }
 
     @Bean
@@ -32,18 +35,19 @@ public class SecurityConfig {
                 .antMatchers("/login", "/sign/**", "/", "/**/**").permitAll()
                 .antMatchers("**exception**").permitAll()
                 .anyRequest().hasRole("ADMIN")
-
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class); // JWT Token 필터를 id/password 인증 필터 이전에 추가
-
+                        UsernamePasswordAuthenticationFilter.class)// JWT Token 필터를 id/password 인증 필터 이전에 추가
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService);
         return http.build();
     }
+
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
