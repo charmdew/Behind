@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
 
     public List<UserResponseDto> getUserList(){
-        List<User> userlist = userRepository.findAll();
+
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
         int i;
         for(i=0;i<userlist.size();i++){
@@ -35,19 +35,26 @@ public class UserServiceImpl implements UserService {
             userResponseDto.setUserId(userlist.get(i).getUserId());
             userResponseDto.setName(userlist.get(i).getName());
             userResponseDto.setEmail(userlist.get(i).getEmail());
-//            userResponseDto.setPosition1(userlist.get(i).getPosition1());
-//            userResponseDto.setPosition2(userlist.get(i).getPosition2());
             userResponseDto.setTag(userlist.get(i).getTag());
-//            userResponseDto.setTrack1(userlist.get(i).getTrack1());
-//            userResponseDto.setTrack2(userlist.get(i).getTrack2());
             userResponseDto.setDetail(userlist.get(i).getDetail());
             userResponseDto.setPhoneNum(userlist.get(i).getPhoneNum());
-            userResponseDto.setFollowUsers(userlist.get(i).getFollowUsers());
-            System.out.println(userResponseDto);
+            userResponseDto.setFollowingUsers(userlist.get(i).getFollowingUsers());
+            userResponseDto.setFollowedUsers(userlist.get(i).getFollowedUsers());
+            userResponseDto.setShowPhoneNum(userlist.get(i).isShowPhoneNum());
+            userResponseDto.setPosition(" frontend : true," +
+                    "  backend : true," +
+                    "  embeded: false");
+            userResponseDto.setTrack(" ai : true," +
+                    "  iot : true," +
+                    "  bigdata : false," +
+                    "  blockchain : false");
             userResponseDtoList.add(userResponseDto);
         }
         System.out.println(userResponseDtoList);
         return userResponseDtoList;
+
+
+
     }
     @Override
     public UserResponseDto saveUser(UserDto userDto){
@@ -56,11 +63,10 @@ public class UserServiceImpl implements UserService {
         user.setName(userDto.getName());
         user.setPassword(userDto.getPassword());
         user.setEmail(userDto.getEmail());
-//        user.setPosition1(userDto.getPosition1());
-//        user.setPosition2(userDto.getPosition2());
+        user.setShowPhoneNum(userDto.getShowPhoneNum());
+        user.setPosition("호호");
+        user.setTrack("하하");
         user.setTag(userDto.getTag());
-//        user.setTrack1(userDto.getTrack1());
-//        user.setTrack2(userDto.getTrack2());
         user.setDetail(userDto.getDetail());
         user.setPhoneNum(userDto.getPhoneNum());
 
@@ -71,13 +77,18 @@ public class UserServiceImpl implements UserService {
         userResponseDto.setUserId(saveUser.getUserId());
         userResponseDto.setName(saveUser.getName());
         userResponseDto.setEmail(saveUser.getEmail());
-//        userResponseDto.setPosition1(saveUser.getPosition1());
-//        userResponseDto.setPosition2(saveUser.getPosition2());
+        userResponseDto.setPosition(" frontend : true," +
+                "  backend : true," +
+                "  embeded: false");
+        userResponseDto.setTrack(" ai : true," +
+                "  iot : true," +
+                "  bigdata : false," +
+                "  blockchain : false");
         userResponseDto.setTag(saveUser.getTag());
-//        userResponseDto.setTrack1(saveUser.getTrack1());
-//        userResponseDto.setTrack2(saveUser.getTrack2());
         userResponseDto.setDetail(saveUser.getDetail());
         userResponseDto.setPhoneNum(saveUser.getPhoneNum());
+        userResponseDto.setFollowingUsers(saveUser.getFollowingUsers());
+        userResponseDto.setFollowedUsers(saveUser.getFollowedUsers());
         return userResponseDto;
     }
     public UserResponseDto changeUser(UserResponseDto userResponseDto){
@@ -112,7 +123,7 @@ public class UserServiceImpl implements UserService {
         userResponseDto2.setImages(changedUser.getImages());
         userResponseDto2.setProfile(changedUser.getProfile());
         userResponseDto2.setPhoneNum(changedUser.getPhoneNum());
-        userResponseDto2.setFollowUsers(changedUser.getFollowUsers());
+        userResponseDto2.setFollowingUsers(changedUser.getFollowingUsers());
 
         return userResponseDto2;
     }
@@ -132,16 +143,17 @@ public class UserServiceImpl implements UserService {
         userDetailResponseDto.setDetail(user.getDetail());
         userDetailResponseDto.setImages(user.getImages());
         userDetailResponseDto.setProfile(user.getProfile());
-        userDetailResponseDto.setFollowUsers(user.getFollowUsers());
+        userDetailResponseDto.setFollowingUsers(user.getFollowingUsers());
 
         return userDetailResponseDto;
     }
     public FollowerResponseDto saveFollower(FollowerDto followerDto){
-        User founduser = userRepository.findById(followerDto.getUser()).get();
-        List<Integer> follow = founduser.getFollowUsers();
+        User foundfolloweruser = userRepository.findById(followerDto.getUser()).get();
+        User foundfolloweduser = userRepository.findById(followerDto.getFollowUser()).get();
+        List<Integer> follow = founduser.getFollowingUsers();
 
         follow.add(followerDto.getFollowUser());
-        founduser.setFollowUsers(follow);
+        founduser.setFollowingUsers(follow);
 
         userRepository.save(founduser);
         FollowerResponseDto saveFollower = new FollowerResponseDto();
@@ -152,10 +164,10 @@ public class UserServiceImpl implements UserService {
     }
     public void deleteFollower(FollowerDto followerDto){
         User founduser = userRepository.findById(followerDto.getUser()).get();
-        List<Integer> follow = founduser.getFollowUsers();
+        List<Integer> follow = founduser.getFollowingUsers();
 
         follow.remove(Integer.valueOf(followerDto.getFollowUser()));
-        founduser.setFollowUsers(follow);
+        founduser.setFollowingUsers(follow);
         userRepository.save(founduser);
     }
     public UserResponseDto ChangeDetail(Integer id,String detail){
@@ -178,7 +190,7 @@ public class UserServiceImpl implements UserService {
         userResponseDto.setImages(changedUser.getImages());
         userResponseDto.setProfile(changedUser.getProfile());
         userResponseDto.setPhoneNum(changedUser.getPhoneNum());
-        userResponseDto.setFollowUsers(changedUser.getFollowUsers());
+        userResponseDto.setFollowingUsers(changedUser.getFollowingUsers());
 
         return userResponseDto;
     }
