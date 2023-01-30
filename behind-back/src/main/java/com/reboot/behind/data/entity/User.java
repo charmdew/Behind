@@ -44,10 +44,11 @@ public class User {
     private int position2;
 
     @ElementCollection
-    @Column(nullable = false)
-    private List<String> tag ;
+    private List<String> tag;
 
     private String phoneNum;
+
+    private boolean isVisible;
 
     @Column(nullable = false)
     private int track1;
@@ -62,7 +63,11 @@ public class User {
     private String profile;
 
     @ElementCollection
-    private List<Integer> followUsers;
+    private List<Integer> followingUsers;
+
+    @ElementCollection
+    private List<Integer> followedUsers;
+
 
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
