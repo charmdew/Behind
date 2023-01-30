@@ -21,18 +21,18 @@ public class UserResponseDto {
     private String email;
 
 
-    private int position1;
-
-    private int position2;
+    private String position;
 
     private String phoneNum;
+
+    private Boolean showPhoneNum;
     private List<String> tag;
 
 
-    private int track1;
+    private String track;
 
 
-    private int track2;
+
 
     private String detail;
 
@@ -40,5 +40,7 @@ public class UserResponseDto {
 
     private String profile;
 
-    private List<Integer> followUsers;
+    private List<Integer> followingUsers;
+
+    private List<Integer> followedUsers;
 }

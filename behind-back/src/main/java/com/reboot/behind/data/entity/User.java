@@ -39,9 +39,7 @@ public class User {
     private String email;
 
     @Column(nullable = false)
-    private int position1;
-    @Column(nullable = false)
-    private int position2;
+    private String position;
 
     @ElementCollection
     @Column(nullable = false)
@@ -52,11 +50,7 @@ public class User {
     private boolean showPhoneNum;
 
     @Column(nullable = false)
-    private int track1;
-
-    @Column(nullable = false)
-    private int track2;
-
+    private String track;
     private String detail;
 
     private String images;
@@ -80,7 +74,6 @@ public class User {
 //    public String getUsername() {
 //        return this.userId;
 //    }
-
     //계정 만료 체크하는 로직. 사용하지 않으므로 true
 //    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 //    @Override
