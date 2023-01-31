@@ -1,5 +1,7 @@
 package com.reboot.behind.service.impl;
 
+import com.reboot.behind.config.security.auth.PrincipalDetails;
+import com.reboot.behind.data.entity.User;
 import com.reboot.behind.data.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -20,6 +22,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LOGGER.info("[loadUserByUsername] loadUserByUsername 수행. username : {}", username);
-        return userRepository.getUserByUserId(username);
+        User user = userRepository.getUserByUserId(username);
+        if(user == null){
+            return null;
+        }else{
+            return new PrincipalDetails(user);
+        }
     }
 }

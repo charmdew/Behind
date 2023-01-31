@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 //            userResponseDto.setTrack2(userlist.get(i).getTrack2());
             userResponseDto.setDetail(userlist.get(i).getDetail());
             userResponseDto.setPhoneNum(userlist.get(i).getPhoneNum());
-            userResponseDto.setFollowUsers(userlist.get(i).getFollowUsers());
+//            userResponseDto.setFollowUsers(userlist.get(i).getFollowUsers());
             System.out.println(userResponseDto);
             userResponseDtoList.add(userResponseDto);
         }
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
         userResponseDto2.setImages(changedUser.getImages());
         userResponseDto2.setProfile(changedUser.getProfile());
         userResponseDto2.setPhoneNum(changedUser.getPhoneNum());
-        userResponseDto2.setFollowUsers(changedUser.getFollowUsers());
+//        userResponseDto2.setFollowUsers(changedUser.getFollowUsers());
 
         return userResponseDto2;
     }
@@ -132,16 +132,16 @@ public class UserServiceImpl implements UserService {
         userDetailResponseDto.setDetail(user.getDetail());
         userDetailResponseDto.setImages(user.getImages());
         userDetailResponseDto.setProfile(user.getProfile());
-        userDetailResponseDto.setFollowUsers(user.getFollowUsers());
+//        userDetailResponseDto.setFollowUsers(user.getFollowUsers());
 
         return userDetailResponseDto;
     }
     public FollowerResponseDto saveFollower(FollowerDto followerDto){
         User founduser = userRepository.findById(followerDto.getUser()).get();
-        List<Integer> follow = founduser.getFollowUsers();
+//        List<Integer> follow = founduser.getFollowUsers();
 
-        follow.add(followerDto.getFollowUser());
-        founduser.setFollowUsers(follow);
+//        follow.add(followerDto.getFollowUser());
+//        founduser.setFollowUsers(follow);
 
         userRepository.save(founduser);
         FollowerResponseDto saveFollower = new FollowerResponseDto();
@@ -152,10 +152,10 @@ public class UserServiceImpl implements UserService {
     }
     public void deleteFollower(FollowerDto followerDto){
         User founduser = userRepository.findById(followerDto.getUser()).get();
-        List<Integer> follow = founduser.getFollowUsers();
+//        List<Integer> follow = founduser.getFollowUsers();
 
-        follow.remove(Integer.valueOf(followerDto.getFollowUser()));
-        founduser.setFollowUsers(follow);
+//        follow.remove(Integer.valueOf(followerDto.getFollowUser()));
+//        founduser.setFollowUsers(follow);
         userRepository.save(founduser);
     }
     public UserResponseDto ChangeDetail(Integer id,String detail){
@@ -178,7 +178,7 @@ public class UserServiceImpl implements UserService {
         userResponseDto.setImages(changedUser.getImages());
         userResponseDto.setProfile(changedUser.getProfile());
         userResponseDto.setPhoneNum(changedUser.getPhoneNum());
-        userResponseDto.setFollowUsers(changedUser.getFollowUsers());
+//        userResponseDto.setFollowUsers(changedUser.getFollowUsers());
 
         return userResponseDto;
     }
