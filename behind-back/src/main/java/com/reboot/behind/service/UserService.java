@@ -7,14 +7,14 @@ import java.util.List;
 
 public interface UserService {
 
-    UserResponseDto saveUser(UserDto userDto);
+//    UserResponseDto saveUser(UserDto userDto);
     List<UserResponseDto> getUserList();
 
     UserResponseDto changeUser(UserResponseDto userResponseDto);
 
     UserResponseDto userDetail(Integer id);
 
-    FollowerResponseDto saveFollower(FollowerDto followerDto);
+    void saveFollower(FollowerDto followerDto);
 
     void deleteFollower(FollowerDto followerDto) throws Exception;
 
