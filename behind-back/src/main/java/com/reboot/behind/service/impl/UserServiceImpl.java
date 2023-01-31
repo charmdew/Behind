@@ -26,10 +26,24 @@ public class UserServiceImpl implements UserService {
     public List<UserResponseDto> getUserList(){
         List<User> userlist = userRepository.findAll();
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
-        int i;
-        for(i=0;i<userlist.size();i++){
-            System.out.println("유저리스트 들어옴");
+        for(int i=0;i<userlist.size();i++){
             UserResponseDto userResponseDto = new UserResponseDto();
+            UserResponseDto.Position position = new UserResponseDto.Position();
+            UserResponseDto.Track track = new UserResponseDto.Track();
+
+            String cut = userlist.get(i).getPosition();
+            String cutPosition[] = cut.split("/");
+            position.setFrontend(cutPosition[0]);
+            position.setBackend(cutPosition[1]);
+            position.setEmbeded(cutPosition[2]);
+
+            String cut2 = userlist.get(i).getTrack();
+            String cutTrack[] = cut2.split("/");
+            track.setAi(cutTrack[0]);
+            track.setIot(cutTrack[1]);
+            track.setBigdata(cutTrack[2]);
+            track.setBlockchain(cutTrack[3]);
+
             userResponseDto.setId(userlist.get(i).getId());
             userResponseDto.setUserId(userlist.get(i).getUserId());
             userResponseDto.setDetail(userlist.get(i).getDetail());
@@ -42,22 +56,32 @@ public class UserServiceImpl implements UserService {
             userResponseDto.setFollowedUsers(userlist.get(i).getFollowedUsers());
             userResponseDto.setImages(userlist.get(i).getImages());
             userResponseDto.setProfile(userlist.get(i).getProfile());
-            userResponseDto.setPosition(" frontend : true," +
-                    "  backend : true," +
-                    "  embeded: false");
-            userResponseDto.setTrack(" ai : true," +
-                    "  iot : true," +
-                    "  bigdata : false," +
-                    "  blockchain : false");
+            userResponseDto.setPosition(position);
+            userResponseDto.setTrack(track);
             userResponseDtoList.add(userResponseDto);
         }
-//        System.out.println(userResponseDtoList);
         return userResponseDtoList;
     }
     public UserResponseDto userDetail(Integer id){
         User user = userRepository.findById(id).get();
 
         UserResponseDto userDetailResponseDto = new UserResponseDto();
+        UserResponseDto.Position position = new UserResponseDto.Position();
+        UserResponseDto.Track track = new UserResponseDto.Track();
+
+        String cut = user.getPosition();
+        String cutPosition[] = cut.split("/");
+        position.setFrontend(cutPosition[0]);
+        position.setBackend(cutPosition[1]);
+        position.setEmbeded(cutPosition[2]);
+
+        String cut2 = user.getTrack();
+        String cutTrack[] = cut2.split("/");
+        track.setAi(cutTrack[0]);
+        track.setIot(cutTrack[1]);
+        track.setBigdata(cutTrack[2]);
+        track.setBlockchain(cutTrack[3]);
+
         userDetailResponseDto.setId(user.getId());
         userDetailResponseDto.setUserId(user.getUserId());
         userDetailResponseDto.setName(user.getName());
@@ -70,50 +94,11 @@ public class UserServiceImpl implements UserService {
         userDetailResponseDto.setShowPhoneNum(user.isShowPhoneNum());
         userDetailResponseDto.setFollowingUsers(user.getFollowingUsers());
         userDetailResponseDto.setFollowedUsers(user.getFollowedUsers());
-        userDetailResponseDto.setPosition(" frontend : true," +
-                "  backend : true," +
-                "  embeded: false");
-        userDetailResponseDto.setTrack(" ai : true," +
-                "  iot : true," +
-                "  bigdata : false," +
-                "  blockchain : false");
+        userDetailResponseDto.setPosition(position);
+        userDetailResponseDto.setTrack(track);
 
         return userDetailResponseDto;
     }
-//    @Override
-//    public UserResponseDto saveUser(UserDto userDto){
-//        User user = new User();
-//        user.setUserId(userDto.getUserId());
-//        user.setName(userDto.getName());
-//        user.setPassword(userDto.getPassword());
-//        user.setEmail(userDto.getEmail());
-//        user.setShowPhoneNum(userDto.getShowPhoneNum());
-//        user.setPosition("호호");
-//        user.setTrack("하하");
-//        user.setTag(userDto.getTag());
-//        user.setPhoneNum(userDto.getPhoneNum());
-//
-//        User saveUser = userRepository.save(user);
-//
-//        UserResponseDto userResponseDto = new UserResponseDto();
-//        userResponseDto.setId(saveUser.getId());
-//        userResponseDto.setUserId(saveUser.getUserId());
-//        userResponseDto.setName(saveUser.getName());
-//        userResponseDto.setEmail(saveUser.getEmail());
-//        userResponseDto.setPosition(" frontend : true," +
-//                "  backend : true," +
-//                "  embeded: false");
-//        userResponseDto.setTrack(" ai : true," +
-//                "  iot : true," +
-//                "  bigdata : false," +
-//                "  blockchain : false");
-//        userResponseDto.setTag(saveUser.getTag());
-//        userResponseDto.setDetail(saveUser.getDetail());
-//        userResponseDto.setPhoneNum(saveUser.getPhoneNum());
-//        userResponseDto.setFollowingUsers(saveUser.getFollowingUsers());
-//        userResponseDto.setFollowedUsers(saveUser.getFollowedUsers());
-//        return userResponseDto;
-//    }
     public UserResponseDto changeUser(UserResponseDto userResponseDto){
         User foundUser = userRepository.findById(userResponseDto.getId()).get();
         foundUser.setName(userResponseDto.getName());
@@ -121,12 +106,28 @@ public class UserServiceImpl implements UserService {
         foundUser.setPhoneNum(userResponseDto.getPhoneNum());
         foundUser.setTag(userResponseDto.getTag());
         foundUser.setShowPhoneNum(userResponseDto.getShowPhoneNum());
-        System.out.println(userResponseDto.getPosition());
+        foundUser.setPosition(userResponseDto.getPosition().getFrontend().toString()+"/"+userResponseDto.getPosition().getBackend().toString()+"/"+userResponseDto.getPosition().getEmbeded().toString());
+        foundUser.setTrack(userResponseDto.getTrack().getAi().toString()+"/"+userResponseDto.getTrack().getIot().toString()+"/"+userResponseDto.getTrack().getBigdata().toString()+"/"+userResponseDto.getTrack().getBlockchain().toString());
 
 
         User changedUser = userRepository.save(foundUser);
 
         UserResponseDto userResponseDto2 = new UserResponseDto();
+        UserResponseDto.Position position = new UserResponseDto.Position();
+        UserResponseDto.Track track = new UserResponseDto.Track();
+
+        String cut = changedUser.getPosition();
+        String cutPosition[] = cut.split("/");
+        position.setFrontend(cutPosition[0]);
+        position.setBackend(cutPosition[1]);
+        position.setEmbeded(cutPosition[2]);
+
+        String cut2 = changedUser.getTrack();
+        String cutTrack[] = cut2.split("/");
+        track.setAi(cutTrack[0]);
+        track.setIot(cutTrack[1]);
+        track.setBigdata(cutTrack[2]);
+        track.setBlockchain(cutTrack[3]);
 
         userResponseDto2.setId(changedUser.getId());
         userResponseDto2.setUserId(changedUser.getUserId());
@@ -140,7 +141,8 @@ public class UserServiceImpl implements UserService {
         userResponseDto2.setShowPhoneNum(changedUser.isShowPhoneNum());
         userResponseDto2.setFollowingUsers(changedUser.getFollowingUsers());
         userResponseDto2.setFollowedUsers(changedUser.getFollowedUsers());
-        //포지션,태그
+        userResponseDto2.setPosition(position);
+        userResponseDto2.setTrack(track);
 
         return userResponseDto2;
     }
@@ -151,6 +153,22 @@ public class UserServiceImpl implements UserService {
         User changedUser = userRepository.save(founduser);
 
         UserResponseDto userResponseDto = new UserResponseDto();
+        UserResponseDto.Position position = new UserResponseDto.Position();
+        UserResponseDto.Track track = new UserResponseDto.Track();
+
+        String cut = changedUser.getPosition();
+        String cutPosition[] = cut.split("/");
+        position.setFrontend(cutPosition[0]);
+        position.setBackend(cutPosition[1]);
+        position.setEmbeded(cutPosition[2]);
+
+        String cut2 = changedUser.getTrack();
+        String cutTrack[] = cut2.split("/");
+        track.setAi(cutTrack[0]);
+        track.setIot(cutTrack[1]);
+        track.setBigdata(cutTrack[2]);
+        track.setBlockchain(cutTrack[3]);
+
         userResponseDto.setId(changedUser.getId());
         userResponseDto.setUserId(changedUser.getUserId());
         userResponseDto.setName(changedUser.getName());
@@ -163,7 +181,8 @@ public class UserServiceImpl implements UserService {
         userResponseDto.setShowPhoneNum(changedUser.isShowPhoneNum());
         userResponseDto.setFollowingUsers(changedUser.getFollowingUsers());
         userResponseDto.setFollowedUsers(changedUser.getFollowedUsers());
-        //포지션 트랙
+        userResponseDto.setPosition(position);
+        userResponseDto.setTrack(track);
 
         return userResponseDto;
     }

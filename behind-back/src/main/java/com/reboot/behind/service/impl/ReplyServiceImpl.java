@@ -12,6 +12,9 @@ import com.reboot.behind.service.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Service
 public class ReplyServiceImpl implements ReplyService {
 
@@ -33,30 +36,36 @@ public class ReplyServiceImpl implements ReplyService {
         reply.setContent(replyDto.getContent());
         reply.setComment(comment);
         reply.setWriterId(user);
+        reply.setCreatedTime(LocalDateTime.now());
         Reply saveReply = replyRepository.save(reply);
 
         ReplyResponseDto replyResponseDto = new ReplyResponseDto();
         replyResponseDto.setReplyId(saveReply.getReplyId());
         replyResponseDto.setContent(saveReply.getContent());
-        replyResponseDto.setWriterId(user);
-        replyResponseDto.setCommentId(comment);
+        replyResponseDto.setWriterName(user.getName());
+        replyResponseDto.setCommentId(comment.getCommentId());
+        replyResponseDto.setCreateTime(saveReply.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         return replyResponseDto;
     }
-    @Override
-    public void deleteReply(Integer id){replyRepository.deleteById(id);}
 
     @Override
     public ReplyResponseDto changeReply(Integer replyId,String content){
         Reply foundReply = replyRepository.findById(replyId).get();
         foundReply.setContent(content);
+        foundReply.setUpdatedTime(LocalDateTime.now());
         Reply changedReply = replyRepository.save(foundReply);
 
         ReplyResponseDto replyResponseDto = new ReplyResponseDto();
         replyResponseDto.setReplyId(changedReply.getReplyId());
         replyResponseDto.setContent(changedReply.getContent());
-        replyResponseDto.setCommentId(changedReply.getComment());
-        replyResponseDto.setWriterId(changedReply.getWriterId());
+        replyResponseDto.setWriterName(changedReply.getWriterId().getName());
+        replyResponseDto.setCommentId(changedReply.getComment().getCommentId());
+        replyResponseDto.setCreateTime(changedReply.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        replyResponseDto.setUpdateTime(changedReply.getUpdatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
         return replyResponseDto;
     }
+
+    @Override
+    public void deleteReply(Integer id){replyRepository.deleteById(id);}
 }
