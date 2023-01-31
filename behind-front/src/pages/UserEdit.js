@@ -1,4 +1,4 @@
-import UserInfo from '../component/UserInfo';
+import UserInfo from '../components/UserInfo';
 
 const UserEdit = () => {
   return (
