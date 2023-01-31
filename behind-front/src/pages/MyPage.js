@@ -22,6 +22,37 @@ const MyPage = () => {
   const { loginUser } = useContext(UsersStateContext);
   const navigate = useNavigate();
 
+  const position = () => {
+    const temp = [];
+    if (loginUser.position.frontend) {
+      temp.push('frontend');
+    }
+    if (loginUser.position.backend) {
+      temp.push('backend');
+    }
+    if (loginUser.position.embeded) {
+      temp.push('embeded');
+    }
+    return temp;
+  };
+
+  const track = () => {
+    const temp = [];
+    if (loginUser.track.ai) {
+      temp.push('ai');
+    }
+    if (loginUser.track.bigdata) {
+      temp.push('bigdata');
+    }
+    if (loginUser.track.iot) {
+      temp.push('iot');
+    }
+    if (loginUser.track.blockchain) {
+      temp.push('blockchain');
+    }
+    return temp;
+  };
+
   return (
     <div>
       <Box alignItems="center" display="flex" w="100%" bg="gray.100">
@@ -45,9 +76,9 @@ const MyPage = () => {
         <Text>phone</Text>
         <Text>{loginUser.phoneNum}</Text>
         <Text>선호포지션</Text>
-        <Text>{loginUser.position}</Text>
+        <Text>{position()}</Text>
         <Text>선호트랙</Text>
-        <Text>{loginUser.track}</Text>
+        <Text>{track()}</Text>
         <Text>상세</Text>
         <Text>{loginUser.detail}</Text>
       </Box>

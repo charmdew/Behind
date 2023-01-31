@@ -1,11 +1,6 @@
-import UserInfo from '../components/UserInfo';
-
-import { useContext } from 'react';
-import { UsersStateContext } from '../App';
+import UserInfo from '../component/UserInfo';
 
 const UserEdit = () => {
-  const { loginUser } = useContext(UsersStateContext);
-
   return (
     <div>
       <UserInfo />
