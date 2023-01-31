@@ -7,48 +7,42 @@
 // 태그는 리스트로 저장되는데 이거 어떻게 추가를 할지 상의
 
 import { useContext, useEffect, useState, useMemo } from 'react';
-import { UsersStateContext } from '../App';
+import { UsersStateContext, UsersDispatchContext } from '../App';
 
-import { IconButton, Box, Text } from '@chakra-ui/react';
 import {
   SimpleGrid,
   GridItem,
-  Heading,
   chakra,
   Stack,
   FormControl,
   FormLabel,
   Input,
   Button,
-  Select,
   Switch,
-} from '@chakra-ui/react';
-
-import {
   HStack,
   Tag,
   TagLabel,
-  TagLeftIcon,
-  TagRightIcon,
   TagCloseButton,
+  Checkbox,
+  IconButton,
+  Box,
+  Text,
 } from '@chakra-ui/react';
-
-import { Checkbox, CheckboxGroup } from '@chakra-ui/react';
 
 import { FiArrowLeft } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
-import MyPage from '../pages/MyPage';
 
 const UserInfo = () => {
   const { loginUser } = useContext(UsersStateContext);
+  const { refreshLoginUserInfo } = useContext(UsersDispatchContext);
   // 로그인 상태 ? 회원정보수정 : 회원정보입력
   const isLogin = useMemo(() => (loginUser ? true : false));
   const headWord = () => (isLogin ? '회원정보수정' : '회원정보입력');
   const navigate = useNavigate();
 
-  const editedUser = loginUser;
+  const [editedUser, setEditedUser] = useState(loginUser);
   const [email, setEmail] = useState(loginUser.email);
   const [phoneNum, setPhoneNum] = useState(loginUser.phoneNum);
   const [phoneBoolean, setPhoneBoolean] = useState(loginUser.phoneBoolean);
@@ -57,20 +51,25 @@ const UserInfo = () => {
   const [tag, setTag] = useState(loginUser.tag);
 
   // email 수정
+  useEffect(() => {
+    setEditedUser({ ...editedUser, email: email });
+  }, [email]);
+
   const emailHandleChange = e => {
     setEmail(e.target.value);
-    editedUser.email = email;
-    editedUser.email = e.target.value;
   };
+
+  // 전화번호 수정
+  useEffect(() => {
+    setEditedUser({ ...editedUser, phoneNum: phoneNum });
+  }, [phoneNum]);
   const phoneNumHandleChange = e => {
     setPhoneNum(e.target.value);
-    editedUser.phoneNum = phoneNum;
-    editedUser.phoneNum = e.target.value;
   };
 
   // 전화번호 공개 여부 수정
   useEffect(() => {
-    editedUser.phoneBoolean = phoneBoolean;
+    setEditedUser({ ...editedUser, phoneBoolean: phoneBoolean });
   }, [phoneBoolean]);
   const phoneBooleanHandleChange = e => {
     setPhoneBoolean(e.target.value);
@@ -78,7 +77,7 @@ const UserInfo = () => {
 
   // 선호포지션 수정
   useEffect(() => {
-    editedUser.position = position;
+    setEditedUser({ ...editedUser, position: position });
   }, [position]);
 
   const positionFrontendHandleChange = e => {
@@ -99,7 +98,7 @@ const UserInfo = () => {
 
   // 선호트랙 수정
   useEffect(() => {
-    editedUser.track = track;
+    setEditedUser({ ...editedUser, track: track });
   }, [track]);
 
   const trackAiHandleChange = e => {
@@ -124,10 +123,32 @@ const UserInfo = () => {
   };
 
   // tag 수정
-  const tagDelete = e => {
-    console.log(e);
+  useEffect(() => {
+    setEditedUser({ ...editedUser, tag: tag });
+  }, [tag]);
+
+  const tagDelete = (word, e) => {
+    const newTagList = tag.filter(it => it !== word);
+    setTag(newTagList);
   };
 
+  const [tagWord, setTagWord] = useState('');
+  const tagInputHandleChange = e => {
+    setTagWord(e.target.value);
+  };
+
+  const tagAdd = () => {
+    const newTagList = [...tag, tagWord];
+    setTagWord('');
+    setTag(newTagList);
+  };
+
+  useEffect(() => {
+    const temp = JSON.parse(JSON.stringify(editedUser));
+    setEditedUser(temp);
+  }, [editedUser]);
+
+  // 회원 정보 수정 완료
   const userSave = e => {
     e.preventDefault();
     const TFposition = Object.values(editedUser.position);
@@ -150,7 +171,10 @@ const UserInfo = () => {
     } else {
       axios
         .put(`http://localhost:3001/users/${loginUser.id}`, editedUser)
-        .then(navigate('/mypage', { replace: true }))
+        .then(() => {
+          navigate('/mypage', { replace: true });
+          refreshLoginUserInfo();
+        })
         .catch(function (error) {
           // 오류발생시 실행
           console.log(error);
@@ -192,7 +216,6 @@ const UserInfo = () => {
             }}
           >
             <chakra.form
-              // method="POST"
               shadow="base"
               rounded={[null, 'md']}
               overflow={{
@@ -400,7 +423,12 @@ const UserInfo = () => {
                       태그를 입력해 주세요
                     </FormLabel>
                     <Stack spacing={[1, 5]} direction={['column', 'row']}>
-                      <Input placeholder="frontEnd" />
+                      <Input
+                        placeholder="ex) FrontEnd"
+                        value={tagWord}
+                        onChange={tagInputHandleChange}
+                      />
+                      <Button onClick={tagAdd}>추가</Button>
                     </Stack>
 
                     <HStack spacing={4}>
@@ -413,7 +441,11 @@ const UserInfo = () => {
                           colorScheme="green"
                         >
                           <TagLabel>{word}</TagLabel>
-                          <TagCloseButton onClick={tagDelete} />
+                          <TagCloseButton
+                            onClick={e => {
+                              tagDelete(word, e);
+                            }}
+                          />
                         </Tag>
                       ))}
                     </HStack>
@@ -434,7 +466,6 @@ const UserInfo = () => {
               >
                 <Button
                   type="submit"
-                  colorScheme="brand"
                   _focus={{
                     shadow: '',
                   }}

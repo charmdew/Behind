@@ -11,6 +11,7 @@ import UserEdit from './pages/UserEdit';
 import MyPage from './pages/MyPage';
 
 export const UsersStateContext = React.createContext();
+export const UsersDispatchContext = React.createContext();
 
 const App = () => {
   const [users, setUsers] = useState([]);
@@ -37,21 +38,33 @@ const App = () => {
     [users, loginUser]
   );
 
+  const refreshLoginUserInfo = () => {
+    axios.get('http://localhost:3001/users/1').then(response => {
+      setLoginUser(response.data);
+    });
+  };
+
+  const memoizedDispatches = useMemo(() => {
+    return { refreshLoginUserInfo };
+  }, []);
+
   return (
     <ChakraProvider theme={theme}>
       <UsersStateContext.Provider value={value}>
-        <BrowserRouter>
-          <div className="App">
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />}></Route>
-              <Route path="/likes/:id" element={<Likes />}></Route>
-              <Route path="/detail/:id" element={<Detail />}></Route>
-              <Route path="/useredit" element={<UserEdit />}></Route>
-              <Route path="/mypage" element={<MyPage />}></Route>
-            </Routes>
-          </div>
-        </BrowserRouter>
+        <UsersDispatchContext.Provider value={memoizedDispatches}>
+          <BrowserRouter>
+            <div className="App">
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Home />}></Route>
+                <Route path="/likes/:id" element={<Likes />}></Route>
+                <Route path="/detail/:id" element={<Detail />}></Route>
+                <Route path="/useredit" element={<UserEdit />}></Route>
+                <Route path="/mypage" element={<MyPage />}></Route>
+              </Routes>
+            </div>
+          </BrowserRouter>
+        </UsersDispatchContext.Provider>
       </UsersStateContext.Provider>
     </ChakraProvider>
   );
