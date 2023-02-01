@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.security.PrivateKey;
 import java.util.List;
 
 @Getter
@@ -21,7 +22,7 @@ public class UserResponseDto {
     private String email;
 
 
-    private String position;
+    private Position position;
 
     private String phoneNum;
 
@@ -32,9 +33,7 @@ public class UserResponseDto {
     private List<String> tag;
 
 
-    private String track;
-
-
+    private Track track;
 
 
     private String detail;
@@ -46,4 +45,24 @@ public class UserResponseDto {
     private List<Integer> followingUsers;
 
     private List<Integer> followedUsers;
+
+    private int likeCnt;
+
+    @Getter
+    @Setter
+    @ToString
+    public static class Position{
+        private String FRONTEND;
+        private String BACKEND;
+        private String EMBEDED;
+    }
+    @Getter
+    @Setter
+    @ToString
+    public static class Track{
+        private String AI ;
+        private  String IOT;
+        private  String BIGDATA;
+        private String BLOCKCHAIN;
+    }
 }

@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,14 +16,12 @@ public class CommentResponseDto {
 
     private int commentId;
 
-
-    private User writerUser;
-
-
-    private User profileUser;
+    private String writerName;
 
     private String content;
 
+    private String createTime;
 
+    private String updateTime;
 
 }

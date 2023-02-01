@@ -13,8 +13,13 @@ import lombok.ToString;
 public class ReplyResponseDto {
     private int replyId;
 
-    private User writerId;
+    private String writerName;
 
-    private Comment commentId;
+    private int commentId;
+
     private String content;
+
+    private String createTime;
+
+    private String updateTime;
 }

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,6 +30,29 @@ public class CommentServiceImpl implements CommentService {
     UserRepository userRepository;
 
     @Override
+    public List<CommentResponseDto> getCommentList(Integer id){
+        User user = userRepository.findById(id).get();
+        List<Comment> commentList = commentRepository.findAllByProfileUser(user);
+        List<CommentResponseDto> userResponseDtoList = new ArrayList<>();
+        for(int i=0; i<commentList.size();i++){
+            CommentResponseDto commentResponseDto = new CommentResponseDto();
+            commentResponseDto.setCommentId(commentList.get(i).getCommentId());
+            commentResponseDto.setContent(commentList.get(i).getContent());
+            commentResponseDto.setWriterName(commentList.get(i).getWriterUser().getName());
+            commentResponseDto.setCreateTime(commentList.get(i).getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            if(commentList.get(i).getUpdatedTime()!=null){
+                commentResponseDto.setUpdateTime(commentList.get(i).getUpdatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            }
+            else{
+                commentResponseDto.setUpdateTime(null);
+            }
+            userResponseDtoList.add(commentResponseDto);
+        }
+        return userResponseDtoList;
+
+    }
+
+    @Override
     public CommentResponseDto saveComment(CommentDto commentDto){
         Comment comment = new Comment();
         User user = userRepository.findById(commentDto.getWriterUser()).get();
@@ -38,43 +63,39 @@ public class CommentServiceImpl implements CommentService {
         comment.setProfileUser(user2);
         comment.setContent(commentDto.getContent());
         comment.setCreatedTime(LocalDateTime.now());
-        comment.setUpdatedTime(LocalDateTime.now()); // 업데이트 제거 시간도 보내줘야함 post 요청 물어보기 // 댓글 작성시 다시 불러오는가? // 댓글
 
         Comment saveComment = commentRepository.save(comment);
 
         CommentResponseDto commentResponseDto = new CommentResponseDto();
         commentResponseDto.setCommentId(saveComment.getCommentId());
-        commentResponseDto.setWriterUser(user);
-        commentResponseDto.setProfileUser(user2);
+        commentResponseDto.setWriterName(user.getName());
         commentResponseDto.setContent(saveComment.getContent());
-
+        commentResponseDto.setCreateTime(saveComment.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         return commentResponseDto;
 
     }
-    @Override
-    public List<Comment> getCommentList(Integer id){
-        User user = userRepository.findById(id).get();
-        return commentRepository.findAllByProfileUser(user);
 
-    }
-    @Override
-    public void deleteComment(Integer id){
-        commentRepository.deleteById(id);
-    }
+
     @Override
     public CommentResponseDto changeComment(Integer commentId,String content){
         Comment foundComment = commentRepository.findById(commentId).get();
-        foundComment.setContent(content);
-        User user = foundComment.getProfileUser();
         User user2 = foundComment.getWriterUser();
+        foundComment.setContent(content);
+        foundComment.setUpdatedTime(LocalDateTime.now());
+
         Comment changedComment = commentRepository.save(foundComment);
 
         CommentResponseDto commentResponseDto = new CommentResponseDto();
         commentResponseDto.setCommentId(changedComment.getCommentId());
         commentResponseDto.setContent(changedComment.getContent());
-        commentResponseDto.setWriterUser(user2);
-        commentResponseDto.setProfileUser(user);
+        commentResponseDto.setWriterName(user2.getName());
+        commentResponseDto.setUpdateTime(changedComment.getUpdatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
         return commentResponseDto;
+    }
+
+    @Override
+    public void deleteComment(Integer id){
+        commentRepository.deleteById(id);
     }
 }
