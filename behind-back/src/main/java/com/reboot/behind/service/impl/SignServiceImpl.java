@@ -9,13 +9,11 @@ import com.reboot.behind.data.dto.SignUpResultDto;
 import com.reboot.behind.data.entity.User;
 import com.reboot.behind.data.repository.UserRepository;
 import com.reboot.behind.service.SignService;
-import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -45,53 +43,46 @@ public class SignServiceImpl implements SignService {
         String name = signUpRequestDto.getName();
         String role = "user";
         String email = signUpRequestDto.getEmail();
-        String position = signUpRequestDto.getPosition();
+        boolean front = signUpRequestDto.isFront();
+        boolean back = signUpRequestDto.isBack();
+        boolean embedded = signUpRequestDto.isEmbedded();
         List<String> tag = signUpRequestDto.getTag();
         String phoneNum = signUpRequestDto.getPhoneNum();
         boolean showPhoneNum = signUpRequestDto.isShowPhoneNum();
-        String track = signUpRequestDto.getTrack();
+        boolean ai = signUpRequestDto.isAi();
+        boolean iot = signUpRequestDto.isIot();
+        boolean blockChain = signUpRequestDto.isBlockChain();
+        boolean bigData = signUpRequestDto.isBigData();
         String detail = signUpRequestDto.getDetail();
 
 
 
 
         LOGGER.info("[getSignUpResult] 회원 가입 정보 전달");
-        User user;
-        if(role.equalsIgnoreCase("admin")){
-            user = User.builder()
+        User user = User.builder()
                     .userId(id)
                     .password(password)
                     .name(name)
                     .role(role)
                     .email(email)
-                    .position(position)
+                    .front(front)
+                    .back(back)
+                    .embedded(embedded)
                     .tag(tag)
                     .phoneNum(phoneNum)
                     .showPhoneNum(showPhoneNum)
-                    .track(track)
+                    .ai(ai)
+                    .iot(iot)
+                    .blockChain(blockChain)
+                    .bigData(bigData)
                     .detail(detail)
                     .build();
-        }else{
-            user = User.builder()
-                    .userId(id)
-                    .password(password)
-                    .name(name)
-                    .role(role)
-                    .email(email)
-                    .position(position)
-                    .tag(tag)
-                    .phoneNum(phoneNum)
-                    .showPhoneNum(showPhoneNum)
-                    .track(track)
-                    .detail(detail)
-                    .build();
-        }
 
         User savedUser = userRepository.save(user);
         SignUpResultDto signUpResultDto = new SignUpResultDto();
 
         LOGGER.info("[getSignUpResult] userEntity 값이 들어왔는지 확인 후 결과값 주입");
-        if(!savedUser.getName().isEmpty()){
+        if(!savedUser.getUserId().isEmpty()){
             LOGGER.info("[getSignUpResult] 정상 처리 완료");
             setSuccessResult(signUpResultDto);
         }else {
