@@ -14,6 +14,8 @@ import { BiCommentDetail } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UsersStateContext, UsersDispatchContext } from '../App';
+
+import ProfileCard from './ProfileCard';
 // 인자에 사용하고 싶은 유저 property를 가져와서 사용!
 const ProfileItem = it => {
   const navigate = useNavigate();
@@ -96,9 +98,9 @@ const ProfileItem = it => {
         alignItems="center"
         justifyContent="center"
       >
-        {id}
         <Box
-          w="sm"
+          pt={7}
+          w="md"
           mx="auto"
           bg="white"
           _dark={{ bg: 'gray.800' }}
@@ -107,7 +109,14 @@ const ProfileItem = it => {
           overflow="hidden"
         >
           {/* userId를 파라미터로 하는 detail/{id} 페이지로 이동 */}
-          <Image
+          {/* 이 이미지 자리에 프로필 카드 컴포넌트가 들어가면 됨 */}
+          {/* <Box w="full">하하</Box> */}
+          <Box display="flex" justifyContent="center">
+            <ProfileCard />
+          </Box>
+
+          {/* <Image
+            p="10"
             onClick={goDetail}
             w="full"
             //h={1000}
@@ -116,7 +125,7 @@ const ProfileItem = it => {
             // 프로필 카드 이미지 자리
             src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
             alt="avatar"
-          />
+          /> */}
 
           {/* 정보 % 버튼 */}
           <Box display="flex" justifyContent="space-between">
