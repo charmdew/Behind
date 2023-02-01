@@ -35,6 +35,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             LOGGER.info("[doFilterInternal] token 값 유효성 체크 완료");
         }
 
+        LOGGER.info("[doFilterInternal] token 값 유효성 체크 끝");
+
         filterChain.doFilter(request, response);
     }
 }

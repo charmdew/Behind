@@ -46,4 +46,9 @@ public class SignController {
         LOGGER.info("[signUp] 회원가입을 완료했습니다. id : {}", signUpRequestDto.getId());
         return signUpResultDto;
     }
+
+    @PostMapping(value = "/kakao")
+    public void kakaoSignUp(){
+
+    }
 }

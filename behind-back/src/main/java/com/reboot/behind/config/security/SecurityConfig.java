@@ -1,22 +1,29 @@
 package com.reboot.behind.config.security;
 
+import com.reboot.behind.config.security.oauth.OAuth2SuccessHandler;
+import com.reboot.behind.config.security.oauth.PrincipalOauth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    private final PrincipalOauth2UserService principalOauth2UserService;
+
     @Autowired
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider, PrincipalOauth2UserService principalOauth2UserService) {
         this.jwtTokenProvider = jwtTokenProvider;
+        this.principalOauth2UserService = principalOauth2UserService;
     }
 
     @Bean
@@ -29,21 +36,23 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/sign/**", "/", "/**/**").permitAll()
+                .antMatchers("/login", "/sign/**", "/").permitAll()
                 .antMatchers("**exception**").permitAll()
-                .anyRequest().hasRole("ADMIN")
-
+                .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class); // JWT Token 필터를 id/password 인증 필터 이전에 추가
-
+                        UsernamePasswordAuthenticationFilter.class)// JWT Token 필터를 id/password 인증 필터 이전에 추가
+                .oauth2Login()
+                .successHandler(new OAuth2SuccessHandler(jwtTokenProvider))
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService);
         return http.build();
     }
+
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
