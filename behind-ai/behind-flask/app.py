@@ -6,6 +6,8 @@ import numpy as np
 import io, base64, json
 import os, time
 
+import neural_style_transfer
+
 app = Flask(__name__)
 
 
@@ -94,6 +96,32 @@ def nst():
 
     # return json.dumps({"image": b64encoded})  # 이미지 데이터를 JSON으로 응답하는 경우
     return json.dumps({"[Success] Total time": round(end - start, 1)})
+
+
+@app.route('/nst/test', methods=['POST'])
+def nst_test():
+    # 파일 받기
+    content_file = request.files['file']
+
+    # 변환할 이미지
+    content_image = Image.open(content_file.stream)
+
+    ##### 결과 이미지 데이터 #####
+    # 변환된 이미지
+    # styled_image_data = neural_style_transfer.main(content_image, content_file.filename).decode("utf-8")
+    # 이미지 데이터를 JSON으로 응답하는 경우
+    # return json.dumps({"image": styled_image_data})
+    # return jsonify({
+    #     'msg': 'success',
+    #     'size': content_image.size,
+    #     'format': 'JPEG',
+    #     'image': styled_image_data
+    # })
+
+    ##### 걸린 시간 (테스트용) #####
+    # 변환하는데 걸린 시간 반환 (테스트용)
+    time = neural_style_transfer.main(content_image, content_file.filename)
+    return json.dumps({"[Success] Total time": time})
 
 
 if __name__ == '__main__':
