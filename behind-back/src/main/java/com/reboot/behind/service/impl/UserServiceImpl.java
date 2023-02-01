@@ -31,18 +31,15 @@ public class UserServiceImpl implements UserService {
             UserResponseDto.Position position = new UserResponseDto.Position();
             UserResponseDto.Track track = new UserResponseDto.Track();
 
-            String cut = userlist.get(i).getPosition();
-            String cutPosition[] = cut.split("/");
-            position.setFRONTEND(cutPosition[0]);
-            position.setBACKEND(cutPosition[1]);
-            position.setEMBEDED(cutPosition[2]);
+            position.setFRONTEND(userlist.get(i).isFront());
+            position.setBACKEND(userlist.get(i).isBack());
+            position.setEMBEDED(userlist.get(i).isEmbedded());
 
-            String cut2 = userlist.get(i).getTrack();
-            String cutTrack[] = cut2.split("/");
-            track.setAI(cutTrack[0]);
-            track.setIOT(cutTrack[1]);
-            track.setBIGDATA(cutTrack[2]);
-            track.setBLOCKCHAIN(cutTrack[3]);
+
+            track.setAI(userlist.get(i).isAi());
+            track.setIOT(userlist.get(i).isIot());
+            track.setBIGDATA(userlist.get(i).isBigData());
+            track.setBLOCKCHAIN(userlist.get(i).isBlockChain());
 
             userResponseDto.setId(userlist.get(i).getId());
             userResponseDto.setUserId(userlist.get(i).getUserId());
@@ -71,18 +68,15 @@ public class UserServiceImpl implements UserService {
         UserResponseDto.Position position = new UserResponseDto.Position();
         UserResponseDto.Track track = new UserResponseDto.Track();
 
-        String cut = user.getPosition();
-        String cutPosition[] = cut.split("/");
-        position.setFRONTEND(cutPosition[0]);
-        position.setBACKEND(cutPosition[1]);
-        position.setEMBEDED(cutPosition[2]);
+        position.setFRONTEND(user.isFront());
+        position.setBACKEND(user.isBack());
+        position.setEMBEDED(user.isEmbedded());
 
-        String cut2 = user.getTrack();
-        String cutTrack[] = cut2.split("/");
-        track.setAI(cutTrack[0]);
-        track.setIOT(cutTrack[1]);
-        track.setBIGDATA(cutTrack[2]);
-        track.setBLOCKCHAIN(cutTrack[3]);
+
+        track.setAI(user.isAi());
+        track.setIOT(user.isIot());
+        track.setBIGDATA(user.isBigData());
+        track.setBLOCKCHAIN(user.isBlockChain());
 
         userDetailResponseDto.setId(user.getId());
         userDetailResponseDto.setUserId(user.getUserId());
@@ -110,10 +104,13 @@ public class UserServiceImpl implements UserService {
         foundUser.setPhoneNum(userResponseDto.getPhoneNum());
         foundUser.setTag(userResponseDto.getTag());
         foundUser.setShowPhoneNum(userResponseDto.getShowPhoneNum());
-        foundUser.setPosition(userResponseDto.getPosition().getFRONTEND().toString()+"/"+userResponseDto.getPosition().getBACKEND().toString()+"/"+userResponseDto.getPosition().getEMBEDED().toString());
-        foundUser.setTrack(userResponseDto.getTrack().getAI().toString()+"/"+userResponseDto.getTrack().getIOT().toString()+"/"+userResponseDto.getTrack().getBIGDATA().toString()+"/"+userResponseDto.getTrack().getBLOCKCHAIN().toString());
-
-
+        foundUser.setFront(userResponseDto.getPosition().isFRONTEND());
+        foundUser.setBack(userResponseDto.getPosition().isBACKEND());
+        foundUser.setEmbedded(userResponseDto.getPosition().isEMBEDED());
+        foundUser.setAi(userResponseDto.getTrack().isAI());
+        foundUser.setIot(userResponseDto.getTrack().isIOT());
+        foundUser.setBlockChain(userResponseDto.getTrack().isBLOCKCHAIN());
+        foundUser.setBigData(userResponseDto.getTrack().isBIGDATA());
 
         User changedUser = userRepository.save(foundUser);
 
@@ -121,18 +118,16 @@ public class UserServiceImpl implements UserService {
         UserResponseDto.Position position = new UserResponseDto.Position();
         UserResponseDto.Track track = new UserResponseDto.Track();
 
-        String cut = changedUser.getPosition();
-        String cutPosition[] = cut.split("/");
-        position.setFRONTEND(cutPosition[0]);
-        position.setBACKEND(cutPosition[1]);
-        position.setEMBEDED(cutPosition[2]);
 
-        String cut2 = changedUser.getTrack();
-        String cutTrack[] = cut2.split("/");
-        track.setAI(cutTrack[0]);
-        track.setIOT(cutTrack[1]);
-        track.setBIGDATA(cutTrack[2]);
-        track.setBLOCKCHAIN(cutTrack[3]);
+        position.setFRONTEND(changedUser.isFront());
+        position.setBACKEND(changedUser.isBack());
+        position.setEMBEDED(changedUser.isEmbedded());
+
+
+        track.setAI(changedUser.isAi());
+        track.setIOT(changedUser.isIot());
+        track.setBIGDATA(changedUser.isBigData());
+        track.setBLOCKCHAIN(changedUser.isBlockChain());
 
         userResponseDto2.setId(changedUser.getId());
         userResponseDto2.setUserId(changedUser.getUserId());
@@ -163,18 +158,15 @@ public class UserServiceImpl implements UserService {
         UserResponseDto.Position position = new UserResponseDto.Position();
         UserResponseDto.Track track = new UserResponseDto.Track();
 
-        String cut = changedUser.getPosition();
-        String cutPosition[] = cut.split("/");
-        position.setFRONTEND(cutPosition[0]);
-        position.setBACKEND(cutPosition[1]);
-        position.setEMBEDED(cutPosition[2]);
+        position.setFRONTEND(changedUser.isFront());
+        position.setBACKEND(changedUser.isBack());
+        position.setEMBEDED(changedUser.isEmbedded());
 
-        String cut2 = changedUser.getTrack();
-        String cutTrack[] = cut2.split("/");
-        track.setAI(cutTrack[0]);
-        track.setIOT(cutTrack[1]);
-        track.setBIGDATA(cutTrack[2]);
-        track.setBLOCKCHAIN(cutTrack[3]);
+
+        track.setAI(changedUser.isAi());
+        track.setIOT(changedUser.isIot());
+        track.setBIGDATA(changedUser.isBigData());
+        track.setBLOCKCHAIN(changedUser.isBlockChain());
 
         userResponseDto.setId(changedUser.getId());
         userResponseDto.setUserId(changedUser.getUserId());
