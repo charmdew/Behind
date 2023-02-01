@@ -41,7 +41,7 @@ public class SignServiceImpl implements SignService {
         String id = signUpRequestDto.getId();
         String password = passwordEncoder.encode(signUpRequestDto.getPassword());
         String name = signUpRequestDto.getName();
-        String role = "user";
+        String role = "USER";
         String email = signUpRequestDto.getEmail();
         boolean front = signUpRequestDto.isFront();
         boolean back = signUpRequestDto.isBack();
