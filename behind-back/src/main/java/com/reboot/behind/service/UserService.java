@@ -10,6 +10,8 @@ public interface UserService {
 //    UserResponseDto saveUser(UserDto userDto);
     List<UserResponseDto> getUserList();
 
+//    List<UserResponseDto> getSearchUserList(int position,int track);
+
     UserResponseDto changeUser(UserResponseDto userResponseDto);
 
     UserResponseDto userDetail(Integer id);

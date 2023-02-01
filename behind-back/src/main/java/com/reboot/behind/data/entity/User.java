@@ -65,6 +65,7 @@ public class User implements UserDetails {
 
     private String profile;
 
+    private int likeCnt;
     @ElementCollection
     private List<Integer> followingUsers;
 

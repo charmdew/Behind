@@ -46,22 +46,23 @@ public class UserResponseDto {
 
     private List<Integer> followedUsers;
 
+    private int likeCnt;
 
     @Getter
     @Setter
     @ToString
     public static class Position{
-        private String frontend;
-        private String backend;
-        private String embeded;
+        private String FRONTEND;
+        private String BACKEND;
+        private String EMBEDED;
     }
     @Getter
     @Setter
     @ToString
     public static class Track{
-        private String ai ;
-        private  String iot;
-        private  String bigdata;
-        private String blockchain;
+        private String AI ;
+        private  String IOT;
+        private  String BIGDATA;
+        private String BLOCKCHAIN;
     }
 }
