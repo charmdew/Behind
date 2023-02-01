@@ -1,7 +1,10 @@
 package com.reboot.behind.data.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import java.util.List;
 
 @Data
@@ -10,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignUpRequestDto {
+
     private String id;
 
     private String password;
@@ -18,14 +22,23 @@ public class SignUpRequestDto {
 
     private String email;
 
+    private boolean front;
+    private boolean back;
+    private boolean embedded;
+
+    private List<String> tag ;
+
     private String phoneNum;
 
     private boolean showPhoneNum;
 
-    private String position;
+    private boolean ai;
 
-    private String track;
-    private List<String> tag;
+    private boolean iot;
+
+    private boolean blockChain;
+
+    private boolean bigData;
 
     private String detail;
 
