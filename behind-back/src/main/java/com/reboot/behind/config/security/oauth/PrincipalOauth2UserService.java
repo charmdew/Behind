@@ -7,6 +7,8 @@ import com.reboot.behind.config.security.oauth.provider.NaverUserInfo;
 import com.reboot.behind.config.security.oauth.provider.OAuth2UserInfo;
 import com.reboot.behind.data.entity.User;
 import com.reboot.behind.data.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -21,6 +23,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     private UserRepository userRepository;
 
+    private final Logger LOGGER = LoggerFactory.getLogger(PrincipalOauth2UserService.class);
+
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -28,6 +32,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        LOGGER.info("[loadUser] 유저를 로드 시작");
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
 
@@ -35,7 +40,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2User processOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
-
+        LOGGER.info("[processOAuth2User] 유저 정보 프로세싱");
         System.out.println(oAuth2User.getAttributes());
 
         OAuth2UserInfo oAuth2UserInfo = null;
@@ -69,6 +74,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             userRepository.save(user);
         }
 
-        return new PrincipalDetails(user, oAuth2User.getAttributes());
+        return new PrincipalDetails(user, oAuth2UserInfo.getAttributes());
     }
 }

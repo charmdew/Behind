@@ -45,7 +45,9 @@ public class User{
 
     private String email;
 
-    private String position;
+    private boolean front;
+    private boolean back;
+    private boolean embedded;
 
     @ElementCollection
     private List<String> tag ;
@@ -54,13 +56,21 @@ public class User{
 
     private boolean showPhoneNum;
 
-    private String track;
+    private boolean ai;
+
+    private boolean iot;
+
+    private boolean blockChain;
+
+    private boolean bigData;
 
     private String detail;
 
     private String images;
 
     private String profile;
+
+    private int likeCnt;
 
     @ElementCollection
     private List<Integer> followingUsers;

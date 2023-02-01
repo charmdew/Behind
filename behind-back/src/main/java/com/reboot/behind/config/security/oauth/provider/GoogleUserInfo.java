@@ -26,4 +26,9 @@ public class GoogleUserInfo implements OAuth2UserInfo{
     public String getPhoneNum() {
         return null;
     }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
 }
