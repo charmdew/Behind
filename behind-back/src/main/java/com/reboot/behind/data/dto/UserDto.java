@@ -20,21 +20,23 @@ public class UserDto {
     private String email;
 
 
-    private int position1;
+    private String position;
 
-    private int position2;
 
+    private Boolean showPhoneNum;
 
     private List<String> tag;
 
     private String phoneNum;
 
-    private int track1;
+
+    private String track;
 
 
-    private int track2;
 
-    private String detail;
+
+
+
 
 
 
