@@ -48,10 +48,10 @@ public class JwtTokenProvider {
         LOGGER.info("[init] JwtTokenProvider 내 secretKey 초기화 시작");
     }
 
-    public String createToken(String userId, List<String> roles){
+    public String createToken(String userId, String role){
         LOGGER.info("[createToken] 토큰 생성 시작");
         Claims claims = Jwts.claims().setSubject(userId);
-        claims.put("roles", roles);
+        claims.put("role", role);
 
         Date now = new Date();
         String token = Jwts.builder()

@@ -62,7 +62,7 @@ public class SignServiceImpl implements SignService {
                     .userId(id)
                     .password(password)
                     .name(name)
-                    .roles(Collections.singletonList("ROLE_ADMIN"))
+                    .role(role)
                     .email(email)
                     .position(position)
                     .tag(tag)
@@ -76,7 +76,7 @@ public class SignServiceImpl implements SignService {
                     .userId(id)
                     .password(password)
                     .name(name)
-                    .roles(Collections.singletonList("ROLE_USER"))
+                    .role(role)
                     .email(email)
                     .position(position)
                     .tag(tag)
@@ -117,7 +117,7 @@ public class SignServiceImpl implements SignService {
 
         LOGGER.info("[getSignInResult] SignInResultDto 객체 생성");
         SignInResultDto signInResultDto = SignInResultDto.builder()
-                .token(jwtTokenProvider.createToken(String.valueOf(user.getUserId()), user.getRoles()))
+                .token(jwtTokenProvider.createToken(String.valueOf(user.getUserId()), user.getRole()))
                 .build();
 
         LOGGER.info(("[getSignInResult] SignInResultDto 객체에 값 주입"));
