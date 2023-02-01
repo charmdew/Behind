@@ -143,11 +143,6 @@ const UserInfo = () => {
     setTag(newTagList);
   };
 
-  useEffect(() => {
-    const temp = JSON.parse(JSON.stringify(editedUser));
-    setEditedUser(temp);
-  }, [editedUser]);
-
   // 회원 정보 수정 완료
   const userSave = e => {
     e.preventDefault();
