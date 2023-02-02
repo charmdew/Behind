@@ -60,7 +60,7 @@ public class ReplyServiceImpl implements ReplyService {
         Comment comment = commentRepository.findById(replyDto.getCommentId()).get();
 
         reply.setContent(replyDto.getContent());
-//        reply.setComment(comment);
+        reply.setComment(comment);
         reply.setWriterId(user);
         reply.setCreatedTime(LocalDateTime.now());
         Reply saveReply = replyRepository.save(reply);
@@ -85,7 +85,7 @@ public class ReplyServiceImpl implements ReplyService {
         replyResponseDto.setReplyId(changedReply.getReplyId());
         replyResponseDto.setContent(changedReply.getContent());
         replyResponseDto.setWriterName(changedReply.getWriterId().getName());
-//        replyResponseDto.setCommentId(changedReply.getComment().getCommentId());
+        replyResponseDto.setCommentId(changedReply.getComment().getCommentId());
         replyResponseDto.setCreateTime(changedReply.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         replyResponseDto.setUpdateTime(changedReply.getUpdatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
