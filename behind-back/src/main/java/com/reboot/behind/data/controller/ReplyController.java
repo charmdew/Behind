@@ -27,31 +27,31 @@ public class ReplyController {
     public ReplyController(ReplyService replyService){
         this.replyService=replyService;
     }
-
-    @ApiOperation(
-            value = "대댓글 조회"
-            , notes = "대댓글을 조회한다.")
-    @ApiImplicitParams(
-            {
-                    @ApiImplicitParam(
-                            name = "CommentId"
-                            , value = "대댓글 id(pk)값"
-                            , dataType = "Int"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "content"
-                            , value = "대댓글 수정 내용"
-                            , dataType = "String"
-                    )
-
-            })
-    @GetMapping()
-    public ResponseEntity<?> getReplyList(Integer id){
-        List<ReplyResponseDto> Replylist = replyService.getReplyList(id);
-        return ResponseEntity.status(HttpStatus.OK).body(Replylist);
-    }
-
+//
+//    @ApiOperation(
+//            value = "대댓글 조회"
+//            , notes = "대댓글을 조회한다.")
+//    @ApiImplicitParams(
+//            {
+//                    @ApiImplicitParam(
+//                            name = "CommentId"
+//                            , value = "대댓글 id(pk)값"
+//                            , dataType = "Int"
+//                    )
+//                    ,
+//                    @ApiImplicitParam(
+//                            name = "content"
+//                            , value = "대댓글 수정 내용"
+//                            , dataType = "String"
+//                    )
+//
+//            })
+//    @GetMapping()
+//    public ResponseEntity<?> getReplyList(Integer id){
+//        List<ReplyResponseDto> Replylist = replyService.getReplyList(id);
+//        return ResponseEntity.status(HttpStatus.OK).body(Replylist);
+//    }
+//
     @ApiOperation(
             value = "대댓글 작성"
             , notes = "대댓글을 작성한다.")
@@ -76,10 +76,11 @@ public class ReplyController {
                     )
             })
     @PostMapping()
-    public ResponseEntity<ReplyResponseDto> createReply(@RequestBody ReplyDto replyDto){
-        ReplyResponseDto replyResponseDto = replyService.saveReply(replyDto);
+    public ResponseEntity<String> createReply(@RequestBody ReplyDto replyDto){
+//        ReplyResponseDto replyResponseDto =
+        replyService.saveReply(replyDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(replyResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body("대댓글 생성완료");
     }
 
     @ApiOperation(
@@ -101,10 +102,10 @@ public class ReplyController {
 
             })
     @PatchMapping()
-    public ResponseEntity<ReplyResponseDto> changeReplyContent(@RequestBody ChangeReplyDto changeReplyDto){
-        ReplyResponseDto replyResponseDto = replyService.changeReply(changeReplyDto.getReplyId(), changeReplyDto.getContent());
+    public ResponseEntity<String> changeReplyContent(@RequestBody ChangeReplyDto changeReplyDto){
+         replyService.changeReply(changeReplyDto.getReplyId(), changeReplyDto.getContent());
 
-        return ResponseEntity.status(HttpStatus.OK).body(replyResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body("수정완료");
     }
 
     @ApiOperation(
