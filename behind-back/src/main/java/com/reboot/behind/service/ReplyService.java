@@ -7,11 +7,11 @@ import com.reboot.behind.data.dto.ReplyResponseDto;
 import java.util.List;
 
 public interface ReplyService {
-    ReplyResponseDto saveReply(ReplyDto replyDto);
-
-    ReplyResponseDto changeReply(Integer replyId,String content);
-
+    void saveReply(ReplyDto replyDto);
+//
+    void changeReply(Integer replyId,String content);
+//
     void deleteReply(Integer id) throws Exception;
-
-    List<ReplyResponseDto> getReplyList(Integer id);
+//
+//    List<ReplyResponseDto> getReplyList(Integer id);
 }

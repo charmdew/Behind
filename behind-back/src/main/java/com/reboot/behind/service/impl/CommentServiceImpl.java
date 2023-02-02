@@ -34,12 +34,33 @@ public class CommentServiceImpl implements CommentService {
         User user = userRepository.findById(id).get();
         List<Comment> commentList = commentRepository.findAllByProfileUser(user);
         List<CommentResponseDto> userResponseDtoList = new ArrayList<>();
+      ;
+
+
         for(int i=0; i<commentList.size();i++){
             CommentResponseDto commentResponseDto = new CommentResponseDto();
+            List<CommentResponseDto.replytmp> commentReplyList = new ArrayList<>();
+
             commentResponseDto.setCommentId(commentList.get(i).getCommentId());
             commentResponseDto.setContent(commentList.get(i).getContent());
             commentResponseDto.setWriterName(commentList.get(i).getWriterUser().getName());
             commentResponseDto.setCreateTime(commentList.get(i).getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+            for(int j=0; j<commentList.get(i).getReplies().size();j++) {
+                CommentResponseDto.replytmp replytmp = new CommentResponseDto.replytmp();
+                replytmp.setReplyId(commentList.get(i).getReplies().get(j).getReplyId());
+                replytmp.setContent(commentList.get(i).getReplies().get(j).getContent());
+                replytmp.setCreateTime(commentList.get(i).getReplies().get(j).getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                if(commentList.get(i).getReplies().get(j).getUpdatedTime()!=null){
+                    replytmp.setUpdateTime(commentList.get(i).getReplies().get(j).getUpdatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                }
+                else{
+                    replytmp.setUpdateTime(null);
+                }
+                replytmp.setWriterName(commentList.get(i).getReplies().get(j).getWriterId().getName());
+                commentReplyList.add(replytmp);
+            }
+            commentResponseDto.setReplys(commentReplyList);
             if(commentList.get(i).getUpdatedTime()!=null){
                 commentResponseDto.setUpdateTime(commentList.get(i).getUpdatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             }

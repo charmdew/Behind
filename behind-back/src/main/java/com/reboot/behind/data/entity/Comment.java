@@ -31,7 +31,8 @@ public class Comment {
 
     private LocalDateTime updatedTime;
 
-    @OneToMany(mappedBy = "replyId")
+    @OneToMany
+    @JoinColumn(name = "commentId")
     private List<Reply> replies;
 
     @PrePersist//엔티티가 영속성 컨텍스트에 들어갈 때 작동함

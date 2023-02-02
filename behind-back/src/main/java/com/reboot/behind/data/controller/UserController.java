@@ -179,22 +179,19 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body("팔로우 취소!");
     }
     @ApiOperation(
-            value = "좋아요(팔로우) 좋아요 리스트에 추가"
-            , notes = "좋아요(팔로우)를 누르면 팔로우 리스트에 추가한다")
-    @ApiImplicitParams(
-            {
-                    @ApiImplicitParam(
-                            name = "user"
-                            , value = "누른 사람(로그인 되어 있는 회원) id(pk)"
-                            , dataType = "int"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "followUser"
-                            , value = "명함에 있는 유저 id(pk)"
-                            , dataType = "int"
-                    )
-            })
+            value = "유저 검색"
+            , notes = "position" +
+            "0:선택안함" +
+            "1:FRONTEND" +
+            "2:BACKEND" +
+            "3:EMBEDED" +
+            "track" +
+            "0:선택안함" +
+            "1:AI" +
+            "2:IOT" +
+            "3:BIGDATA" +
+            "4:BLOCKCHAIN")
+
     @GetMapping("/search")
     public ResponseEntity<?> getSearchUserList(@RequestParam int position, @RequestParam int track){
         List<UserResponseDto> userlist = userService.getSearchUserList(position,track);
