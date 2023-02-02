@@ -22,9 +22,6 @@ public class Reply {
     @ManyToOne
     private User writerId;
 
-    @ManyToOne
-    private Comment comment;
-
     @Column(nullable = false)
     private String content;
 
