@@ -18,10 +18,10 @@
         "embeded": true
       },
       "track": {
-        "ai": true,
-        "iot": true,
-        "bigdata": false,
-        "blockchain": false
+        "ai": false,
+        "iot": false,
+        "bigdata": true,
+        "blockchain": true
       },
       "images": "imgs",
       "profile": "profile_img",

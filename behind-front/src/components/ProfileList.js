@@ -14,4 +14,9 @@ const ProfileList = ({ userList }) => {
     </SimpleGrid>
   );
 };
+
+ProfileList.defualtProps = {
+  userList: [],
+};
+
 export default ProfileList;

@@ -37,7 +37,7 @@ const NavBar = () => {
   // 라우트 네비게이터
   const navigate = useNavigate();
 
-  // home으로 가라
+  // Likes으로 가라
   const GoMyLikes = () => {
     return navigate(`/likes/${loginUserId}`);
   };
@@ -81,7 +81,7 @@ const NavBar = () => {
               <VisuallyHidden>Choc</VisuallyHidden>
             </chakra.a>
             <chakra.h1 fontSize="xl" fontWeight="medium" ml="2">
-              BEHIND
+              <Box onClick={() => navigate('/')}>BEHIND</Box>
             </chakra.h1>
           </Flex>
           <HStack display="flex" alignItems="center" spacing={1}>

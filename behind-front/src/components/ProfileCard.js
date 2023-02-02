@@ -11,7 +11,7 @@ const ProfileCard = () => {
   if (colorToggle) {
     return (
       <div>
-        <Button onClick={() => setColorToggle(!colorToggle)} />
+        {/* <Button onClick={() => setColorToggle(!colorToggle)} /> */}
         <Box
           display="flex"
           flexDirection="column"
@@ -22,7 +22,7 @@ const ProfileCard = () => {
           h={516}
           overflow="hidden"
         >
-          <Image
+          {/* <Image
             w="full"
             h={400}
             fit="cover"
@@ -31,7 +31,7 @@ const ProfileCard = () => {
             // src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
             src="https://picsum.photos/200/300"
             alt="avatar"
-          />
+          /> */}
           <Box pb={2} pl={4} display="flex" flexDirection="column" flex="1">
             <Box display="flex" flexGrow="3">
               <Box
@@ -91,7 +91,7 @@ const ProfileCard = () => {
   } else {
     return (
       <div>
-        <Button onClick={() => setColorToggle(!colorToggle)} />
+        {/* <Button onClick={() => setColorToggle(!colorToggle)} /> */}
         <Box
           display="flex"
           flexDirection="column"
