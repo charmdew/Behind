@@ -1,5 +1,6 @@
 package com.reboot.behind.service.impl;
 
+import com.reboot.behind.data.dto.CommentResponseDto;
 import com.reboot.behind.data.dto.ReplyDto;
 import com.reboot.behind.data.dto.ReplyResponseDto;
 import com.reboot.behind.data.entity.Comment;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ReplyServiceImpl implements ReplyService {
@@ -27,6 +30,29 @@ public class ReplyServiceImpl implements ReplyService {
     UserRepository userRepository;
     @Autowired
     CommentRepository commentRepository;
+
+    public List<ReplyResponseDto> getReplyList(Integer id){
+        Comment comment = commentRepository.findById(id).get();
+        List<Reply> replyList = replyRepository.findAllByComment(comment);
+        List<ReplyResponseDto> userResponseDtoList = new ArrayList<>();
+        for(int i=0; i<replyList.size();i++){
+            ReplyResponseDto replyResponseDto = new ReplyResponseDto();
+            replyResponseDto.setReplyId(replyList.get(i).getReplyId());
+            replyResponseDto.setWriterName(replyList.get(i).getWriterId().getName());
+            replyResponseDto.setContent(replyList.get(i).getContent());
+            replyResponseDto.setCommentId(replyList.get(i).getComment().getCommentId());
+            replyResponseDto.setCreateTime(replyList.get(i).getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            if(replyList.get(i).getUpdatedTime()!=null){
+                replyResponseDto.setUpdateTime(replyList.get(i).getUpdatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            }
+            else{
+                replyResponseDto.setUpdateTime(null);
+            }
+            userResponseDtoList.add(replyResponseDto);
+        }
+        return userResponseDtoList;
+
+    }
     @Override
     public ReplyResponseDto saveReply(ReplyDto replyDto){
         Reply reply = new Reply();

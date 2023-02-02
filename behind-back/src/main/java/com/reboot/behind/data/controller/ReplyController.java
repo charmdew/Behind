@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @Api(description = "대댓글 작성 수정 삭제")
@@ -26,6 +28,29 @@ public class ReplyController {
         this.replyService=replyService;
     }
 
+    @ApiOperation(
+            value = "대댓글 조회"
+            , notes = "대댓글을 조회한다.")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(
+                            name = "CommentId"
+                            , value = "대댓글 id(pk)값"
+                            , dataType = "Int"
+                    )
+                    ,
+                    @ApiImplicitParam(
+                            name = "content"
+                            , value = "대댓글 수정 내용"
+                            , dataType = "String"
+                    )
+
+            })
+    @GetMapping()
+    public ResponseEntity<?> getReplyList(Integer id){
+        List<ReplyResponseDto> Replylist = replyService.getReplyList(id);
+        return ResponseEntity.status(HttpStatus.OK).body(Replylist);
+    }
 
     @ApiOperation(
             value = "대댓글 작성"

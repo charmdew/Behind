@@ -1,41 +1,29 @@
 package com.reboot.behind.data.repository;
 
-import ch.qos.logback.core.util.ContextUtil;
 import com.reboot.behind.data.entity.User;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
+public class SearchRepository {
+    @PersistenceContext
+    private EntityManager em;
 
-
-//@Repository
-//@RequiredArgsConstructor
-public interface UserRepository extends JpaRepository<User, Integer> {
-//public class UserRepository{
-
-// EntityManager em = Persistence.createEntityManagerFactory("User").createEntityManager();
-
-    //    public User save(User user){
-//        em.persist(user);
-//        return user;
-//    }
-//
-//    public User findById(Integer id){
-//        return em.find(User.class,id);
-//    }
-    User getUserByUserId(String userId);
-
-
-    default List<User> selectJPQLById1(int x, int y) {
-
+    public List<User> searchUser(int x, int y) {
 
         String jpql = "select u from User u";
         String whereSql = " where ";
         List<String> whereCondition = new ArrayList<>();
+        if(x==0 && y==0){
+            TypedQuery<User> query = em.createQuery(jpql, User.class);
+
+            return query.getResultList();
+        }
         switch (x) {
             case 0:
                 break;
@@ -73,14 +61,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
         jpql += whereSql;
         jpql += String.join("", whereCondition);
         System.out.println(jpql);
-        //        @Query(value = jpql)
-//        TypedQuery<User> query = em.createQuery(jpql, User.class);
+        TypedQuery<User> query = em.createQuery(jpql, User.class);
 
-//        System.out.println(query);
-        return null;
+        return query.getResultList();
     }
-
-
-
 }
-
