@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify
 from PIL import Image
-import json
+import json, base64, io
+from flask_cors import CORS, cross_origin
 
 import neural_style_transfer
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/')
 def hello_world():  # put application's code here
@@ -46,6 +47,12 @@ def nst_test():
 # 여러 스타일을 적용하여 이미지 변환
 @app.route('/nst/multiple', methods=['POST'])
 def nst_multiple():
+    # d = request.get_json()
+    # file = d['file']
+    # bytes = base64.b64decode(file)
+    # bytesIO = io.BytesIO(bytes)
+    # content_image = Image.open(bytesIO)
+
     # 파일 받기
     content_file = request.files['file']
 
@@ -55,11 +62,13 @@ def nst_multiple():
     ##### 결과 이미지 데이터 #####
     # 변환된 이미지
     b64encoded_images = neural_style_transfer.main_multiple_styles(content_image, content_file.filename)
-    # base64로 인코딩된 문자열을 디코딩 
+
+    # base64로 인코딩된 문자열을 디코딩
     styled_image_data = [b64encoded.decode("utf-8") for b64encoded in b64encoded_images]
 
     # 이미지 데이터를 JSON으로 응답하는 경우
-    return json.dumps({"images": styled_image_data})
+    # return json.dumps({"images": styled_image_data})
+    return jsonify({"images": styled_image_data})
     # return jsonify({
     #     'msg': 'success',
     #     'size': content_image.size,
@@ -75,4 +84,4 @@ def nst_multiple():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', debug=True)

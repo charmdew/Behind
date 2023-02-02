@@ -129,9 +129,15 @@ def main_multiple_styles(input_image, input_image_fname):
     # 스타일 이미지 파일 저장 경로
     STYLE_IMG_FOLDER = os.path.join('static', 'images', 'style')
     # 스타일 이미지 파일명
-    style_image_files = ['marilyn.jpg', 'starry_night.jpg', 'gogh.jpg', 'scream.jpg', 'girl.jpg', 'monarisa.jpg']
+    # style_image_files = ['candinsky.jpg', 'dalmado.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg']
+    style_image_files = ['candinsky.jpg', 'dalmado.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg', 'monarisa.jpg',
+                         'picasso.jpg', 'rain_princess.jpg', 'scream.jpg', 'starry_night.jpg', 'tiger.jpg',
+                         'zentangle_art.jpg']
+
     # base64로 인코딩된 결과 이미지를 저장하는 리스트
     b64encoded_images = []
+    # # base64로 인코딩된 결과 이미지를 저장하는 딕셔너리
+    # b64encoded_images_dict = dict()
 
     for style_image_file in style_image_files:
         style_image = Image.open(os.path.join(STYLE_IMG_FOLDER, style_image_file))
@@ -160,6 +166,8 @@ def main_multiple_styles(input_image, input_image_fname):
         b64encoded = base64.b64encode(bytesIO.getvalue())
         # base64로 인코딩된 이미지 리스트에 저장
         b64encoded_images.append(b64encoded)
+        # # base64로 인코딩된 이미지 딕셔너리에 저장
+        # b64encoded_images_dict[style_image_file.split('.')[0]] = b64encoded
 
         ## 결과 이미지 지정한 경로에 저장
         # 결과 이미지 파일명 : 파일이름_스타일이름.확장자
