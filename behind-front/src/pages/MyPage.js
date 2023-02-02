@@ -2,11 +2,18 @@
 
 import axios from 'axios';
 
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { UsersStateContext } from '../App';
 import { useNavigate } from 'react-router-dom';
+import ProfileContainer from './../components/ProfileContainer';
 
 import {
+  Editable,
+  EditableInput,
+  EditableTextarea,
+  Input,
+  useEditableControls,
+  EditablePreview,
   AlertDialog,
   AlertDialogBody,
   AlertDialogFooter,
@@ -23,8 +30,12 @@ import {
   MenuDivider,
   useDisclosure,
   Button,
+  ButtonGroup,
+  useColorModeValue,
+  Tooltip,
+  Flex,
 } from '@chakra-ui/react';
-
+import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { FiArrowLeft } from 'react-icons/fi';
 
@@ -32,42 +43,9 @@ const MyPage = () => {
   const { loginUser } = useContext(UsersStateContext);
   const navigate = useNavigate();
 
-  // 선택한 선호 포지션 추출
-  const position = () => {
-    const temp = [];
-    if (loginUser.position.frontend) {
-      temp.push('frontend');
-    }
-    if (loginUser.position.backend) {
-      temp.push('backend');
-    }
-    if (loginUser.position.embeded) {
-      temp.push('embeded');
-    }
-    return temp;
-  };
-
-  // 선택한 선호 트랙 추출
-  const track = () => {
-    const temp = [];
-    if (loginUser.track.ai) {
-      temp.push('ai');
-    }
-    if (loginUser.track.bigdata) {
-      temp.push('bigdata');
-    }
-    if (loginUser.track.iot) {
-      temp.push('iot');
-    }
-    if (loginUser.track.blockchain) {
-      temp.push('blockchain');
-    }
-    return temp;
-  };
-
   // 회원탈퇴 모달
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = React.useRef();
+  const cancleRef = React.useRef();
   // 회원탈퇴 기능  // 좀더 본인을 확인할 수 있는 검증이 필요하지 않을까??
 
   // 추가해야 할 것
@@ -83,98 +61,135 @@ const MyPage = () => {
     });
   };
 
+  // 상세 정보 수정
+
+  // 수정 모드 전환 플래그
+  const [isEdit, setIsEdit] = useState(false);
+  const toggleIsEdit = () => setIsEdit(!isEdit);
+  function EditableControls() {
+    const {
+      isEditing,
+      getSubmitButtonProps,
+      getCancelButtonProps,
+      getEditButtonProps,
+    } = useEditableControls();
+
+    return isEditing ? (
+      <ButtonGroup justifyContent="center" size="sm">
+        <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
+        <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
+      </ButtonGroup>
+    ) : (
+      <Flex justifyContent="center">
+        <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} />
+      </Flex>
+    );
+  }
+
   return (
     <div>
-      <Box alignItems="center" display="flex" w="100%" bg="gray.100">
-        <IconButton
-          onClick={() => {
-            navigate(-1);
-          }}
-          size="lg"
-          icon={<FiArrowLeft />}
-        />
-        <Text as="b">My Page</Text>
-      </Box>
-
-      <Box>
-        <Text>이름</Text>
-        <Text>{loginUser.name}</Text>
-        <Text>태그</Text>
-        <Text>{`#${loginUser.tag.join(' #')}`}</Text>
-        <Text>email</Text>
-        <Text>{loginUser.email}</Text>
-        <Text>phone</Text>
-        <Text>{loginUser.phoneNum}</Text>
-        <Text>선호포지션</Text>
-        <Text>{position()}</Text>
-        <Text>선호트랙</Text>
-        <Text>{track()}</Text>
-        <Text>상세</Text>
-        <Text>{loginUser.detail}</Text>
-      </Box>
-
-      <Menu>
-        <MenuButton
-          px={4}
-          py={2}
-          transition="all 0.2s"
-          borderRadius="md"
-          borderWidth="1px"
-          _hover={{ bg: 'gray.400' }}
-          _expanded={{ bg: 'blue.400' }}
-          _focus={{ boxShadow: 'outline' }}
-        >
-          User Setting <ChevronDownIcon />
-        </MenuButton>
-        <MenuList>
-          <MenuItem
+      <Box backgroundColor="gray.100">
+        {/* 뒤로가기 */}
+        <Box alignItems="center" display="flex" w="100%" bg="gray.100">
+          <IconButton
             onClick={() => {
-              navigate('/useredit');
+              navigate(-1);
             }}
-          >
-            회원정보수정
-          </MenuItem>
-          <MenuDivider />
-          <MenuItem>로그아웃</MenuItem>
-          <MenuDivider />
+            size="lg"
+            icon={<FiArrowLeft />}
+          />
+          <Text as="b">My Page</Text>
+        </Box>
 
-          <MenuItem onClick={onOpen}>회원탈퇴</MenuItem>
-        </MenuList>
-      </Menu>
-      <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              회원탈퇴
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              <p>정말로 탈퇴하시겠습니까?</p>
-              <p>탈퇴 시 저장된 회원님의 모든 정보가 삭제됩니다.</p>
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
-                취소
-              </Button>
-              <Button
-                colorScheme="red"
-                onClick={() => {
-                  userUnregister();
-                  onClose();
-                }}
-                ml={3}
+        {/* 컨테이너, 상세정보 */}
+        <Box>
+          {/* 컨테이너 */}
+          <Box>
+            <ProfileContainer {...loginUser} />
+            {/* <Box>{loginUser.detail}</Box> */}
+            <Box>
+              <Editable
+                textAlign="center"
+                defaultValue="Rasengan ⚡️"
+                fontSize="2xl"
+                isPreviewFocusable={false}
               >
-                탈퇴
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+                <EditablePreview />
+                {/* Here is the custom input */}
+                <Input as={EditableInput} />
+                <EditableControls />
+              </Editable>
+            </Box>
+          </Box>
+          {/* 상세정보 */}
+        </Box>
+
+        {/* 옵션버튼 */}
+        <Box>
+          <Menu>
+            <MenuButton
+              px={4}
+              py={2}
+              transition="all 0.2s"
+              borderRadius="md"
+              borderWidth="1px"
+              _hover={{ bg: 'gray.400' }}
+              _expanded={{ bg: 'blue.400' }}
+              _focus={{ boxShadow: 'outline' }}
+            >
+              User Setting <ChevronDownIcon />
+            </MenuButton>
+            <MenuList>
+              <MenuItem
+                onClick={() => {
+                  navigate('/useredit');
+                }}
+              >
+                회원정보수정
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem>로그아웃</MenuItem>
+              <MenuDivider />
+
+              <MenuItem onClick={onOpen}>회원탈퇴</MenuItem>
+            </MenuList>
+          </Menu>
+          <AlertDialog
+            isOpen={isOpen}
+            leastDestructiveRef={cancleRef}
+            onClose={onClose}
+          >
+            <AlertDialogOverlay>
+              <AlertDialogContent>
+                <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                  회원탈퇴
+                </AlertDialogHeader>
+
+                <AlertDialogBody>
+                  <p>정말로 탈퇴하시겠습니까?</p>
+                  <p>탈퇴 시 저장된 회원님의 모든 정보가 삭제됩니다.</p>
+                </AlertDialogBody>
+
+                <AlertDialogFooter>
+                  <Button ref={cancleRef} onClick={onClose}>
+                    취소
+                  </Button>
+                  <Button
+                    colorScheme="red"
+                    onClick={() => {
+                      userUnregister();
+                      onClose();
+                    }}
+                    ml={3}
+                  >
+                    탈퇴
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialogOverlay>
+          </AlertDialog>
+        </Box>
+      </Box>
     </div>
   );
 };
