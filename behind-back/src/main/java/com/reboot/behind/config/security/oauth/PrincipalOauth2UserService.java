@@ -70,6 +70,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .name(oAuth2UserInfo.getName())
                     .email(oAuth2UserInfo.getEmail())
                     .phoneNum(oAuth2UserInfo.getPhoneNum())
+                    .role("TEMP")
                     .build();
             userRepository.save(user);
         }

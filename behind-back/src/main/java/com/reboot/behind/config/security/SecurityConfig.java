@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/login", "/sign/**", "/").permitAll()
                 .antMatchers("**exception**").permitAll()
-                .anyRequest().authenticated()
+//                .anyRequest().hasAuthority("USER")
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
