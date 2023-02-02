@@ -2,11 +2,13 @@ package com.reboot.behind.service.impl;
 
 import com.reboot.behind.data.dto.*;
 import com.reboot.behind.data.entity.User;
+import com.reboot.behind.data.repository.SearchRepository;
 import com.reboot.behind.data.repository.UserRepository;
 import com.reboot.behind.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +18,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    @Autowired
+    SearchRepository searchRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
@@ -31,15 +36,15 @@ public class UserServiceImpl implements UserService {
             UserResponseDto.Position position = new UserResponseDto.Position();
             UserResponseDto.Track track = new UserResponseDto.Track();
 
-            position.setFRONTEND(userlist.get(i).isFront());
-            position.setBACKEND(userlist.get(i).isBack());
-            position.setEMBEDED(userlist.get(i).isEmbedded());
+            position.setFrontend(userlist.get(i).isFront());
+            position.setBackend(userlist.get(i).isBack());
+            position.setEmbedded(userlist.get(i).isEmbedded());
 
 
-            track.setAI(userlist.get(i).isAi());
-            track.setIOT(userlist.get(i).isIot());
-            track.setBIGDATA(userlist.get(i).isBigData());
-            track.setBLOCKCHAIN(userlist.get(i).isBlockChain());
+            track.setAi(userlist.get(i).isAi());
+            track.setIot(userlist.get(i).isIot());
+            track.setBigdata(userlist.get(i).isBigData());
+            track.setBlockchain(userlist.get(i).isBlockChain());
 
             userResponseDto.setId(userlist.get(i).getId());
             userResponseDto.setUserId(userlist.get(i).getUserId());
@@ -68,15 +73,15 @@ public class UserServiceImpl implements UserService {
         UserResponseDto.Position position = new UserResponseDto.Position();
         UserResponseDto.Track track = new UserResponseDto.Track();
 
-        position.setFRONTEND(user.isFront());
-        position.setBACKEND(user.isBack());
-        position.setEMBEDED(user.isEmbedded());
+        position.setFrontend(user.isFront());
+        position.setBackend(user.isBack());
+        position.setEmbedded(user.isEmbedded());
 
 
-        track.setAI(user.isAi());
-        track.setIOT(user.isIot());
-        track.setBIGDATA(user.isBigData());
-        track.setBLOCKCHAIN(user.isBlockChain());
+        track.setAi(user.isAi());
+        track.setIot(user.isIot());
+        track.setBigdata(user.isBigData());
+        track.setBlockchain(user.isBlockChain());
 
         userDetailResponseDto.setId(user.getId());
         userDetailResponseDto.setUserId(user.getUserId());
@@ -104,13 +109,14 @@ public class UserServiceImpl implements UserService {
         foundUser.setPhoneNum(userResponseDto.getPhoneNum());
         foundUser.setTag(userResponseDto.getTag());
         foundUser.setShowPhoneNum(userResponseDto.getShowPhoneNum());
-        foundUser.setFront(userResponseDto.getPosition().isFRONTEND());
-        foundUser.setBack(userResponseDto.getPosition().isBACKEND());
-        foundUser.setEmbedded(userResponseDto.getPosition().isEMBEDED());
-        foundUser.setAi(userResponseDto.getTrack().isAI());
-        foundUser.setIot(userResponseDto.getTrack().isIOT());
-        foundUser.setBlockChain(userResponseDto.getTrack().isBLOCKCHAIN());
-        foundUser.setBigData(userResponseDto.getTrack().isBIGDATA());
+        foundUser.setFront(userResponseDto.getPosition().isFrontend());
+        foundUser.setBack(userResponseDto.getPosition().isBackend());
+        foundUser.setEmbedded(userResponseDto.getPosition().isEmbedded());
+        foundUser.setAi(userResponseDto.getTrack().isAi());
+        foundUser.setIot(userResponseDto.getTrack().isIot());
+        foundUser.setBlockChain(userResponseDto.getTrack().isBlockchain());
+        foundUser.setBigData(userResponseDto.getTrack().isBigdata());
+        foundUser.setRole("USER");
 
         User changedUser = userRepository.save(foundUser);
 
@@ -119,15 +125,15 @@ public class UserServiceImpl implements UserService {
         UserResponseDto.Track track = new UserResponseDto.Track();
 
 
-        position.setFRONTEND(changedUser.isFront());
-        position.setBACKEND(changedUser.isBack());
-        position.setEMBEDED(changedUser.isEmbedded());
+        position.setFrontend(changedUser.isFront());
+        position.setBackend(changedUser.isBack());
+        position.setEmbedded(changedUser.isEmbedded());
 
 
-        track.setAI(changedUser.isAi());
-        track.setIOT(changedUser.isIot());
-        track.setBIGDATA(changedUser.isBigData());
-        track.setBLOCKCHAIN(changedUser.isBlockChain());
+        track.setAi(changedUser.isAi());
+        track.setIot(changedUser.isIot());
+        track.setBigdata(changedUser.isBigData());
+        track.setBlockchain(changedUser.isBlockChain());
 
         userResponseDto2.setId(changedUser.getId());
         userResponseDto2.setUserId(changedUser.getUserId());
@@ -158,15 +164,15 @@ public class UserServiceImpl implements UserService {
         UserResponseDto.Position position = new UserResponseDto.Position();
         UserResponseDto.Track track = new UserResponseDto.Track();
 
-        position.setFRONTEND(changedUser.isFront());
-        position.setBACKEND(changedUser.isBack());
-        position.setEMBEDED(changedUser.isEmbedded());
+        position.setFrontend(changedUser.isFront());
+        position.setBackend(changedUser.isBack());
+        position.setEmbedded(changedUser.isEmbedded());
 
 
-        track.setAI(changedUser.isAi());
-        track.setIOT(changedUser.isIot());
-        track.setBIGDATA(changedUser.isBigData());
-        track.setBLOCKCHAIN(changedUser.isBlockChain());
+        track.setAi(changedUser.isAi());
+        track.setIot(changedUser.isIot());
+        track.setBigdata(changedUser.isBigData());
+        track.setBlockchain(changedUser.isBlockChain());
 
         userResponseDto.setId(changedUser.getId());
         userResponseDto.setUserId(changedUser.getUserId());
@@ -218,41 +224,46 @@ public class UserServiceImpl implements UserService {
         userRepository.save(foundfolloweruser);
         userRepository.save(foundfolloweduser);
     }
+    public List<UserResponseDto> getSearchUserList(int x,int y) {
+        List<User> userlist = searchRepository.searchUser(x,y);
+        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+        for (int i = 0; i < userlist.size(); i++) {
+            UserResponseDto userResponseDto = new UserResponseDto();
+            UserResponseDto.Position position = new UserResponseDto.Position();
+            UserResponseDto.Track track = new UserResponseDto.Track();
+
+            position.setFrontend(userlist.get(i).isFront());
+            position.setBackend(userlist.get(i).isBack());
+            position.setEmbedded(userlist.get(i).isEmbedded());
+
+
+            track.setAi(userlist.get(i).isAi());
+            track.setIot(userlist.get(i).isIot());
+            track.setBigdata(userlist.get(i).isBigData());
+            track.setBlockchain(userlist.get(i).isBlockChain());
+
+            userResponseDto.setId(userlist.get(i).getId());
+            userResponseDto.setUserId(userlist.get(i).getUserId());
+            userResponseDto.setDetail(userlist.get(i).getDetail());
+            userResponseDto.setTag(userlist.get(i).getTag());
+            userResponseDto.setEmail(userlist.get(i).getEmail());
+            userResponseDto.setName(userlist.get(i).getName());
+            userResponseDto.setPhoneNum(userlist.get(i).getPhoneNum());
+            userResponseDto.setShowPhoneNum(userlist.get(i).isShowPhoneNum());
+            userResponseDto.setFollowingUsers(userlist.get(i).getFollowingUsers());
+            userResponseDto.setFollowedUsers(userlist.get(i).getFollowedUsers());
+            userResponseDto.setImages(userlist.get(i).getImages());
+            userResponseDto.setProfile(userlist.get(i).getProfile());
+            userResponseDto.setLikeCnt(userlist.get(i).getLikeCnt());
+            userResponseDto.setPosition(position);
+            userResponseDto.setTrack(track);
+            userResponseDtoList.add(userResponseDto);
+        }
+        return userResponseDtoList;
+//        System.out.println(userlist.get(0).getName());
+    }
+
 }
-//        String select = "SELECT u from User u";
-//        String where = "WHERE";
-//
-//        switch (searchPosition){
-//            case 0 :
-//                break;
-//            case 1 :
-//                where = where +"u.frontEnd = true";
-//                break;
-//            case 2 :
-//                where = where +"u.backEnd = true";
-//                break;
-//            case 3 :
-//                where = where +"u.embedded = true";
-//                break;
-//        }
-//        if(searchPosition != 0 && searchTrack != 0){
-//            where += "AND";
-//        }
-//        switch (searchTrack){
-//            case 0 :
-//                break;
-//            case 1 :
-//                where = where +"u.track1 = true";
-//                break;
-//            case 2 :
-//                where = where +"u.track2 = true";
-//                break;
-//            case 3 :
-//                where = where +"u.track3 = true";
-//                break;
-//            case 3 :
-//                where = where +"u.track4 = true";
-//                break;
-//        }
+
 
 

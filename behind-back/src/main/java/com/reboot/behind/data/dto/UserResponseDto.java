@@ -52,17 +52,17 @@ public class UserResponseDto {
     @Setter
     @ToString
     public static class Position{
-        private boolean FRONTEND;
-        private boolean BACKEND;
-        private boolean EMBEDED;
+        private boolean frontend;
+        private boolean backend;
+        private boolean embedded;
     }
     @Getter
     @Setter
     @ToString
     public static class Track{
-        private boolean AI ;
-        private  boolean IOT;
-        private  boolean BIGDATA;
-        private boolean BLOCKCHAIN;
+        private boolean ai ;
+        private  boolean iot;
+        private  boolean bigdata;
+        private boolean blockchain;
     }
 }

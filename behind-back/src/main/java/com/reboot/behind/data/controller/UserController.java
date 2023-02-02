@@ -178,28 +178,28 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.OK).body("팔로우 취소!");
     }
-//    @ApiOperation(
-//            value = "좋아요(팔로우) 좋아요 리스트에 추가"
-//            , notes = "좋아요(팔로우)를 누르면 팔로우 리스트에 추가한다")
-//    @ApiImplicitParams(
-//            {
-//                    @ApiImplicitParam(
-//                            name = "user"
-//                            , value = "누른 사람(로그인 되어 있는 회원) id(pk)"
-//                            , dataType = "int"
-//                    )
-//                    ,
-//                    @ApiImplicitParam(
-//                            name = "followUser"
-//                            , value = "명함에 있는 유저 id(pk)"
-//                            , dataType = "int"
-//                    )
-//            })
-//    @GetMapping("/search")
-//    public ResponseEntity<?> getSearchUserList(@RequestParam int position, @RequestParam int track){
-//        List<UserResponseDto> userlist = userService.getSearchUserList(position,track);
-//        return ResponseEntity.status(HttpStatus.OK).body(userlist);
-//    }
+    @ApiOperation(
+            value = "좋아요(팔로우) 좋아요 리스트에 추가"
+            , notes = "좋아요(팔로우)를 누르면 팔로우 리스트에 추가한다")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(
+                            name = "user"
+                            , value = "누른 사람(로그인 되어 있는 회원) id(pk)"
+                            , dataType = "int"
+                    )
+                    ,
+                    @ApiImplicitParam(
+                            name = "followUser"
+                            , value = "명함에 있는 유저 id(pk)"
+                            , dataType = "int"
+                    )
+            })
+    @GetMapping("/search")
+    public ResponseEntity<?> getSearchUserList(@RequestParam int position, @RequestParam int track){
+        List<UserResponseDto> userlist = userService.getSearchUserList(position,track);
+        return ResponseEntity.status(HttpStatus.OK).body(userlist);
+    }
 }
 
 
