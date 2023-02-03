@@ -1,27 +1,60 @@
 import React from 'react'
-import { Box, Image, Text, Flex, Heading } from '@chakra-ui/react';
+import { Box, Image, Text, Flex, Heading, Button } from '@chakra-ui/react';
 
-const Layout = ({ heading, body, imageSrc }) => {
+const Layout = ({ heading, body, imageSrc, imageAlt }) => {
   return (
-    <Flex w="100vw" h="100vh">
-      <Flex direction="column" m="auto" w="90%" h="90%" bgColor="teal">
-        <Heading h="100px">
+    <Box
+      w="100vw"
+      h="100vh"
+      p="5%"
+      bgColor="teal"
+    >
+      <Flex
+        direction="column"
+        w="100%"
+        h="100%"
+        p="5%"
+        bgColor="white"
+        borderRadius="lg"
+      >
+        <Heading p="8" textAlign="center">
           {heading}
         </Heading>
-        <Flex>  
-          <Text>
-            {body}
-          </Text>
-          <Image
-            boxSize='100px'
-            objectFit='cover'
-            src={imageSrc}
-            alt='Dan Abramov'
-          />
+        <Flex
+          direction="row"
+          flexGrow="1"
+          justify="space-between"
+          align="center"
+        >
+          <Flex
+            direction="column"
+            align="center"
+          >
+            <Text flexGrow="1" fontSize="xx-large" textAlign="center">
+              {body}
+            </Text>
+            <Button colorScheme='teal' size='lg' w="fit-content" m="8">
+              확인
+            </Button>
+          </Flex>
+          {showImage(imageSrc, imageAlt)}
         </Flex>
       </Flex>
-    </Flex>
+    </Box>
   )
+}
+
+const showImage = (imageSrc, imageAlt) => {
+  if (imageSrc) {
+    return (
+    <Image
+      m="8"
+      w='50%'
+      objectFit='contain'
+      src={imageSrc}
+      alt={imageAlt}
+    />)
+  }
 }
 
 export default Layout

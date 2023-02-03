@@ -31,16 +31,20 @@
     "css-loader": "^6.7.3",
     "electron": "22.1.0",
     "node-loader": "^2.0.0",
+    "prettier": "2.8.3",
+    "prettier-config-standard": "^5.0.0",
     "style-loader": "^3.3.1"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.4.9",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@yudiel/react-qr-scanner": "^1.1.3",
     "electron-squirrel-startup": "^1.0.0",
     "framer-motion": "^8.5.5",
     "react": "^18.2.0",
     "react-auth-kit": "^2.7.1",
     "react-dom": "^18.2.0"
-  }
+  },
+  "prettier": "prettier-config-standard"
 }
