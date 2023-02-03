@@ -78,7 +78,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = new Comment();
         User user = userRepository.findById(commentDto.getWriterUser()).get();
         User user2 = userRepository.findById(commentDto.getProfileUser()).get();
-
+        List<CommentResponseDto.replytmp> commentReplyList = new ArrayList<>();
 
         comment.setWriterUser(user);
         comment.setProfileUser(user2);
@@ -92,6 +92,7 @@ public class CommentServiceImpl implements CommentService {
         commentResponseDto.setWriterName(user.getName());
         commentResponseDto.setContent(saveComment.getContent());
         commentResponseDto.setCreateTime(saveComment.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        commentResponseDto.setReplys(commentReplyList);
         return commentResponseDto;
 
     }

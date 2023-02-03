@@ -197,6 +197,16 @@ public class UserController {
         List<UserResponseDto> userlist = userService.getSearchUserList(position,track);
         return ResponseEntity.status(HttpStatus.OK).body(userlist);
     }
+
+    @ApiOperation(
+            value = "유저 삭제"
+            , notes = "유저를 삭제합니다")
+
+    @DeleteMapping()
+    public ResponseEntity<String> deleteUser(Integer id) throws  Exception{
+        userService.deleteUser(id);
+        return ResponseEntity.status(HttpStatus.OK).body("유저 삭제 완료!");
+    }
 }
 
 
