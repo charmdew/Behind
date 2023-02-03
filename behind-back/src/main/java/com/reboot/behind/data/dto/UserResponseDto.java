@@ -64,5 +64,7 @@ public class UserResponseDto {
         private  boolean iot;
         private  boolean bigdata;
         private boolean blockchain;
+
+        private boolean metabus;
     }
 }

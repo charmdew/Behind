@@ -45,6 +45,7 @@ public class UserServiceImpl implements UserService {
             track.setIot(userlist.get(i).isIot());
             track.setBigdata(userlist.get(i).isBigData());
             track.setBlockchain(userlist.get(i).isBlockChain());
+            track.setMetabus(userlist.get(i).isMetaBus());
 
             userResponseDto.setId(userlist.get(i).getId());
             userResponseDto.setUserId(userlist.get(i).getUserId());
@@ -82,6 +83,7 @@ public class UserServiceImpl implements UserService {
         track.setIot(user.isIot());
         track.setBigdata(user.isBigData());
         track.setBlockchain(user.isBlockChain());
+        track.setMetabus(user.isMetaBus());
 
         userDetailResponseDto.setId(user.getId());
         userDetailResponseDto.setUserId(user.getUserId());
@@ -116,6 +118,7 @@ public class UserServiceImpl implements UserService {
         foundUser.setIot(userResponseDto.getTrack().isIot());
         foundUser.setBlockChain(userResponseDto.getTrack().isBlockchain());
         foundUser.setBigData(userResponseDto.getTrack().isBigdata());
+        foundUser.setMetaBus(userResponseDto.getTrack().isMetabus());
         foundUser.setRole("USER");
 
         User changedUser = userRepository.save(foundUser);
@@ -134,6 +137,7 @@ public class UserServiceImpl implements UserService {
         track.setIot(changedUser.isIot());
         track.setBigdata(changedUser.isBigData());
         track.setBlockchain(changedUser.isBlockChain());
+        track.setMetabus(changedUser.isMetaBus());
 
         userResponseDto2.setId(changedUser.getId());
         userResponseDto2.setUserId(changedUser.getUserId());
@@ -173,6 +177,7 @@ public class UserServiceImpl implements UserService {
         track.setIot(changedUser.isIot());
         track.setBigdata(changedUser.isBigData());
         track.setBlockchain(changedUser.isBlockChain());
+        track.setMetabus(changedUser.isMetaBus());
 
         userResponseDto.setId(changedUser.getId());
         userResponseDto.setUserId(changedUser.getUserId());
@@ -241,6 +246,7 @@ public class UserServiceImpl implements UserService {
             track.setIot(userlist.get(i).isIot());
             track.setBigdata(userlist.get(i).isBigData());
             track.setBlockchain(userlist.get(i).isBlockChain());
+            track.setMetabus(userlist.get(i).isMetaBus());
 
             userResponseDto.setId(userlist.get(i).getId());
             userResponseDto.setUserId(userlist.get(i).getUserId());
@@ -260,7 +266,6 @@ public class UserServiceImpl implements UserService {
             userResponseDtoList.add(userResponseDto);
         }
         return userResponseDtoList;
-//        System.out.println(userlist.get(0).getName());
     }
 
 }

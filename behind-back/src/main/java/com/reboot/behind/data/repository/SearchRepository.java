@@ -56,6 +56,9 @@ public class SearchRepository {
             case 4:
                 whereCondition.add("u.blockchain is true");
                 break;
+            case 5:
+                whereCondition.add("u.metabus is true");
+                break;
         }
         System.out.println(whereCondition);
         jpql += whereSql;
