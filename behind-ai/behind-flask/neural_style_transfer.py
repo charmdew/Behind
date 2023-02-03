@@ -131,10 +131,10 @@ def main_multiple_styles(input_image, input_image_fname):
     # 스타일 이미지 파일 저장 경로
     STYLE_IMG_FOLDER = os.path.join('static', 'images', 'style')
     # 스타일 이미지 파일명
-    # style_image_files = ['candinsky.jpg', 'dalmado.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg']
-    style_image_files = ['candinsky.jpg', 'dalmado.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg', 'monarisa.jpg',
-                         'picasso.jpg', 'rain_princess.jpg', 'scream.jpg', 'starry_night.jpg', 'tiger.jpg',
-                         'zentangle_art.jpg']
+    style_image_files = ['candinsky.jpg', 'dalmado.jpg', 'girl.jpg', 'gogh.jpg']
+    # style_image_files = ['candinsky.jpg', 'dalmado.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg', 'monarisa.jpg',
+    #                      'picasso.jpg', 'rain_princess.jpg', 'scream.jpg', 'starry_night.jpg', 'tiger.jpg',
+    #                      'zentangle_art.jpg']
 
     # base64로 인코딩된 결과 이미지를 저장하는 리스트
     b64encoded_images = []
