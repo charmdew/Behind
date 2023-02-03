@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { UsersStateContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import ProfileContainer from './../components/ProfileContainer';
@@ -39,6 +39,7 @@ import {
 import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { FiArrowLeft } from 'react-icons/fi';
+import { MdSettings } from 'react-icons/md';
 
 const MyPage = () => {
   //삭제 요망
@@ -69,6 +70,7 @@ const MyPage = () => {
   // 상세 정보 수정
 
   // 수정 모드 전환 플래그
+  const editareaRef = useRef();
 
   function EditableControls() {
     const {
@@ -78,6 +80,16 @@ const MyPage = () => {
       getEditButtonProps,
     } = useEditableControls();
 
+    useEffect(() => {
+      if (isEditing) {
+        scrolltoBottom();
+      }
+    }, [isEditing]);
+
+    const scrolltoBottom = () =>
+      editareaRef.current.scrollIntoView({
+        block: 'end',
+      });
     return isEditing ? (
       <ButtonGroup justifyContent="center" size="sm">
         <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
@@ -85,14 +97,19 @@ const MyPage = () => {
       </ButtonGroup>
     ) : (
       <Flex justifyContent="center">
-        <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} />
+        <IconButton
+          onClick={() => scrolltoBottom}
+          size="sm"
+          icon={<EditIcon />}
+          {...getEditButtonProps()}
+        />
       </Flex>
     );
   }
 
   return (
     <div>
-      <Box backgroundColor="gray.100">
+      <Box ref={editareaRef} height="revert" backgroundColor="gray.100">
         {/* 뒤로가기 */}
         <Box alignItems="center" display="flex" w="100%" bg="gray.100">
           <IconButton
@@ -155,8 +172,6 @@ const MyPage = () => {
                   </Box>
 
                   <EditablePreview />
-                  {/* Here is the custom input */}
-                  {/* <textarea name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea> */}
 
                   <Textarea
                     fontSize="xl"
@@ -172,25 +187,21 @@ const MyPage = () => {
         </Box>
 
         {/* 옵션버튼 */}
-        <Box
-          display="flex"
-          justifyContent="end"
-          position="sticky"
-          bottom="4%"
-          pr="1%"
-        >
-          <Menu>
+        <Box display="inline-block" position="sticky" left="94%" bottom="4%">
+          <Menu isLazy lazyBehavior="keepMounted">
             <MenuButton
               px={4}
               py={2}
               transition="all 0.2s"
               borderRadius="md"
-              borderWidth="1px"
-              _hover={{ bg: 'gray.400' }}
-              _expanded={{ bg: 'blue.400' }}
+              borderWidth="3px"
+              backgroundColor="white"
+              borderColor="blue.300"
+              _hover={{ bg: 'blue.100' }}
+              _expanded={{ bg: 'blue.300' }}
               _focus={{ boxShadow: 'outline' }}
             >
-              User Setting <ChevronDownIcon />
+              <MdSettings />
             </MenuButton>
             <MenuList>
               <MenuItem
@@ -248,29 +259,3 @@ const MyPage = () => {
 };
 
 export default MyPage;
-
-// {
-//   "id": 1,
-//   "userId": "choanury",
-//   "detail": "구로구에 사는 유정훈입니다.",
-//   "tag": ["Front", "JS", "React"],
-//   "email": "choanury@naver.com",
-//   "name": "유정훈",
-//   "phoneNum": "01071242201",
-//   "phoneBoolean": true,
-//   "position": {
-//     "frontend": true,
-//     "backend": true,
-//     "embeded": false
-//   },
-//   "track": {
-//     "ai": true,
-//     "iot": false,
-//     "bigdata": true,
-//     "blockchain": false
-//   },
-//   "images": "imgs",
-//   "profile": "profile_img",
-//   "followingUsers": [2, 3, 7],
-//   "followedUsers": [4, 5, 9]
-// },
