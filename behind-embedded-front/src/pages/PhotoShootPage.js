@@ -1,7 +1,7 @@
 import React from 'react'
 
 const PhotoShootPage = () => {
-  return (<div>PhotoShootPage</div>)
+  return <div>PhotoShootPage</div>
 }
 
 export default PhotoShootPage
