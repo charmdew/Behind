@@ -63,6 +63,7 @@ public class User{
     private boolean blockChain;
 
     private boolean bigData;
+    private boolean metaBus;
 
     private String detail;
 
