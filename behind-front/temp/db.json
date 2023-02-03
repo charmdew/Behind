@@ -4,10 +4,7 @@
       "id": 1,
       "userId": "choanury",
       "detail": "구로구에 사는 유정훈입니다.",
-      "tag": [
-        "Front",
-        "React"
-      ],
+      "tag": ["Front", "React"],
       "email": "choanury@naver.com",
       "name": "유정훈",
       "phoneNum": "01071242201",
@@ -25,64 +22,39 @@
       },
       "images": "imgs",
       "profile": "profile_img",
-      "followingUsers": [
-        2,
-        3,
-        4,
-        5
-      ],
-      "followedUsers": [
-        4,
-        5,
-        9
-      ]
+      "followingUsers": [2, 3, 4, 5],
+      "followedUsers": [4, 5, 9]
     },
     {
       "id": 2,
       "userId": "choanury",
       "detail": "구로구에 사는 김상식입니다.",
-      "tag": [
-        "Front",
-        "JS",
-        "React"
-      ],
-      "email": "choanury@naver.com",
-      "name": "유정훈",
+      "tag": ["Front", "JS", "React"],
+      "email": "asdbdasfasdf@naver.com",
+      "name": "김상식",
       "phoneNum": "01071242201",
       "phoneBoolean": true,
       "position": {
-        "frontend": true,
+        "frontend": false,
         "backend": true,
         "embeded": false
       },
       "track": {
-        "ai": true,
+        "ai": false,
         "iot": true,
-        "bigdata": false,
+        "bigdata": true,
         "blockchain": false
       },
       "images": "imgs",
       "profile": "profile_img",
-      "followingUsers": [
-        2,
-        3,
-        7
-      ],
-      "followedUsers": [
-        4,
-        5,
-        9
-      ]
+      "followingUsers": [2, 3, 7],
+      "followedUsers": [4, 5, 9]
     },
     {
       "id": 3,
       "userId": "choanury",
       "detail": "구로구에 사는 김상식입니다.",
-      "tag": [
-        "Front",
-        "JS",
-        "React"
-      ],
+      "tag": ["Front", "JS", "React"],
       "email": "choanury@naver.com",
       "name": "유정훈",
       "phoneNum": "01071242201",
@@ -100,26 +72,14 @@
       },
       "images": "imgs",
       "profile": "profile_img",
-      "followingUsers": [
-        2,
-        3,
-        7
-      ],
-      "followedUsers": [
-        4,
-        5,
-        9
-      ]
+      "followingUsers": [2, 3, 7],
+      "followedUsers": [4, 5, 9]
     },
     {
       "id": 4,
       "userId": "choanury",
       "detail": "구로구에 사는 김상식입니다.",
-      "tag": [
-        "Front",
-        "JS",
-        "React"
-      ],
+      "tag": ["Front", "JS", "React"],
       "email": "choanury@naver.com",
       "name": "유정훈",
       "phoneNum": "01071242201",
@@ -137,26 +97,14 @@
       },
       "images": "imgs",
       "profile": "profile_img",
-      "followingUsers": [
-        2,
-        3,
-        7
-      ],
-      "followedUsers": [
-        4,
-        5,
-        9
-      ]
+      "followingUsers": [2, 3, 7],
+      "followedUsers": [4, 5, 9]
     },
     {
       "id": 5,
       "userId": "choanury",
       "detail": "구로구에 사는 김상식입니다.",
-      "tag": [
-        "Front",
-        "JS",
-        "React"
-      ],
+      "tag": ["Front", "JS", "React"],
       "email": "choanury@naver.com",
       "name": "유정훈",
       "phoneNum": "01071242201",
@@ -174,26 +122,14 @@
       },
       "images": "imgs",
       "profile": "profile_img",
-      "followingUsers": [
-        2,
-        3,
-        7
-      ],
-      "followedUsers": [
-        4,
-        5,
-        9
-      ]
+      "followingUsers": [2, 3, 7],
+      "followedUsers": [4, 5, 9]
     },
     {
       "id": 6,
       "userId": "choanury",
       "detail": "구로구에 사는 김상식입니다.",
-      "tag": [
-        "Front",
-        "JS",
-        "React"
-      ],
+      "tag": ["Front", "JS", "React"],
       "email": "choanury@naver.com",
       "name": "유정훈",
       "phoneNum": "01071242201",
@@ -211,26 +147,14 @@
       },
       "images": "imgs",
       "profile": "profile_img",
-      "followingUsers": [
-        2,
-        3,
-        7
-      ],
-      "followedUsers": [
-        4,
-        5,
-        9
-      ]
+      "followingUsers": [2, 3, 7],
+      "followedUsers": [4, 5, 9]
     },
     {
       "id": 7,
       "userId": "choanury",
       "detail": "구로구에 사는 김상식입니다.",
-      "tag": [
-        "Front",
-        "JS",
-        "React"
-      ],
+      "tag": ["Front", "JS", "React"],
       "email": "choanury@naver.com",
       "name": "유정훈",
       "phoneNum": "01071242201",
@@ -248,26 +172,14 @@
       },
       "images": "imgs",
       "profile": "profile_img",
-      "followingUsers": [
-        2,
-        3,
-        7
-      ],
-      "followedUsers": [
-        4,
-        5,
-        9
-      ]
+      "followingUsers": [2, 3, 7],
+      "followedUsers": [4, 5, 9]
     },
     {
       "id": 8,
       "userId": "choanury",
       "detail": "구로구에 사는 김상식입니다.",
-      "tag": [
-        "Front",
-        "JS",
-        "React"
-      ],
+      "tag": ["Front", "JS", "React"],
       "email": "choanury@naver.com",
       "name": "유정훈",
       "phoneNum": "01071242201",
@@ -285,26 +197,14 @@
       },
       "images": "imgs",
       "profile": "profile_img",
-      "followingUsers": [
-        2,
-        3,
-        7
-      ],
-      "followedUsers": [
-        4,
-        5,
-        9
-      ]
+      "followingUsers": [2, 3, 7],
+      "followedUsers": [4, 5, 9]
     },
     {
       "id": 9,
       "userId": "choanury",
       "detail": "구로구에 사는 김상식입니다.",
-      "tag": [
-        "Front",
-        "JS",
-        "React"
-      ],
+      "tag": ["Front", "JS", "React"],
       "email": "choanury@naver.com",
       "name": "유정훈",
       "phoneNum": "01071242201",
@@ -322,26 +222,14 @@
       },
       "images": "imgs",
       "profile": "profile_img",
-      "followingUsers": [
-        2,
-        3,
-        7
-      ],
-      "followedUsers": [
-        4,
-        5,
-        9
-      ]
+      "followingUsers": [2, 3, 7],
+      "followedUsers": [4, 5, 9]
     },
     {
       "id": 10,
       "userId": "choanury",
       "detail": "구로구에 사는 김상식입니다.",
-      "tag": [
-        "Front",
-        "JS",
-        "React"
-      ],
+      "tag": ["Front", "JS", "React"],
       "email": "choanury@naver.com",
       "name": "유정훈",
       "phoneNum": "01071242201",
@@ -359,16 +247,8 @@
       },
       "images": "imgs",
       "profile": "profile_img",
-      "followingUsers": [
-        2,
-        3,
-        7
-      ],
-      "followedUsers": [
-        4,
-        5,
-        9
-      ]
+      "followingUsers": [2, 3, 7],
+      "followedUsers": [4, 5, 9]
     }
   ]
 }

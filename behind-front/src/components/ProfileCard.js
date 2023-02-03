@@ -3,10 +3,17 @@ import { BsPhone } from 'react-icons/bs';
 import { FiAtSign } from 'react-icons/fi';
 import { useState } from 'react';
 
-const ProfileCard = () => {
+const ProfileCard = it => {
   // 포토 카드 실물 사이즈 : ( 54*86 )mm
 
   const [colorToggle, setColorToggle] = useState(false);
+
+  const tag = () => {
+    let temp = '#';
+    temp = temp + it.tag.join(' #');
+    return temp;
+  };
+  console.log(tag());
 
   if (colorToggle) {
     return (
@@ -42,7 +49,7 @@ const ProfileCard = () => {
                 display="flex"
                 alignItems="center"
               >
-                유정훈
+                {it.name}
               </Box>
               <Box
                 pt={2}
@@ -50,7 +57,7 @@ const ProfileCard = () => {
                 display="flex"
                 alignItems="center"
               >
-                #Front #Back #Embedded
+                {tag()}
               </Box>
             </Box>
 
@@ -66,7 +73,7 @@ const ProfileCard = () => {
                 <Icon as={FiAtSign} boxSize={4} />
               </Box>
               <Text pt={0.7} pl={2} fontStyle="italic" fontWeight="semibold">
-                choanury@naver.com
+                {it.email}
               </Text>
             </Box>
             <Box
@@ -81,7 +88,7 @@ const ProfileCard = () => {
               </Box>
 
               <Text pt={0.7} pl={2} fontStyle="italic" fontWeight="semibold">
-                010.7124.2201
+                {it.phoneNum}
               </Text>
             </Box>
           </Box>
@@ -130,10 +137,10 @@ const ProfileCard = () => {
                 alignItems="center"
                 color="gray.200"
               >
-                유정훈
+                {it.name}
               </Box>
               <Box pt={2} color="gray.500" display="flex" alignItems="center">
-                #Front #Back #Embedded
+                {tag()}
               </Box>
             </Box>
 
@@ -155,7 +162,7 @@ const ProfileCard = () => {
                 fontStyle="italic"
                 fontWeight="semibold"
               >
-                choanury@naver.com
+                {it.email}
               </Text>
             </Box>
             <Box
@@ -176,7 +183,7 @@ const ProfileCard = () => {
                 fontStyle="italic"
                 fontWeight="semibold"
               >
-                010.7124.2201
+                {it.phoneNum}
               </Text>
             </Box>
           </Box>

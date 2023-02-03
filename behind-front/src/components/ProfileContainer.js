@@ -20,40 +20,16 @@ import ProfileCard from './ProfileCard';
 import Comment from './comment/Comment';
 // 인자에 사용하고 싶은 유저 property를 가져와서 사용!
 const ProfileContainer = it => {
+  console.log(it);
   const navigate = useNavigate();
   const id = it.id;
 
   const { loginUser } = useContext(UsersStateContext);
-  // const loginUser = {
-  //   id: 1,
-  //   userId: 'choanury',
-  //   detail: '구로구에 사는 유정훈입니다.',
-  //   tag: ['Front', 'React'],
-  //   email: 'choanury@naver.com',
-  //   name: '유정훈',
-  //   phoneNum: '01071242201',
-  //   phoneBoolean: true,
-  //   position: {
-  //     frontend: true,
-  //     backend: false,
-  //     embeded: true,
-  //   },
-  //   track: {
-  //     ai: true,
-  //     iot: true,
-  //     bigdata: false,
-  //     blockchain: false,
-  //   },
-  //   images: 'imgs',
-  //   profile: 'profile_img',
-  //   followingUsers: [2, 3, 4, 5],
-  //   followedUsers: [4, 5, 9],
-  // };
+
   const { refreshLoginUserInfo } = useContext(UsersDispatchContext);
 
   // 내 프로필 클릭하면 mypage로 보내는 기능
   const goDetail = () => {
-    console.log('go');
     if (parseInt(loginUser.id) === parseInt(id)) {
       return navigate('/mypage');
     } else {
@@ -174,7 +150,7 @@ const ProfileContainer = it => {
                 <Comment />
               ) : (
                 <Box onClick={goDetail}>
-                  <ProfileCard />
+                  <ProfileCard {...it} />
                 </Box>
               )}
             </Box>
