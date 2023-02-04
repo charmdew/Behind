@@ -41,4 +41,14 @@ module.exports = function (app) {
       },
     })
   );
+  app.use(
+    '/likes/api',
+    createProxyMiddleware({
+      target:
+        'http://ec2-13-209-17-196.ap-northeast-2.compute.amazonaws.com:8080/',
+      pathRewrite: {
+        '^/likes/api': '',
+      },
+    })
+  );
 };

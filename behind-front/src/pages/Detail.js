@@ -4,8 +4,6 @@ import {
   Text,
   IconButton,
   Flex,
-  Image,
-  chakra,
   Editable,
   EditablePreview,
 } from '@chakra-ui/react';

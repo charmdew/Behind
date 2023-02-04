@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import { UsersStateContext } from '../App';
+import { UsersStateContext, UsersDispatchContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import ProfileContainer from './../components/ProfileContainer';
 
@@ -39,6 +39,7 @@ import { MdSettings } from 'react-icons/md';
 const MyPage = () => {
   const { loginUser } = useContext(UsersStateContext);
   const navigate = useNavigate();
+  const { refreshLoginUserInfo } = useContext(UsersDispatchContext);
 
   // 회원탈퇴 모달
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -59,6 +60,28 @@ const MyPage = () => {
   };
 
   // 상세 정보 수정
+  const [detailInfo, setDetailInfo] = useState(loginUser.detail);
+  const detailContentHandleChange = e => {
+    setDetailInfo(e);
+  };
+  const userSave = () => {
+    axios({
+      url: 'api/users/detail',
+      method: 'patch',
+      headers: { 'Content-Type': 'application/json' },
+      data: {
+        id: parseInt(loginUser.id),
+        detail: detailInfo,
+      },
+    })
+      .then(() => {
+        refreshLoginUserInfo();
+      })
+      .catch(function (error) {
+        // 오류발생시 실행
+        console.log(error);
+      });
+  };
 
   // 수정 모드 전환 플래그
   const editareaRef = useRef();
@@ -81,9 +104,12 @@ const MyPage = () => {
       editareaRef.current.scrollIntoView({
         block: 'end',
       });
+
     return isEditing ? (
       <ButtonGroup justifyContent="center" size="sm">
-        <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
+        <Box onClick={userSave}>
+          <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
+        </Box>
         <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
       </ButtonGroup>
     ) : (
@@ -145,6 +171,7 @@ const MyPage = () => {
                   defaultValue={loginUser.detail}
                   fontSize="lg"
                   isPreviewFocusable={false}
+                  onChange={detailContentHandleChange}
                 >
                   <Box
                     display="flex"

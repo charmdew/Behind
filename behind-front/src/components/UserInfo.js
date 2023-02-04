@@ -277,7 +277,7 @@ const UserInfo = () => {
                       이름
                     </FormLabel>
                     <Input
-                      placeholder={loginUser.name}
+                      defaultValue={loginUser.name}
                       type="text"
                       name="name"
                       id="name"
@@ -304,7 +304,7 @@ const UserInfo = () => {
                       이메일
                     </FormLabel>
                     <Input
-                      placeholder={loginUser.email}
+                      defaultValue={loginUser.email}
                       type="text"
                       name="email_address"
                       id="email_address"
@@ -331,7 +331,7 @@ const UserInfo = () => {
                       전화번호
                     </FormLabel>
                     <Input
-                      placeholder={loginUser.phoneNum}
+                      defaultValue={loginUser.phoneNum}
                       type="text"
                       name="phone"
                       id="phone"
