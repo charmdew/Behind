@@ -99,28 +99,32 @@ const ProfileContainer = it => {
   // 좋아요 기능
   const following = () => {
     // 좋아요 취소
-    if (!likeToggle) {
+    if (likeToggle) {
       axios({
         method: 'delete',
-        url: 'api/user/like',
+        url: 'api/users/like',
         data: {
-          followUser: id,
-          user: loginUser.id,
+          followUser: String(id),
+          user: parseInt(loginUser.id),
         },
-      });
-      setLikeToggle(() => !likeToggle);
+      }).then(
+        refreshLoginUserInfo(),
+        setLikeToggle(() => !likeToggle)
+      );
     }
     // 좋아요 추가
     else {
       axios({
         method: 'post',
-        url: 'api/user/like',
+        url: 'api/users/like',
         data: {
-          followUser: id,
-          user: loginUser.id,
+          followUser: parseInt(id),
+          user: parseInt(loginUser.id),
         },
-      });
-      setLikeToggle(() => !likeToggle);
+      }).then(
+        refreshLoginUserInfo(),
+        setLikeToggle(() => !likeToggle)
+      );
     }
   };
   if (loginUser) {
@@ -223,16 +227,19 @@ const ProfileContainer = it => {
                     backgroundColor="white"
                     aria-label="Call Sage"
                     fontSize="30px"
-                    onClick={following}
                     icon={
                       parseInt(id) !== parseInt(loginUser.id) ? (
                         likeToggle ? (
-                          <RiHeartsFill />
+                          <Box onClick={following}>
+                            <RiHeartsFill />
+                          </Box>
                         ) : (
-                          <RiHeartsLine />
+                          <Box onClick={following}>
+                            <RiHeartsLine />
+                          </Box>
                         )
                       ) : (
-                        <></>
+                        <RiHeartsFill />
                       )
                     }
                   />

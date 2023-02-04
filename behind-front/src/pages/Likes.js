@@ -58,7 +58,7 @@ const Likes = ({}) => {
   useEffect(() => {
     getfollowingList();
     getfollowerList();
-  }, []);
+  }, [loginUser]);
 
   return (
     <div>
