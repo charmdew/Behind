@@ -4,7 +4,9 @@
       "id": 1,
       "userId": "choanury",
       "detail": "구로구에 사는 유정훈입니다.",
-      "tag": ["Front", "React"],
+
+      "tag": ["Front", "React", "back"],
+
       "email": "choanury@naver.com",
       "name": "유정훈",
       "phoneNum": "01071242201",
