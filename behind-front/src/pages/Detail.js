@@ -29,7 +29,7 @@ const Detail = () => {
   // 실제로는 params에 해당하는 회원 정보를 직접 요청하겠지만
   // 지금은 전체회원정보에서 params id에 해당하는 회원을 필터링했음
   const getDetailUser = async () => {
-    await axios.get(`http://localhost:3001/users/${id}`).then(res => {
+    await axios.get(`api/users/${id}`).then(res => {
       const user = res.data;
       setDetailUser(user);
     });

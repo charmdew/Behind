@@ -51,7 +51,7 @@ const MyPage = () => {
   const userUnregister = () => {
     axios({
       method: 'delete',
-      url: `http://localhost:3001/users/${loginUser.id}`,
+      url: `api/users/${loginUser.id}`,
     }).then(response => {
       alert('회원탈퇴가 완료되었습니다.');
       navigate('/', { replace: true });
@@ -178,7 +178,7 @@ const MyPage = () => {
         </Box>
 
         {/* 옵션버튼 */}
-        <Box display="inline-block" position="sticky" left="94%" bottom="4%">
+        <Box display="inline-block" position="sticky" left="94%" bottom="14%">
           <Menu isLazy lazyBehavior="keepMounted">
             <MenuButton
               px={4}

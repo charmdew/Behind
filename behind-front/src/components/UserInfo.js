@@ -43,13 +43,22 @@ const UserInfo = () => {
   const navigate = useNavigate();
 
   const [editedUser, setEditedUser] = useState(loginUser);
+  const [name, setName] = useState(loginUser.name);
   const [email, setEmail] = useState(loginUser.email);
   const [phoneNum, setPhoneNum] = useState(loginUser.phoneNum);
-  const [phoneBoolean, setPhoneBoolean] = useState(loginUser.phoneBoolean);
+  const [showPhoneNum, setShowPhoneNum] = useState(loginUser.showPhoneNum);
   const [position, setPosition] = useState(loginUser.position);
   const [track, setTrack] = useState(loginUser.track);
   const [tag, setTag] = useState(loginUser.tag);
 
+  // name 수정
+  useEffect(() => {
+    setEditedUser({ ...editedUser, name: name });
+  }, [name]);
+
+  const nameHandleChange = e => {
+    setName(e.target.value);
+  };
   // email 수정
   useEffect(() => {
     setEditedUser({ ...editedUser, email: email });
@@ -69,10 +78,10 @@ const UserInfo = () => {
 
   // 전화번호 공개 여부 수정
   useEffect(() => {
-    setEditedUser({ ...editedUser, phoneBoolean: phoneBoolean });
-  }, [phoneBoolean]);
-  const phoneBooleanHandleChange = e => {
-    setPhoneBoolean(e.target.value);
+    setEditedUser({ ...editedUser, showPhoneNum: showPhoneNum });
+  }, [showPhoneNum]);
+  const showPhoneNumHandleChange = e => {
+    setShowPhoneNum(e.target.checked);
   };
 
   // 선호포지션 수정
@@ -121,6 +130,11 @@ const UserInfo = () => {
       return { ...preTrack, bigdata: e.target.checked };
     });
   };
+  const trackMetabusHandleChange = e => {
+    setTrack(preTrack => {
+      return { ...preTrack, metabus: e.target.checked };
+    });
+  };
 
   // tag 수정
   useEffect(() => {
@@ -138,9 +152,13 @@ const UserInfo = () => {
   };
 
   const tagAdd = () => {
-    const newTagList = [...tag, tagWord];
-    setTagWord('');
-    setTag(newTagList);
+    if (tagWord.length !== 0) {
+      const newTagList = [...tag, tagWord];
+      setTagWord('');
+      setTag(newTagList);
+    } else {
+      alert('입력하신 태그가 없습니다');
+    }
   };
 
   // 회원 정보 수정 완료
@@ -164,8 +182,26 @@ const UserInfo = () => {
     if (positionCnt > 2 || trackCnt > 2) {
       alert('선호 포지션과 선호 트랙은 최대 2개 선택 가능합니다');
     } else {
-      axios
-        .put(`http://localhost:3001/users/${loginUser.id}`, editedUser)
+      // 서버에 전달할 유저 데이터
+      const requestUserData = {
+        name: editedUser.name,
+        email: editedUser.email,
+        position: editedUser.position,
+        tag: editedUser.tag,
+        track: editedUser.track,
+        phoneNum: editedUser.phoneNum,
+        showPhoneNum: editedUser.showPhoneNum,
+        id: parseInt(editedUser.id),
+      };
+
+      axios({
+        url: 'api/users',
+        method: 'patch',
+        headers: { 'Content-Type': 'application/json' },
+        data: {
+          ...requestUserData,
+        },
+      })
         .then(() => {
           navigate('/mypage', { replace: true });
           refreshLoginUserInfo();
@@ -241,7 +277,7 @@ const UserInfo = () => {
                       이름
                     </FormLabel>
                     <Input
-                      value={loginUser.name}
+                      placeholder={loginUser.name}
                       type="text"
                       name="name"
                       id="name"
@@ -251,6 +287,7 @@ const UserInfo = () => {
                       size="sm"
                       w="full"
                       rounded="md"
+                      onChange={nameHandleChange}
                     />
                   </FormControl>
 
@@ -267,7 +304,7 @@ const UserInfo = () => {
                       이메일
                     </FormLabel>
                     <Input
-                      value={editedUser.email}
+                      placeholder={loginUser.email}
                       type="text"
                       name="email_address"
                       id="email_address"
@@ -294,7 +331,7 @@ const UserInfo = () => {
                       전화번호
                     </FormLabel>
                     <Input
-                      value={editedUser.phoneNum}
+                      placeholder={loginUser.phoneNum}
                       type="text"
                       name="phone"
                       id="phone"
@@ -312,8 +349,8 @@ const UserInfo = () => {
                       </FormLabel>
                       <Switch
                         id="email-alerts"
-                        defaultChecked={editedUser.phoneBoolean}
-                        onChange={phoneBooleanHandleChange}
+                        defaultChecked={editedUser.showPhoneNum}
+                        onChange={showPhoneNumHandleChange}
                       />
                     </FormControl>
                   </FormControl>
@@ -402,6 +439,14 @@ const UserInfo = () => {
                         onChange={trackBigdataHandleChange}
                       >
                         BigData
+                      </Checkbox>
+                      <Checkbox
+                        size="lg"
+                        colorScheme="orange"
+                        defaultChecked={editedUser.track.metabus}
+                        onChange={trackMetabusHandleChange}
+                      >
+                        Metabus
                       </Checkbox>
                     </Stack>
                   </FormControl>

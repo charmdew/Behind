@@ -20,7 +20,6 @@ import ProfileCard from './ProfileCard';
 import Comment from './comment/Comment';
 // 인자에 사용하고 싶은 유저 property를 가져와서 사용!
 const ProfileContainer = it => {
-  console.log(it);
   const navigate = useNavigate();
   const id = it.id;
 
@@ -50,11 +49,11 @@ const ProfileContainer = it => {
           case 'backend':
             temp.push('BackEnd');
             break;
-          case 'embeded':
+          case 'embedded':
             temp.push('Embedded');
             break;
           default:
-            alert('어떤 값인지 파악이 되지 않습니다.');
+            console.log('포지션에서 특정 못함');
         }
       }
     });
@@ -79,8 +78,11 @@ const ProfileContainer = it => {
           case 'blockchain':
             temp.push('BlockChain');
             break;
+          case 'metabus':
+            temp.push('Metabus');
+            break;
           default:
-            alert('어떤 값인지 파악이 되지 않습니다.');
+            console.log('트랙에서 특정못함');
         }
       }
     });
@@ -100,7 +102,7 @@ const ProfileContainer = it => {
     if (!likeToggle) {
       axios({
         method: 'delete',
-        url: '/user/like',
+        url: 'api/user/like',
         data: {
           followUser: id,
           user: loginUser.id,
@@ -112,7 +114,7 @@ const ProfileContainer = it => {
     else {
       axios({
         method: 'post',
-        url: '/user/like',
+        url: 'api/user/like',
         data: {
           followUser: id,
           user: loginUser.id,

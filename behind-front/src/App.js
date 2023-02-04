@@ -18,7 +18,7 @@ const App = () => {
   const [loginUser, setLoginUser] = useState({});
   // 1번 id가 로그인 했다고 가정
   useEffect(() => {
-    axios.get('http://localhost:3001/users/1').then(response => {
+    axios.get('/api/users/1').then(response => {
       setLoginUser(response.data);
     });
   }, []);
@@ -31,7 +31,7 @@ const App = () => {
   );
 
   const refreshLoginUserInfo = useCallback(() => {
-    axios.get('http://localhost:3001/users/1').then(response => {
+    axios.get('/api/users/1').then(response => {
       setLoginUser(response.data);
     });
   });

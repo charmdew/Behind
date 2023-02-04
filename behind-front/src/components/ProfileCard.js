@@ -1,7 +1,7 @@
 import { Image, Box, Icon, Text, Button } from '@chakra-ui/react';
 import { BsPhone } from 'react-icons/bs';
 import { FiAtSign } from 'react-icons/fi';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const ProfileCard = it => {
   // 포토 카드 실물 사이즈 : ( 54*86 )mm
@@ -13,12 +13,12 @@ const ProfileCard = it => {
     temp = temp + it.tag.join(' #');
     return temp;
   };
-  console.log(tag());
 
   if (colorToggle) {
     return (
       <div>
         {/* <Button onClick={() => setColorToggle(!colorToggle)} /> */}
+
         <Box
           display="flex"
           flexDirection="column"

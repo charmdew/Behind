@@ -34,10 +34,10 @@ const Likes = ({}) => {
   const [followingList, setFollowingList] = useState([]);
   const getfollowingList = async () => {
     const tempList = [];
-    const response = await axios.get(`http://localhost:3001/users/${id}`);
+    const response = await axios.get(`api/users/${id}`);
     const likedId = response.data.followingUsers;
     for (const ID of likedId) {
-      const userInfo = await axios.get(`http://localhost:3001/users/${ID}`);
+      const userInfo = await axios.get(`api/users/${ID}`);
       tempList.push(userInfo.data);
     }
     setFollowingList(tempList);
@@ -46,10 +46,10 @@ const Likes = ({}) => {
   const [followerList, setFollowerList] = useState([]);
   const getfollowerList = async () => {
     const tempList = [];
-    const response = await axios.get(`http://localhost:3001/users/${id}`);
+    const response = await axios.get(`api/users/${id}`);
     const likedId = response.data.followedUsers;
     for (const ID of likedId) {
-      const userInfo = await axios.get(`http://localhost:3001/users/${ID}`);
+      const userInfo = await axios.get(`api/users/${ID}`);
       tempList.push(userInfo.data);
     }
     setFollowerList(tempList);
