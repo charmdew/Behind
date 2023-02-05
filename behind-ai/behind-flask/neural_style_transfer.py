@@ -4,7 +4,7 @@ from PIL import Image
 import numpy as np
 import os, time, io, base64
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
 def main(input_image, input_image_fname):
