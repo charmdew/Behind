@@ -2,44 +2,12 @@ import CommentListItem from './CommentListItem';
 
 import { Box } from '@chakra-ui/react';
 
-const CommentList = () => {
+const CommentList = ({ commentList }) => {
   return (
     <Box>
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
-      <CommentListItem />
+      {commentList.map(it => (
+        <CommentListItem key={it.commentId} {...it} />
+      ))}
     </Box>
   );
 };

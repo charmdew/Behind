@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-const ReCommentListItem = () => {
+const ReCommentListItem = it => {
   return (
     <div>
       <Box
@@ -15,7 +15,7 @@ const ReCommentListItem = () => {
           <Box display="flex" mb={1}>
             {/* 작성자 */}
             <Box fontSize="sm" mr={2} fontWeight="bold">
-              유정훈
+              {it.writerName}
             </Box>
             {/* 작성시간 */}
             <Box
@@ -25,11 +25,11 @@ const ReCommentListItem = () => {
               color="gray.500"
               fontStyle="italic"
             >
-              (작성시간)
+              {it.createTime}
             </Box>
           </Box>
           {/* 댓글 */}
-          <Box fontSize="small">댓글 내용</Box>
+          <Box fontSize="small">{it.content}</Box>
         </Box>
       </Box>
     </div>

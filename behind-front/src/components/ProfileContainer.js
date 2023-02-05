@@ -153,7 +153,7 @@ const ProfileContainer = it => {
             {/* <Box w="full">하하</Box> */}
             <Box display="flex" justifyContent="center">
               {commentToggle ? (
-                <Comment />
+                <Comment profileUserId={id} />
               ) : (
                 <Box onClick={goDetail}>
                   <ProfileCard {...it} />

@@ -1,11 +1,13 @@
 import ReCommentListItem from './ReCommentListItem';
-
-const ReCommentList = () => {
+import { Box } from '@chakra-ui/react';
+const ReCommentList = ({ replys }) => {
   return (
     <div>
-      <ReCommentListItem />
-      <ReCommentListItem />
-      <ReCommentListItem />
+      <Box>
+        {replys.map(it => (
+          <ReCommentListItem key={it.replyId} {...it} />
+        ))}
+      </Box>
     </div>
   );
 };
