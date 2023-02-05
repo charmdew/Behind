@@ -22,8 +22,6 @@ const Home = () => {
   const [selectedTrack, setSelectedTrack] = useState(0);
 
   useEffect(() => {
-    console.log(selectedPosition);
-    console.log(selectedTrack);
     axios({
       method: 'get',
       url: 'api/users/search',
@@ -48,7 +46,7 @@ const Home = () => {
           <Box>
             {/* 포지션,트랙 라디오 */}
             <Box
-              mt="10"
+              pt="10"
               mb="10"
               display="flex"
               flexDirection="column"

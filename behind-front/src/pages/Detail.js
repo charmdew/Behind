@@ -55,7 +55,7 @@ const Detail = () => {
             size="lg"
             icon={<FiArrowLeft />}
           />
-          <Text as="b">{`${detailUser.id}번 회원's page`}</Text>
+          <Text as="b">{`${detailUser.name}'s page`}</Text>
         </Box>
         <ProfileContainer {...detailUser} />
         <Flex

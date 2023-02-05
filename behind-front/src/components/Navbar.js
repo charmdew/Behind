@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { UsersStateContext } from '../App';
 
 import {
@@ -29,7 +29,7 @@ const NavBar = () => {
   const { loginUser } = useContext(UsersStateContext);
   const loginUserId = loginUser.id;
 
-  const bg = useColorModeValue('white', 'gray.800');
+  const bg = useColorModeValue('#822727', 'gray.800');
   const mobileNav = useDisclosure();
   // 모달 컨트롤러
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -45,6 +45,34 @@ const NavBar = () => {
   const GoMyPage = () => {
     return navigate('/mypage');
   };
+
+  // 버튼 CSS
+  const QRButtonOnHover = e => {
+    e.target.style.backgroundColor = 'white';
+    e.target.style.color = '#822727';
+  };
+  const LikesButtonOnHover = e => {
+    e.target.style.backgroundColor = 'white';
+    e.target.style.color = '#822727';
+  };
+  const MypageButtonOnHover = e => {
+    e.target.style.backgroundColor = 'white';
+    e.target.style.color = '#822727';
+  };
+  const QRButtonOffHover = e => {
+    e.target.style.backgroundColor = '#822727';
+    e.target.style.color = 'white';
+  };
+  const LikesButtonOffHover = e => {
+    e.target.style.backgroundColor = '#822727';
+    e.target.style.color = 'white';
+  };
+
+  const MypageButtonOffHover = e => {
+    e.target.style.backgroundColor = '#822727';
+    e.target.style.color = 'white';
+  };
+
   return (
     <React.Fragment>
       {/* QR코드를 보여줄 모달 */}
@@ -68,7 +96,7 @@ const NavBar = () => {
           sm: 4,
         }}
         py={4}
-        shadow="md"
+        color="white"
       >
         <Flex alignItems="center" justifyContent="space-between" mx="auto">
           <Flex>
@@ -80,8 +108,15 @@ const NavBar = () => {
             >
               <VisuallyHidden>Choc</VisuallyHidden>
             </chakra.a>
-            <chakra.h1 fontSize="xl" fontWeight="medium" ml="2">
-              <Box onClick={() => navigate('/')}>BEHIND</Box>
+            <chakra.h1
+              color="#FAECD6"
+              fontSize="2xl"
+              fontWeight="extrabold"
+              ml="2"
+            >
+              <Box cursor="pointer" onClick={() => navigate('/')}>
+                BEHIND
+              </Box>
             </chakra.h1>
           </Flex>
           <HStack display="flex" alignItems="center" spacing={1}>
@@ -94,13 +129,31 @@ const NavBar = () => {
                 md: 'inline-flex',
               }}
             >
-              <Button onClick={onOpen} variant="ghost">
+              <Button
+                onMouseOver={QRButtonOnHover}
+                onMouseOut={QRButtonOffHover}
+                fontSize="xl"
+                onClick={onOpen}
+                variant="ghost"
+              >
                 QR
               </Button>
-              <Button onClick={GoMyLikes} variant="ghost">
+              <Button
+                onMouseOver={LikesButtonOnHover}
+                onMouseOut={LikesButtonOffHover}
+                fontSize="xl"
+                onClick={GoMyLikes}
+                variant="ghost"
+              >
                 Likes
               </Button>
-              <Button onClick={GoMyPage} variant="ghost">
+              <Button
+                onMouseOver={MypageButtonOnHover}
+                onMouseOut={MypageButtonOffHover}
+                fontSize="xl"
+                onClick={GoMyPage}
+                variant="ghost"
+              >
                 MyPage
               </Button>
             </HStack>
@@ -118,7 +171,7 @@ const NavBar = () => {
                 }}
                 aria-label="Open menu"
                 fontSize="20px"
-                color="gray.800"
+                color="white"
                 _dark={{
                   color: 'inherit',
                 }}

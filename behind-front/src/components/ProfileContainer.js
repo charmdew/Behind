@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Box,
   Flex,
@@ -127,11 +127,42 @@ const ProfileContainer = it => {
       );
     }
   };
+
+  // mouseOver CSS
+  const container = useRef();
+  const buttonA = useRef();
+  const buttonB = useRef();
+  const onHover = () => {
+    container.current.style.backgroundColor = '#E2E8F0';
+    buttonA.current.style.backgroundColor = '#E2E8F0';
+    buttonB.current.style.backgroundColor = '#E2E8F0';
+  };
+
+  const offHover = () => {
+    container.current.style.backgroundColor = 'white';
+    buttonA.current.style.backgroundColor = 'white';
+    buttonB.current.style.backgroundColor = 'white';
+  };
+
+  const buttonAonHover = e => {
+    buttonA.current.style.backgroundColor = '#E2E8F0';
+  };
+  const buttonBonHover = e => {
+    buttonB.current.style.backgroundColor = '#E2E8F0';
+  };
+  const buttonAoffHover = e => {
+    buttonA.current.style.backgroundColor = 'white';
+  };
+  const buttonBoffHover = e => {
+    buttonB.current.style.backgroundColor = 'white';
+  };
+
+  // 렌더링
   if (loginUser) {
     return (
       <div>
         <Flex
-          bg="#edf3f8"
+          bg="#822727"
           _dark={{ bg: '#3e3e3e' }}
           p={50}
           w="full"
@@ -139,6 +170,7 @@ const ProfileContainer = it => {
           justifyContent="center"
         >
           <Box
+            ref={container}
             pt={7}
             w="md"
             mx="auto"
@@ -147,15 +179,22 @@ const ProfileContainer = it => {
             shadow="lg"
             rounded="lg"
             overflow="hidden"
+            boxShadow="xl"
           >
             {/* userId를 파라미터로 하는 detail/{id} 페이지로 이동 */}
             {/* 이 이미지 자리에 프로필 카드 컴포넌트가 들어가면 됨 */}
             {/* <Box w="full">하하</Box> */}
+
             <Box display="flex" justifyContent="center">
               {commentToggle ? (
                 <Comment profileUserId={id} />
               ) : (
-                <Box onClick={goDetail}>
+                <Box
+                  onClick={goDetail}
+                  cursor="pointer"
+                  onMouseOver={onHover}
+                  onMouseOut={offHover}
+                >
                   <ProfileCard {...it} />
                 </Box>
               )}
@@ -224,6 +263,9 @@ const ProfileContainer = it => {
                 {/* 좋아요 */}
                 <Box>
                   <IconButton
+                    ref={buttonA}
+                    onMouseOver={buttonAonHover}
+                    onMouseOut={buttonAoffHover}
                     backgroundColor="white"
                     aria-label="Call Sage"
                     fontSize="30px"
@@ -247,6 +289,9 @@ const ProfileContainer = it => {
                 {/* 댓글창 */}
                 <Box>
                   <IconButton
+                    ref={buttonB}
+                    onMouseOver={buttonBonHover}
+                    onMouseOut={buttonBoffHover}
                     backgroundColor="white"
                     aria-label="Call Sage"
                     fontSize="30px"

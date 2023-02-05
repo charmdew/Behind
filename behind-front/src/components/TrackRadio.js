@@ -20,10 +20,13 @@ const TrackRadio = () => {
           borderWidth="1px"
           borderRadius="md"
           boxShadow="md"
+          fontWeight="bold"
+          borderColor="#822727"
+          color="#822727"
           _checked={{
-            bg: 'teal.600',
+            bg: '#822727',
             color: 'white',
-            borderColor: 'teal.600',
+            borderColor: '#822727',
           }}
           _focus={{
             boxShadow: 'outline',
@@ -41,18 +44,11 @@ const TrackRadio = () => {
     setSelectedTrack(trackOptions.indexOf(e));
   };
 
-  const trackOptions = [
-    '전체',
-    'AI',
-    'IoT',
-    'BigData',
-    'BlockChain',
-    'Metabus',
-  ];
+  const trackOptions = ['ALL', 'AI', 'IoT', 'BigData', 'BlockChain', 'Metabus'];
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'track',
-    defaultValue: '전체',
+    defaultValue: 'ALL',
     onChange: getUsers,
   });
 

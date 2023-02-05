@@ -21,10 +21,14 @@ const PositionRadio = () => {
           borderWidth="1px"
           borderRadius="md"
           boxShadow="md"
+          color="#822727"
+          fontWeight="bold"
+          borderColor="#822727"
+          bg="white"
           _checked={{
-            bg: 'teal.600',
+            bg: '#822727',
             color: 'white',
-            borderColor: 'teal.600',
+            borderColor: '#822727',
           }}
           _focus={{
             boxShadow: 'outline',
@@ -42,11 +46,11 @@ const PositionRadio = () => {
     setSelectedPosition(positionOptions.indexOf(e));
   };
 
-  const positionOptions = ['전체', 'Backend', 'Frontend', 'Embedded'];
+  const positionOptions = ['ALL', 'Backend', 'Frontend', 'Embedded'];
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'position',
-    defaultValue: '전체',
+    defaultValue: 'ALL',
     onChange: getUsers,
   });
 
