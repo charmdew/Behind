@@ -1,18 +1,24 @@
 package com.reboot.behind.service.impl;
 
+import com.google.common.primitives.Ints;
 import com.reboot.behind.data.dto.*;
 import com.reboot.behind.data.entity.User;
 import com.reboot.behind.data.repository.SearchRepository;
 import com.reboot.behind.data.repository.UserRepository;
 import com.reboot.behind.service.UserService;
+import com.sun.org.apache.xalan.internal.xsltc.util.IntegerArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.ArrayUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -202,15 +208,15 @@ public class UserServiceImpl implements UserService {
         User foundfolloweduser = userRepository.findById(followerDto.getFollowUser()).get(); //팔로우드
         List<Integer> following = foundfolloweruser.getFollowingUsers();
         List<Integer> followed = foundfolloweduser.getFollowedUsers();
-
-        following.add(followerDto.getFollowUser());
-        foundfolloweruser.setFollowingUsers(following);
-        foundfolloweduser.setLikeCnt((foundfolloweduser.getLikeCnt() + 1));
-        followed.add(followerDto.getUser());
-        foundfolloweduser.setFollowedUsers(followed);
-
-        userRepository.save(foundfolloweruser);
-        userRepository.save(foundfolloweduser);
+        if (!following.contains(followerDto.getFollowUser())) {
+            following.add(followerDto.getFollowUser());
+            foundfolloweruser.setFollowingUsers(following);
+            foundfolloweduser.setLikeCnt((foundfolloweduser.getLikeCnt() + 1));
+            followed.add(followerDto.getUser());
+            foundfolloweduser.setFollowedUsers(followed);
+            userRepository.save(foundfolloweruser);
+            userRepository.save(foundfolloweduser);
+        }
 
 
     }
@@ -270,6 +276,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Integer id) {userRepository.deleteById(id);}
+
+    public List<ImageResponseDto> getUserImage(Integer id) {
+        List<ImageResponseDto> userImageList = new ArrayList<>();
+
+        //String image split으로 자르고 배열에 넣어서 보내기
+
+        return userImageList;
+    }
+
+    public void saveProfile(Integer id, String image) {
+
+        User foundUser = userRepository.findById(id).get();
+        foundUser.setProfile(image);
+
+        userRepository.save(foundUser);
+
+    }
 
 }
 

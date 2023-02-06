@@ -30,7 +30,6 @@ public class UserController {
     @ApiOperation(
         value = "모든 사용자 정보 조회(메인화면)"
         , notes = "모든 사용자의 정보를 가져온다")
-    @ApiImplicitParam("아무것도 필요 없음")
     @GetMapping()
     public ResponseEntity<?> getUserList(){
         List<UserResponseDto> userlist = userService.getUserList();
@@ -39,10 +38,6 @@ public class UserController {
     @ApiOperation(
             value = "Id(pk)를 이용한 마이페이지 회원정보 조회"
             , notes = "Id(pk)를 이용한 1명의 회원정보를 가져온다")
-    @ApiImplicitParam(
-            name = "id"
-            , value = "사용자 아이디"
-            , dataType = "int")
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getUserDetail(@PathVariable Integer id){
         UserResponseDto userDetail = userService.userDetail(id);
@@ -52,56 +47,6 @@ public class UserController {
     @ApiOperation(
             value = "디테일을 제외한 회원정보 수정"
             , notes = "디테일을 제외한 회원정보를 수정한다")
-    @ApiImplicitParams(
-            {
-                    @ApiImplicitParam(
-                            name = "id"
-                            , value = "회원 pk값"
-                            , dataType = "int"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "name"
-                            , value = "회원 이름"
-                            , dataType = "string"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "email"
-                            , value = "회원 이메일"
-                            , dataType = "string"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "phoneNum"
-                            , value = "회원 핸드폰 번호"
-                            , dataType = "string"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "showPhoneNum"
-                            , value = "회원 핸드폰 공개여부"
-                            , dataType = "boolean"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "tag"
-                            , value = "회원 태그"
-                            , dataType = "list[string]"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "position"
-                            , value = "회원 포지션"
-                            , dataType = "Obcjet"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "track"
-                            , value = "회원 트랙"
-                            , dataType = "Obcjet"
-                    )
-            })
     @PatchMapping()
     public ResponseEntity<UserResponseDto> changeUser(@RequestBody UserResponseDto userResponseDto){
         System.out.println(userResponseDto);
@@ -112,20 +57,6 @@ public class UserController {
     @ApiOperation(
             value = "회원 Detail 수정"
             , notes = "회원 Detail을 수정한다.")
-    @ApiImplicitParams(
-            {
-                    @ApiImplicitParam(
-                            name = "id"
-                            , value = "회원 pk값"
-                            , dataType = "int"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "detail"
-                            , value = "회원 디테일 수정내용"
-                            , dataType = "string"
-                    )
-            })
     @PatchMapping("/detail")
     public ResponseEntity<UserResponseDto> ChangeDetail(@RequestBody ChangeUserDetailDto changeUserDetailDto) throws Exception {
         UserResponseDto userResponseDto = userService.ChangeDetail(changeUserDetailDto.getId(), changeUserDetailDto.getDetail());
@@ -135,20 +66,6 @@ public class UserController {
     @ApiOperation(
             value = "좋아요(팔로우) 좋아요 리스트에 추가"
             , notes = "좋아요(팔로우)를 누르면 팔로우 리스트에 추가한다")
-    @ApiImplicitParams(
-            {
-                    @ApiImplicitParam(
-                            name = "user"
-                            , value = "누른 사람(로그인 되어 있는 회원) id(pk)"
-                            , dataType = "int"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "followUser"
-                            , value = "명함에 있는 유저 id(pk)"
-                            , dataType = "int"
-                    )
-            })
     @PostMapping("/like")
     public ResponseEntity<String> createFollower(@RequestBody FollowerDto followerDto){
         userService.saveFollower(followerDto);
@@ -158,20 +75,6 @@ public class UserController {
     @ApiOperation(
             value = "좋아요(팔로우) 삭제"
             , notes = "좋아요(팔로우)삭제 리스트에서 제거")
-    @ApiImplicitParams(
-            {
-                    @ApiImplicitParam(
-                            name = "user"
-                            , value = "누른 사람(로그인 되어 있는 회원) id(pk)"
-                            , dataType = "int"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "followUser"
-                            , value = "명함에 있는 유저 id(pk)"
-                            , dataType = "int"
-                    )
-            })
     @DeleteMapping("/like")
     public ResponseEntity<String> deleteFollower(@RequestBody FollowerDto followerDto) throws Exception {
         userService.deleteFollower(followerDto);
@@ -207,6 +110,29 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.OK).body("유저 삭제 완료!");
     }
+
+    @ApiOperation(
+            value = "유저 이미지 조회"
+            , notes = "유저의 이미지 목록을 조회한다")
+
+    @GetMapping("/img")
+    public ResponseEntity<?> getUserImages(Integer id){
+//        userService.deleteUser(id);
+        List<ImageResponseDto> userImages = userService.getUserImage(id);
+        return ResponseEntity.status(HttpStatus.OK).body(userImages);
+    }
+
+    @ApiOperation(
+            value = "유저 프로필 저장"
+            , notes = "유저의 프로필을 저장한다.")
+
+    @PatchMapping("/img")
+    public ResponseEntity<String> selectProfileImage(Integer id, String image){
+        userService.saveProfile(id,image);
+//        List<ImageResponseDto> userImages = userService.getUserImage(image);
+        return ResponseEntity.status(HttpStatus.OK).body("프로필 등록 완료!");
+    }
+
 }
 
 

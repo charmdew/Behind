@@ -32,14 +32,6 @@ public class CommentController {
     @ApiOperation(
             value = "사용자 id를 통해 댓글 조회"
             , notes = "마이페이지 댓글 조회")
-    @ApiImplicitParams(
-            {
-                    @ApiImplicitParam(
-                            name = "id"
-                            , value = "회원 pk값"
-                            , dataType = "int"
-                    )
-            })
     public ResponseEntity<?> getCommentList(@RequestParam Integer id){
         System.out.println(id);
         List<CommentResponseDto> commentList = commentService.getCommentList(id);
@@ -50,26 +42,6 @@ public class CommentController {
     @ApiOperation(
             value = "댓글 생성"
             , notes = "댓글 생성을 한다.")
-    @ApiImplicitParams(
-            {
-                    @ApiImplicitParam(
-                            name = "writerUser"
-                            , value = "작성자 id(pk)값"
-                            , dataType = "Int"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "profileUser"
-                            , value = "명함 회원 id(pk)값"
-                            , dataType = "Int"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "content"
-                            , value = "댓글 내용"
-                            , dataType = "String"
-                    )
-            })
     public ResponseEntity<CommentResponseDto> createComment(@RequestBody CommentDto commentDto){
         CommentResponseDto commentResponseDto = commentService.saveComment(commentDto);
 
@@ -80,20 +52,6 @@ public class CommentController {
     @ApiOperation(
             value = "댓글 id를 통해 댓글 수정"
             , notes = "댓글 id를 통해 댓글 수정")
-    @ApiImplicitParams(
-            {
-                    @ApiImplicitParam(
-                            name = "commentId"
-                            , value = "댓글 Id(pk값)"
-                            , dataType = "Int"
-                    )
-                    ,
-                    @ApiImplicitParam(
-                            name = "content"
-                            , value = "댓글 수정 내용"
-                            , dataType = "String"
-                    )
-            })
     public  ResponseEntity<CommentResponseDto> changeCommentContent(@RequestBody ChangeCommentDto changeCommentDto) throws Exception{
         CommentResponseDto commentResponseDto = commentService.changeComment(changeCommentDto.getCommentId(), changeCommentDto.getContent());
 
@@ -104,11 +62,6 @@ public class CommentController {
     @ApiOperation(
             value = "댓글 id를 통해 댓글 삭제"
             , notes = "댓글 id를 통해 댓글 삭제")
-    @ApiImplicitParam(
-            name = "id"
-            , value = "댓글 id(pk값)"
-            , dataType = "Int"
-    )
     public ResponseEntity<String> deleteComment(Integer id) throws  Exception{
         commentService.deleteComment(id);
 
