@@ -10,17 +10,47 @@ import {
   InputRightElement,
   Button,
   InputGroup,
+  Editable,
+  EditableInput,
+  EditableTextarea,
+  EditablePreview,
+  useEditableControls,
+  ButtonGroup,
+  Flex,
 } from '@chakra-ui/react';
-import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
-import { useRef, useContext } from 'react';
+import { EditIcon, DeleteIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
+import { useRef, useContext, useState } from 'react';
 import { UsersStateContext } from '../../App';
 import axios from 'axios';
 import { CommentDispatchContext } from './Comment';
 const CommentListItem = it => {
   const { loginUser } = useContext(UsersStateContext);
-  const inputContent = useRef();
   const { getCommentList } = useContext(CommentDispatchContext);
+  const inputContent = useRef();
   console.log(it);
+
+  const [thisComment, setThisComment] = useState(it.comment);
+  const thisCommentHandleChange = e => {
+    setThisComment(e);
+  };
+  const editComment = () => {
+    axios({
+      url: 'api/comment',
+      method: 'patch',
+      headers: { 'Content-Type': 'application/json' },
+      data: {
+        commentId: parseInt(it.commentId),
+        content: thisComment,
+      },
+    })
+      .then(() => {
+        getCommentList();
+      })
+      .catch(function (error) {
+        // 오류발생시 실행
+        console.log(error);
+      });
+  };
   // const timeNow = new Date(new Date().getTime() + 1000 * 60 * 60 * 9)
   //   .toISOString()
   //   .replace('T', ' ')
@@ -51,8 +81,48 @@ const CommentListItem = it => {
       });
   };
 
-  const editComment = () => {};
-  const deleteComment = () => {};
+  function EditableControls() {
+    const {
+      isEditing,
+      getSubmitButtonProps,
+      getCancelButtonProps,
+      getEditButtonProps,
+    } = useEditableControls();
+
+    return isEditing ? (
+      <ButtonGroup alignItems="center" justifyContent="center" size="sm">
+        <Box onClick={editComment}>
+          <IconButton
+            size="xs"
+            icon={<CheckIcon />}
+            {...getSubmitButtonProps()}
+          />
+        </Box>
+
+        <IconButton
+          size="xs"
+          icon={<CloseIcon />}
+          {...getCancelButtonProps()}
+        />
+      </ButtonGroup>
+    ) : (
+      <Flex justifyContent="center">
+        <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} />
+      </Flex>
+    );
+  }
+  const deleteComment = () => {
+    axios({
+      method: 'delete',
+      url: 'api/comment',
+      params: {
+        id: it.commentId,
+      },
+      headers: { 'Content-Type': 'application/json' },
+    }).then(() => {
+      getCommentList();
+    });
+  };
 
   return (
     <Box
@@ -65,10 +135,10 @@ const CommentListItem = it => {
     >
       {/* 작성자, 작성시간, 댓글 내용 */}
       <Box mb="2">
-        {/* 작성자, 작성시간 */}
+        {/* 작성자, 작성시간, 삭제버튼 */}
         <Box display="flex" justifyContent="space-between">
           {/* 작성자, 작성시간 */}
-          <Box display="flex">
+          <Box display="flex" alignItems="center">
             {/* 작성자 */}
             <Box
               display="flex"
@@ -91,22 +161,35 @@ const CommentListItem = it => {
             </Box>
           </Box>
 
-          {/* 삭제, 수정 버튼 */}
-          <Box display="flex">
-            <Box display="flex" flexDirection="column-reverse">
-              <IconButton size="xs" onClick={editComment} icon={<EditIcon />} />
-            </Box>
-            <Box display="flex" flexDirection="column-reverse">
+          {/* 삭제 버튼 */}
+          <Box display="flex" flexDirection="column-reverse">
+            {loginUser.id === it.writerId ? (
               <IconButton
-                size="xs"
+                size="sm"
                 onClick={deleteComment}
                 icon={<DeleteIcon />}
               />
-            </Box>
+            ) : (
+              <></>
+            )}
           </Box>
         </Box>
         {/* 댓글 */}
-        <Box fontSize="small">{it.content}</Box>
+        <Editable
+          display="flex"
+          justifyContent="space-between"
+          textAlign="start"
+          defaultValue={it.content}
+          fontSize="sm"
+          isPreviewFocusable={false}
+          onChange={thisCommentHandleChange}
+        >
+          <EditablePreview />
+          {/* Here is the custom input */}
+          <Input height="8" fontSize="sm" as={EditableInput} />
+
+          {loginUser.id === it.writerId ? <EditableControls /> : <></>}
+        </Editable>
       </Box>
 
       {/* 대댓글, 대댓글 달기 */}
