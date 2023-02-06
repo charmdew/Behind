@@ -34,7 +34,6 @@ public class CommentServiceImpl implements CommentService {
         User user = userRepository.findById(id).get();
         List<Comment> commentList = commentRepository.findAllByProfileUser(user);
         List<CommentResponseDto> userResponseDtoList = new ArrayList<>();
-      ;
 
 
         for(int i=0; i<commentList.size();i++){
@@ -43,6 +42,7 @@ public class CommentServiceImpl implements CommentService {
 
             commentResponseDto.setCommentId(commentList.get(i).getCommentId());
             commentResponseDto.setContent(commentList.get(i).getContent());
+            commentResponseDto.setWriterId(commentList.get(i).getWriterUser().getId());
             commentResponseDto.setWriterName(commentList.get(i).getWriterUser().getName());
             commentResponseDto.setCreateTime(commentList.get(i).getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
@@ -58,6 +58,7 @@ public class CommentServiceImpl implements CommentService {
                     replytmp.setUpdateTime(null);
                 }
                 replytmp.setWriterName(commentList.get(i).getReplies().get(j).getWriterId().getName());
+                replytmp.setWriterId(commentList.get(i).getReplies().get(j).getWriterId().getId());
                 commentReplyList.add(replytmp);
             }
             commentResponseDto.setReplys(commentReplyList);
@@ -89,6 +90,7 @@ public class CommentServiceImpl implements CommentService {
 
         CommentResponseDto commentResponseDto = new CommentResponseDto();
         commentResponseDto.setCommentId(saveComment.getCommentId());
+        commentResponseDto.setWriterId(user.getId());
         commentResponseDto.setWriterName(user.getName());
         commentResponseDto.setContent(saveComment.getContent());
         commentResponseDto.setCreateTime(saveComment.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
@@ -99,7 +101,7 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public CommentResponseDto changeComment(Integer commentId,String content){
+    public CommentResponseDto changeComment(Integer commentId,String content) {
         Comment foundComment = commentRepository.findById(commentId).get();
         User user2 = foundComment.getWriterUser();
         foundComment.setContent(content);
@@ -108,11 +110,28 @@ public class CommentServiceImpl implements CommentService {
         Comment changedComment = commentRepository.save(foundComment);
 
         CommentResponseDto commentResponseDto = new CommentResponseDto();
+        List<CommentResponseDto.replytmp> commentReplyList = new ArrayList<>();
         commentResponseDto.setCommentId(changedComment.getCommentId());
         commentResponseDto.setContent(changedComment.getContent());
+        commentResponseDto.setWriterId(user2.getId());
         commentResponseDto.setWriterName(user2.getName());
-        commentResponseDto.setUpdateTime(changedComment.getUpdatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
+        for (int j = 0; j < changedComment.getReplies().size(); j++) {
+            CommentResponseDto.replytmp replytmp = new CommentResponseDto.replytmp();
+            replytmp.setReplyId(changedComment.getReplies().get(j).getReplyId());
+            replytmp.setContent(changedComment.getReplies().get(j).getContent());
+            replytmp.setCreateTime(changedComment.getReplies().get(j).getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            if (changedComment.getReplies().get(j).getUpdatedTime() != null) {
+                replytmp.setUpdateTime(changedComment.getReplies().get(j).getUpdatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            } else {
+                replytmp.setUpdateTime(null);
+            }
+            replytmp.setWriterName(changedComment.getReplies().get(j).getWriterId().getName());
+            replytmp.setWriterId(changedComment.getReplies().get(j).getWriterId().getId());
+            commentReplyList.add(replytmp);
+        }
+        commentResponseDto.setReplys(commentReplyList);
+        commentResponseDto.setUpdateTime(changedComment.getUpdatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         return commentResponseDto;
     }
 

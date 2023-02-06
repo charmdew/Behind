@@ -51,13 +51,13 @@ public class SearchRepository {
                 whereCondition.add("u.iot is true");
                 break;
             case 3:
-                whereCondition.add("u.bigdata is true");
+                whereCondition.add("u.bigData is true");
                 break;
             case 4:
-                whereCondition.add("u.blockchain is true");
+                whereCondition.add("u.blockChain is true");
                 break;
             case 5:
-                whereCondition.add("u.metabus is true");
+                whereCondition.add("u.metaBus is true");
                 break;
         }
         System.out.println(whereCondition);
