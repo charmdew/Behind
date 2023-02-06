@@ -21,12 +21,12 @@ const TrackRadio = () => {
           borderRadius="md"
           boxShadow="md"
           fontWeight="bold"
-          borderColor="#822727"
-          color="#822727"
+          borderColor="#4E6C50"
+          color="#4E6C50"
           _checked={{
-            bg: '#822727',
+            bg: '#4E6C50',
             color: 'white',
-            borderColor: '#822727',
+            borderColor: '#4E6C50',
           }}
           _focus={{
             boxShadow: 'outline',

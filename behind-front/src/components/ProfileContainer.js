@@ -20,12 +20,10 @@ import ProfileCard from './ProfileCard';
 import Comment from './comment/Comment';
 // 인자에 사용하고 싶은 유저 property를 가져와서 사용!
 const ProfileContainer = it => {
-  // console.log(it);
   const navigate = useNavigate();
   const id = it.id;
   const { index } = it;
   const { followingIdList } = it;
-  // console.log(it);
 
   const { loginUser } = useContext(UsersStateContext);
   const { refreshLoginUserInfo } = useContext(UsersDispatchContext);
@@ -180,7 +178,7 @@ const ProfileContainer = it => {
         >
           <Box
             border="solid 2px"
-            borderColor="#822727"
+            borderColor="#4E6C50"
             ref={container}
             pt={7}
             w="md"

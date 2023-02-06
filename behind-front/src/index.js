@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(container);
 root.render(
   <div>
     <ColorModeScript />
-    <Box h="100vw" bg="#822727">
+    <Box>
       <App />
     </Box>
   </div>

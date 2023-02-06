@@ -51,11 +51,12 @@ const Home = () => {
             <Box
               pt="10"
               pb="10"
-              mb="10"
               display="flex"
               flexDirection="column"
               alignItems="center"
               bg="white"
+              borderBottom="solid 40px"
+              borderBottomColor="#4E6C50"
             >
               {/* 포지션 */}
               <Box mb="5">

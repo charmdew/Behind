@@ -125,7 +125,7 @@ const MyPage = () => {
   }
 
   return (
-    <Box bg="#822727">
+    <Box>
       <Box ref={editareaRef} height="revert">
         {/* 뒤로가기 */}
         <Box alignItems="center" display="flex" w="100%" bg="gray.100">
@@ -140,9 +140,9 @@ const MyPage = () => {
         </Box>
 
         {/* 컨테이너, 상세정보 */}
-        <Box bg="#822727">
+        <Box>
           {/* 컨테이너 */}
-          <ProfileContainer {...loginUser} />
+          <ProfileContainer {...loginUser} followingIdList={[]} />
 
           {/* 상세정보 */}
           <Box>
@@ -154,6 +154,8 @@ const MyPage = () => {
               justifyContent="center"
             >
               <Box
+                border="solid 2px"
+                borderColor="#4E6C50"
                 w="md"
                 mx="auto"
                 bg="white"

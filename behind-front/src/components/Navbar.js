@@ -29,7 +29,7 @@ const NavBar = () => {
   const { loginUser } = useContext(UsersStateContext);
   const loginUserId = loginUser.id;
 
-  const bg = useColorModeValue('#822727', 'gray.800');
+  const bg = useColorModeValue('#4E6C50', 'gray.800');
   const mobileNav = useDisclosure();
   // 모달 컨트롤러
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -49,27 +49,52 @@ const NavBar = () => {
   // 버튼 CSS
   const QRButtonOnHover = e => {
     e.target.style.backgroundColor = 'white';
-    e.target.style.color = '#822727';
+    e.target.style.color = '#4E6C50';
   };
   const LikesButtonOnHover = e => {
     e.target.style.backgroundColor = 'white';
-    e.target.style.color = '#822727';
+    e.target.style.color = '#4E6C50';
   };
   const MypageButtonOnHover = e => {
     e.target.style.backgroundColor = 'white';
-    e.target.style.color = '#822727';
+    e.target.style.color = '#4E6C50';
   };
   const QRButtonOffHover = e => {
-    e.target.style.backgroundColor = '#822727';
+    e.target.style.backgroundColor = '#4E6C50';
     e.target.style.color = 'white';
   };
   const LikesButtonOffHover = e => {
-    e.target.style.backgroundColor = '#822727';
+    e.target.style.backgroundColor = '#4E6C50';
     e.target.style.color = 'white';
   };
 
   const MypageButtonOffHover = e => {
-    e.target.style.backgroundColor = '#822727';
+    e.target.style.backgroundColor = '#4E6C50';
+    e.target.style.color = 'white';
+  };
+  const HamQRButtonOnHover = e => {
+    e.target.style.backgroundColor = 'white';
+    e.target.style.color = '#4E6C50';
+  };
+  const HamLikesButtonOnHover = e => {
+    e.target.style.backgroundColor = 'white';
+    e.target.style.color = '#4E6C50';
+  };
+  const HamMypageButtonOnHover = e => {
+    e.target.style.backgroundColor = 'white';
+    e.target.style.color = '#4E6C50';
+  };
+  const HamQRButtonOffHover = e => {
+    e.target.style.backgroundColor = '#4E6C50';
+    e.target.style.color = 'white';
+  };
+  const HamLikesButtonOffHover = e => {
+    e.target.style.backgroundColor = '#4E6C50';
+    e.target.style.color = 'white';
+  };
+
+  const HamMypageButtonOffHover = e => {
+    e.target.style.backgroundColor = '#4E6C50';
     e.target.style.color = 'white';
   };
 
@@ -109,7 +134,7 @@ const NavBar = () => {
               <VisuallyHidden>Choc</VisuallyHidden>
             </chakra.a>
             <chakra.h1
-              color="orange.100"
+              color="#B99B6B"
               fontSize="2xl"
               fontWeight="extrabold"
               ml="2"
@@ -200,13 +225,31 @@ const NavBar = () => {
                   onClick={mobileNav.onClose}
                 />
 
-                <Button onClick={onOpen} w="full" variant="ghost">
+                <Button
+                  onMouseOver={HamQRButtonOnHover}
+                  onMouseOut={HamQRButtonOffHover}
+                  onClick={onOpen}
+                  w="full"
+                  variant="ghost"
+                >
                   QR
                 </Button>
-                <Button onClick={GoMyLikes} w="full" variant="ghost">
+                <Button
+                  onMouseOver={HamLikesButtonOnHover}
+                  onMouseOut={HamLikesButtonOffHover}
+                  onClick={GoMyLikes}
+                  w="full"
+                  variant="ghost"
+                >
                   Likes
                 </Button>
-                <Button onClick={GoMyPage} w="full" variant="ghost">
+                <Button
+                  onMouseOver={HamMypageButtonOnHover}
+                  onMouseOut={HamMypageButtonOffHover}
+                  onClick={GoMyPage}
+                  w="full"
+                  variant="ghost"
+                >
                   MyPage
                 </Button>
               </VStack>

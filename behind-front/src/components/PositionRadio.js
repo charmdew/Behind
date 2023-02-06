@@ -21,14 +21,14 @@ const PositionRadio = () => {
           borderWidth="1px"
           borderRadius="md"
           boxShadow="md"
-          color="#822727"
+          color="#4E6C50"
           fontWeight="bold"
-          borderColor="#822727"
+          borderColor="#4E6C50"
           bg="white"
           _checked={{
-            bg: '#822727',
+            bg: '#4E6C50',
             color: 'white',
-            borderColor: '#822727',
+            borderColor: '#4E6C50',
           }}
           _focus={{
             boxShadow: 'outline',
