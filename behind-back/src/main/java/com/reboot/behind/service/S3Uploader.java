@@ -3,10 +3,7 @@ package com.reboot.behind.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
-<<<<<<<HEAD
 import com.amazonaws.services.s3.model.ObjectMetadata;
-=======
-        >>>>>>>d2bb5d4(working on S3,login)
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
