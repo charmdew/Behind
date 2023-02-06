@@ -37,7 +37,7 @@ public class JwtTokenProvider {
     private String secretKey = "secretKey";
 
     //토큰 유효기간. 일주일 유효
-    private final long tokenValidMillisecond = 1000L*60*60*24*7;
+    private final long tokenValidMillisecond = 1000L*60*30;
 
     @PostConstruct
     protected void init(){
@@ -48,9 +48,9 @@ public class JwtTokenProvider {
         LOGGER.info("[init] JwtTokenProvider 내 secretKey 초기화 시작");
     }
 
-    public String createToken(String userId, String role){
+    public String createToken(int id, String role){
         LOGGER.info("[createToken] 토큰 생성 시작");
-        Claims claims = Jwts.claims().setSubject(userId);
+        Claims claims = Jwts.claims().setSubject(id+"");
         claims.put("role", role);
 
         Date now = new Date();

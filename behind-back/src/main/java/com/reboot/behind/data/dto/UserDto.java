@@ -29,6 +29,7 @@ public class UserDto {
 
     private String phoneNum;
 
+    private String images;
 
     private String track;
 
