@@ -18,6 +18,8 @@ public class CommentResponseDto {
 
     private int commentId;
 
+    private int WriterId;
+
     private String writerName;
 
     private String content;
@@ -25,6 +27,7 @@ public class CommentResponseDto {
     private String createTime;
 
     private String updateTime;
+
 
     private List<replytmp> replys;
 
@@ -37,6 +40,8 @@ public class CommentResponseDto {
         private String createTime;
 
         private String updateTime;
+
+        private int WriterId;
 
         private String writerName;
     }
