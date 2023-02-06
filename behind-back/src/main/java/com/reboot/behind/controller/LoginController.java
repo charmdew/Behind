@@ -22,14 +22,8 @@ public class LoginController {
     }
 
     @GetMapping("/user")
-    public @ResponseBody String user() {
-        String info = SecurityContextHolder.getContext().getAuthentication().getName();
-        PrincipalDetails principal = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String info2 = principal.getUsername();
-        String info3 = principal.getPassword();
-        String info4 = principal.getName();
-
-        return info+"\n"+info2+"\n"+info3+"\n"+info4;
+    public @ResponseBody String user(HttpServletRequest request) {
+        return "유저페이지임당";
     }
 
     @GetMapping("/success")
