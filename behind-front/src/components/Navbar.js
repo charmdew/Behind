@@ -109,7 +109,7 @@ const NavBar = () => {
               <VisuallyHidden>Choc</VisuallyHidden>
             </chakra.a>
             <chakra.h1
-              color="#FAECD6"
+              color="orange.100"
               fontSize="2xl"
               fontWeight="extrabold"
               ml="2"

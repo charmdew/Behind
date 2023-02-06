@@ -1,22 +1,25 @@
 import axios from 'axios';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 
 import ProfileList from '../components/ProfileList';
 import PositionRadio from '../components/PositionRadio';
 import TrackRadio from '../components/TrackRadio';
 
 import { Box } from '@chakra-ui/react';
-
+import { UsersStateContext } from '../App';
 export const FilteredUsersDispatchContext = React.createContext();
 
 const Home = () => {
+  const { loginUser } = useContext(UsersStateContext);
+  const [followingIdList, setFollowingIdList] = useState();
   const [users, setUsers] = useState([]);
   useEffect(() => {
     axios.get('api/users').then(response => {
       setUsers(response.data);
     });
-  }, []);
+    setFollowingIdList(loginUser.followingUsers);
+  }, [loginUser]);
 
   const [selectedPosition, setSelectedPosition] = useState(0);
   const [selectedTrack, setSelectedTrack] = useState(0);
@@ -47,10 +50,12 @@ const Home = () => {
             {/* 포지션,트랙 라디오 */}
             <Box
               pt="10"
+              pb="10"
               mb="10"
               display="flex"
               flexDirection="column"
               alignItems="center"
+              bg="white"
             >
               {/* 포지션 */}
               <Box mb="5">
@@ -61,7 +66,7 @@ const Home = () => {
                 <TrackRadio />
               </Box>
             </Box>
-            <ProfileList userList={users} />
+            <ProfileList userList={users} followingIdList={followingIdList} />
           </Box>
         </FilteredUsersDispatchContext.Provider>
       </div>

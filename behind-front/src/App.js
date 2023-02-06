@@ -30,11 +30,11 @@ const App = () => {
     [loginUser]
   );
 
-  const refreshLoginUserInfo = useCallback(() => {
+  const refreshLoginUserInfo = () => {
     axios.get('/api/users/1').then(response => {
       setLoginUser(response.data);
     });
-  });
+  };
 
   const memoizedDispatches = useMemo(() => {
     return { refreshLoginUserInfo };

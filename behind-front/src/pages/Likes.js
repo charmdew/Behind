@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UsersStateContext } from '../App';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -16,6 +16,8 @@ import {
 
 import axios from 'axios';
 
+export const followingUserListStateContext = React.createContext();
+
 const Likes = ({}) => {
   const { id } = useParams();
   const { loginUser } = useContext(UsersStateContext);
@@ -32,16 +34,22 @@ const Likes = ({}) => {
   };
 
   const [followingList, setFollowingList] = useState([]);
+  const [followingIdList, setFollowingIdList] = useState([]);
   const getfollowingList = async () => {
     const tempList = [];
+    const tempIdList = [];
     const response = await axios.get(`api/users/${id}`);
     const likedId = response.data.followingUsers;
     for (const ID of likedId) {
       const userInfo = await axios.get(`api/users/${ID}`);
       tempList.push(userInfo.data);
+      tempIdList.push(ID);
     }
+    setFollowingIdList(tempIdList);
     setFollowingList(tempList);
   };
+
+  console.log(followingIdList);
 
   const [followerList, setFollowerList] = useState([]);
   const getfollowerList = async () => {
@@ -73,17 +81,23 @@ const Likes = ({}) => {
         <Text as="b">{Back_Word()}</Text>
       </Box>
 
-      <Tabs isFitted variant="enclosed">
-        <TabList mb="1em">
-          <Tab>Following</Tab>
-          <Tab>Follower</Tab>
+      <Tabs bg="white" isFitted variant="solid-rounded" colorScheme="yellow">
+        <TabList>
+          <Tab fontSize="xl">Following</Tab>
+          <Tab fontSize="xl">Follower</Tab>
         </TabList>
         <TabPanels>
-          <TabPanel>
-            <ProfileList userList={followingList} />
+          <TabPanel p="0">
+            <ProfileList
+              userList={followingList}
+              followingIdList={followingIdList}
+            />
           </TabPanel>
-          <TabPanel>
-            <ProfileList userList={followerList} />
+          <TabPanel p="0">
+            <ProfileList
+              userList={followerList}
+              followingIdList={followingIdList}
+            />
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -227,14 +227,14 @@ const UserInfo = () => {
         <Text as="b">회원정보수정</Text>
       </Box>
 
-      <Box mt={[10, 0]}>
+      <Box display="flex" justifyContent="center" bg="#822727" p="10" pb="20">
         <SimpleGrid
           display={{
             base: 'initial',
             md: 'grid',
           }}
           columns={{
-            md: 3,
+            md: 1,
           }}
           spacing={{
             md: 6,
@@ -468,7 +468,7 @@ const UserInfo = () => {
                         value={tagWord}
                         onChange={tagInputHandleChange}
                       />
-                      <Button onClick={tagAdd}>추가</Button>
+                      <Button onClick={tagAdd}>Add</Button>
                     </Stack>
 
                     <HStack spacing={4}>

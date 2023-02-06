@@ -125,8 +125,8 @@ const MyPage = () => {
   }
 
   return (
-    <div>
-      <Box ref={editareaRef} height="revert" backgroundColor="gray.100">
+    <Box bg="#822727">
+      <Box ref={editareaRef} height="revert">
         {/* 뒤로가기 */}
         <Box alignItems="center" display="flex" w="100%" bg="gray.100">
           <IconButton
@@ -140,7 +140,7 @@ const MyPage = () => {
         </Box>
 
         {/* 컨테이너, 상세정보 */}
-        <Box>
+        <Box bg="#822727">
           {/* 컨테이너 */}
           <ProfileContainer {...loginUser} />
 
@@ -148,7 +148,6 @@ const MyPage = () => {
           <Box>
             <Flex
               flexDirection="column"
-              bg="#edf3f8"
               _dark={{ bg: '#3e3e3e' }}
               w="full"
               alignItems="center"
@@ -205,16 +204,16 @@ const MyPage = () => {
         </Box>
 
         {/* 옵션버튼 */}
-        <Box display="inline-block" position="sticky" left="94%" bottom="14%">
+        <Box display="inline-block" position="sticky" left="94%" bottom="5%">
           <Menu isLazy lazyBehavior="keepMounted">
             <MenuButton
               px={4}
               py={2}
               transition="all 0.2s"
               borderRadius="md"
-              borderWidth="3px"
+              borderWidth="1px"
               backgroundColor="white"
-              borderColor="blue.300"
+              borderColor="black"
               _hover={{ bg: 'blue.100' }}
               _expanded={{ bg: 'blue.300' }}
               _focus={{ boxShadow: 'outline' }}
@@ -272,7 +271,7 @@ const MyPage = () => {
           </AlertDialog>
         </Box>
       </Box>
-    </div>
+    </Box>
   );
 };
 

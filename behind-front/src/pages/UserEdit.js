@@ -1,10 +1,10 @@
 import UserInfo from '../components/UserInfo';
-
+import { Box } from '@chakra-ui/react';
 const UserEdit = () => {
   return (
-    <div>
+    <Box>
       <UserInfo />
-    </div>
+    </Box>
   );
 };
 

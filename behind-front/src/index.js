@@ -5,13 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
 
+import { Box } from '@chakra-ui/react';
+
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
 root.render(
   <div>
     <ColorModeScript />
-    <App />
+    <Box h="100vw" bg="#822727">
+      <App />
+    </Box>
   </div>
 );
 

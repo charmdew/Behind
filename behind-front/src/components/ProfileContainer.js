@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Box,
   Flex,
@@ -15,13 +15,18 @@ import { ImProfile } from 'react-icons/im';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UsersStateContext, UsersDispatchContext } from '../App';
+import { followingUserListStateContext } from '../pages/Likes';
 
 import ProfileCard from './ProfileCard';
 import Comment from './comment/Comment';
 // 인자에 사용하고 싶은 유저 property를 가져와서 사용!
 const ProfileContainer = it => {
+  // console.log(it);
   const navigate = useNavigate();
   const id = it.id;
+  const { index } = it;
+  const { followingIdList } = it;
+  console.log(it);
 
   const { loginUser } = useContext(UsersStateContext);
 
@@ -93,8 +98,14 @@ const ProfileContainer = it => {
   const [commentToggle, setCommentToggle] = useState(false);
 
   // 좋아요 아이콘 토글
-  const defaultLikeIcon = loginUser.followingUsers.includes(id);
+  console.log('followingIdList', followingIdList);
+  const defaultLikeIcon = followingIdList.includes(id);
   const [likeToggle, setLikeToggle] = useState(defaultLikeIcon);
+  console.log('초기 버튼', it.name, defaultLikeIcon);
+  useEffect(() => {
+    const TF = followingIdList.includes(id);
+    setLikeToggle(TF);
+  }, [it]);
 
   // 좋아요 카운트
   const [likeCnt, setLikeCnt] = useState(it.likeCnt);
@@ -111,10 +122,7 @@ const ProfileContainer = it => {
           followUser: String(id),
           user: parseInt(loginUser.id),
         },
-      }).then(
-        refreshLoginUserInfo(),
-        setLikeToggle(() => !likeToggle)
-      );
+      }).then(refreshLoginUserInfo());
     }
     // 좋아요 추가
     else {
@@ -126,10 +134,7 @@ const ProfileContainer = it => {
           followUser: parseInt(id),
           user: parseInt(loginUser.id),
         },
-      }).then(
-        refreshLoginUserInfo(),
-        setLikeToggle(() => !likeToggle)
-      );
+      }).then(refreshLoginUserInfo());
     }
   };
 
@@ -167,7 +172,7 @@ const ProfileContainer = it => {
     return (
       <div>
         <Flex
-          bg="#822727"
+          bg="white"
           _dark={{ bg: '#3e3e3e' }}
           p={50}
           w="full"
@@ -175,6 +180,8 @@ const ProfileContainer = it => {
           justifyContent="center"
         >
           <Box
+            border="solid 2px"
+            borderColor="#822727"
             ref={container}
             pt={7}
             w="md"
