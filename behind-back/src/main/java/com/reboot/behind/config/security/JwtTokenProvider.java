@@ -37,7 +37,7 @@ public class JwtTokenProvider {
     private String secretKey = "secretKey";
 
     //토큰 유효기간. 일주일 유효
-    private final long tokenValidMillisecond = 1000L*60*60*24*7;
+    private final long tokenValidMillisecond = 1000L*60*30;
 
     @PostConstruct
     protected void init(){
@@ -48,9 +48,9 @@ public class JwtTokenProvider {
         LOGGER.info("[init] JwtTokenProvider 내 secretKey 초기화 시작");
     }
 
-    public String createToken(String userId, String role){
+    public String createToken(int id, String role){
         LOGGER.info("[createToken] 토큰 생성 시작");
-        Claims claims = Jwts.claims().setSubject(userId);
+        Claims claims = Jwts.claims().setSubject(id+"");
         claims.put("role", role);
 
         Date now = new Date();
@@ -68,18 +68,18 @@ public class JwtTokenProvider {
     //JWT 토큰으로 인증 정보를 조회한다.
     public Authentication getAuthentication(String token){
         LOGGER.info("[getAuthentication] 토큰 인증 정보 조회 시작");
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUsername(token));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getId(token));
         LOGGER.info("[getAuthentication] 토큰 인증 정보 조회 완료, UserDetails UserName : {}",
                 userDetails.getUsername());
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     //JWT 토큰에서 회원 구별 정보를 추출한다.
-    public String getUsername(String token){
-        LOGGER.info("[getUsername] 토큰 기반 회원 구별 정보 추출");
+    public String getId(String token){
+        LOGGER.info("[getId] 토큰 기반 회원 구별 정보 추출");
         String info = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
                 .getBody().getSubject();
-        LOGGER.info("[getUsername] 토큰 기반 회원 구별 정보 추출 완료, info : {}", info);
+        LOGGER.info("[getId] 토큰 기반 회원 구별 정보 추출 완료, info : {}", info);
         return info;
     }
 

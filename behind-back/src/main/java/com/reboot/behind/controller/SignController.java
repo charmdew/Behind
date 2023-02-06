@@ -1,3 +1,5 @@
+//자체 로그인, 회원가입은 서비스에 사용되지 않는다.
+
 package com.reboot.behind.controller;
 
 import com.reboot.behind.data.dto.SignInRequestDto;
@@ -45,10 +47,5 @@ public class SignController {
 
         LOGGER.info("[signUp] 회원가입을 완료했습니다. id : {}", signUpRequestDto.getId());
         return signUpResultDto;
-    }
-
-    @PostMapping(value = "/kakao")
-    public void kakaoSignUp(){
-
     }
 }

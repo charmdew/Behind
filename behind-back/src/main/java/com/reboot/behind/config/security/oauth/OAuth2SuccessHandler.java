@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -25,8 +26,15 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        String url = "http://localhost:3000/";
+        LOGGER.info("[onAuthenticationSuccess] url 생성 : {}", url);
+
         User user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
-        PrintWriter writer = response.getWriter();
-        writer.write("{ \"token\":\""+jwtTokenProvider.createToken(user.getUserId(), user.getRole())+"\" }");
+        url += "?id="+user.getId();
+        url += "&X-AUTH-TOKEN="+jwtTokenProvider.createToken(user.getId(), user.getRole());
+
+        LOGGER.info("[onAuthenticationSuccess] redirect 실행");
+        getRedirectStrategy().sendRedirect(request, response, url);
+
     }
 }
