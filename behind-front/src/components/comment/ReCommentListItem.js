@@ -1,5 +1,97 @@
-import { Box } from '@chakra-ui/react';
+import {
+  Box,
+  IconButton,
+  Input,
+  InputRightElement,
+  Button,
+  InputGroup,
+  Editable,
+  EditableInput,
+  EditableTextarea,
+  EditablePreview,
+  useEditableControls,
+  ButtonGroup,
+  Flex,
+} from '@chakra-ui/react';
+import { EditIcon, DeleteIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
+import { useRef, useContext, useState } from 'react';
+import { UsersStateContext } from '../../App';
+import { CommentDispatchContext } from './Comment';
+
+import axios from 'axios';
+
 const ReCommentListItem = it => {
+  const { loginUser } = useContext(UsersStateContext);
+  const { getCommentList } = useContext(CommentDispatchContext);
+
+  const [thisReply, setThisReply] = useState(it.content);
+  const thisReplyHandleChange = e => {
+    setThisReply(e);
+  };
+
+  const editReply = () => {
+    axios({
+      url: 'api/reply',
+      method: 'patch',
+      headers: { 'Content-Type': 'application/json' },
+      data: {
+        replyId: parseInt(it.replyId),
+        content: thisReply,
+      },
+    })
+      .then(() => {
+        getCommentList();
+      })
+      .catch(function (error) {
+        // 오류발생시 실행
+        console.log(error);
+      });
+  };
+
+  const deleteReply = () => {
+    axios({
+      method: 'delete',
+      url: 'api/reply',
+      params: {
+        id: it.replyId,
+      },
+      headers: { 'Content-Type': 'application/json' },
+    }).then(() => {
+      getCommentList();
+    });
+  };
+
+  function EditableControls() {
+    const {
+      isEditing,
+      getSubmitButtonProps,
+      getCancelButtonProps,
+      getEditButtonProps,
+    } = useEditableControls();
+
+    return isEditing ? (
+      <ButtonGroup alignItems="center" justifyContent="center" size="sm">
+        <Box onClick={editReply}>
+          <IconButton
+            size="xs"
+            icon={<CheckIcon />}
+            {...getSubmitButtonProps()}
+          />
+        </Box>
+
+        <IconButton
+          size="xs"
+          icon={<CloseIcon />}
+          {...getCancelButtonProps()}
+        />
+      </ButtonGroup>
+    ) : (
+      <Flex justifyContent="center">
+        <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} />
+      </Flex>
+    );
+  }
+
   return (
     <div>
       <Box
@@ -11,25 +103,60 @@ const ReCommentListItem = it => {
       >
         {/* 작성자, 작성시간, 댓글 내용 */}
         <Box>
-          {/* 작성자, 작성시간 */}
-          <Box display="flex" mb={1}>
-            {/* 작성자 */}
-            <Box fontSize="sm" mr={2} fontWeight="bold">
-              {it.writerName}
+          {/* 작성자, 작성시간, 삭제버튼 */}
+          <Box display="flex" justifyContent="space-between">
+            {/* 작성자, 작성시간 */}
+            <Box display="flex" alignItems="center">
+              {/* 작성자 */}
+              <Box
+                display="flex"
+                flexDirection="column-reverse"
+                fontSize="sm"
+                mr={2}
+                fontWeight="bold"
+              >
+                {it.writerName}
+              </Box>
+              {/* 작성시간 */}
+              <Box
+                display="flex"
+                flexDirection="column-reverse"
+                fontSize="2xs"
+                color="gray.500"
+                fontStyle="italic"
+              >
+                {it.updateTime ? `${it.updateTime} (수정됨)` : it.createTime}
+              </Box>
             </Box>
-            {/* 작성시간 */}
-            <Box
-              display="flex"
-              flexDirection="column-reverse"
-              fontSize="2xs"
-              color="gray.500"
-              fontStyle="italic"
-            >
-              {it.createTime}
+            {/* 삭제 버튼 */}
+            <Box display="flex" flexDirection="column-reverse">
+              {loginUser.id === it.writerId ? (
+                <IconButton
+                  size="sm"
+                  onClick={deleteReply}
+                  icon={<DeleteIcon />}
+                />
+              ) : (
+                <></>
+              )}
             </Box>
           </Box>
           {/* 댓글 */}
-          <Box fontSize="small">{it.content}</Box>
+          <Editable
+            display="flex"
+            justifyContent="space-between"
+            textAlign="start"
+            defaultValue={it.content}
+            fontSize="sm"
+            isPreviewFocusable={false}
+            onChange={thisReplyHandleChange}
+          >
+            <EditablePreview />
+            {/* Here is the custom input */}
+            <Input height="8" fontSize="sm" as={EditableInput} />
+
+            {loginUser.id === it.writerId ? <EditableControls /> : <></>}
+          </Editable>
         </Box>
       </Box>
     </div>

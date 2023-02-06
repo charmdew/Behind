@@ -21,8 +21,10 @@ import {
 import { EditIcon, DeleteIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { useRef, useContext, useState } from 'react';
 import { UsersStateContext } from '../../App';
-import axios from 'axios';
 import { CommentDispatchContext } from './Comment';
+
+import axios from 'axios';
+
 const CommentListItem = it => {
   const { loginUser } = useContext(UsersStateContext);
   const { getCommentList } = useContext(CommentDispatchContext);
@@ -50,6 +52,19 @@ const CommentListItem = it => {
         // 오류발생시 실행
         console.log(error);
       });
+  };
+
+  const deleteComment = () => {
+    axios({
+      method: 'delete',
+      url: 'api/comment',
+      params: {
+        id: it.commentId,
+      },
+      headers: { 'Content-Type': 'application/json' },
+    }).then(() => {
+      getCommentList();
+    });
   };
   // const timeNow = new Date(new Date().getTime() + 1000 * 60 * 60 * 9)
   //   .toISOString()
@@ -111,18 +126,6 @@ const CommentListItem = it => {
       </Flex>
     );
   }
-  const deleteComment = () => {
-    axios({
-      method: 'delete',
-      url: 'api/comment',
-      params: {
-        id: it.commentId,
-      },
-      headers: { 'Content-Type': 'application/json' },
-    }).then(() => {
-      getCommentList();
-    });
-  };
 
   return (
     <Box
@@ -157,7 +160,7 @@ const CommentListItem = it => {
               color="gray.500"
               fontStyle="italic"
             >
-              {it.createTime}
+              {it.updateTime ? `${it.updateTime} (수정됨)` : it.createTime}
             </Box>
           </Box>
 
