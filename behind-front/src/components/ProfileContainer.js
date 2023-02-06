@@ -26,10 +26,9 @@ const ProfileContainer = it => {
   const id = it.id;
   const { index } = it;
   const { followingIdList } = it;
-  console.log(it);
+  // console.log(it);
 
   const { loginUser } = useContext(UsersStateContext);
-
   const { refreshLoginUserInfo } = useContext(UsersDispatchContext);
 
   // 내 프로필 클릭하면 mypage로 보내는 기능
@@ -98,23 +97,25 @@ const ProfileContainer = it => {
   const [commentToggle, setCommentToggle] = useState(false);
 
   // 좋아요 아이콘 토글
-  console.log('followingIdList', followingIdList);
+  // console.log('followingIdList', followingIdList);
   const defaultLikeIcon = followingIdList.includes(id);
   const [likeToggle, setLikeToggle] = useState(defaultLikeIcon);
-  console.log('초기 버튼', it.name, defaultLikeIcon);
+  // console.log('초기 버튼', it.name, defaultLikeIcon);
   useEffect(() => {
     const TF = followingIdList.includes(id);
     setLikeToggle(TF);
-  }, [it]);
+  }, [followingIdList]);
 
   // 좋아요 카운트
   const [likeCnt, setLikeCnt] = useState(it.likeCnt);
+  useEffect(() => {
+    setLikeCnt(it.likeCnt);
+  }, [it]);
 
   // 좋아요 기능
   const following = () => {
     // 좋아요 취소
     if (likeToggle) {
-      setLikeCnt(likeCnt - 1);
       axios({
         method: 'delete',
         url: 'api/users/like',
@@ -122,11 +123,10 @@ const ProfileContainer = it => {
           followUser: String(id),
           user: parseInt(loginUser.id),
         },
-      }).then(refreshLoginUserInfo());
+      }).then(() => refreshLoginUserInfo());
     }
     // 좋아요 추가
     else {
-      setLikeCnt(likeCnt + 1);
       axios({
         method: 'post',
         url: 'api/users/like',
@@ -134,7 +134,7 @@ const ProfileContainer = it => {
           followUser: parseInt(id),
           user: parseInt(loginUser.id),
         },
-      }).then(refreshLoginUserInfo());
+      }).then(() => refreshLoginUserInfo());
     }
   };
 

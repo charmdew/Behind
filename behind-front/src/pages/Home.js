@@ -12,7 +12,7 @@ export const FilteredUsersDispatchContext = React.createContext();
 
 const Home = () => {
   const { loginUser } = useContext(UsersStateContext);
-  const [followingIdList, setFollowingIdList] = useState();
+  const [followingIdList, setFollowingIdList] = useState([]);
   const [users, setUsers] = useState([]);
   useEffect(() => {
     axios.get('api/users').then(response => {

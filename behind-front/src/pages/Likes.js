@@ -16,8 +16,6 @@ import {
 
 import axios from 'axios';
 
-export const followingUserListStateContext = React.createContext();
-
 const Likes = ({}) => {
   const { id } = useParams();
   const { loginUser } = useContext(UsersStateContext);
@@ -48,8 +46,6 @@ const Likes = ({}) => {
     setFollowingIdList(tempIdList);
     setFollowingList(tempList);
   };
-
-  console.log(followingIdList);
 
   const [followerList, setFollowerList] = useState([]);
   const getfollowerList = async () => {
