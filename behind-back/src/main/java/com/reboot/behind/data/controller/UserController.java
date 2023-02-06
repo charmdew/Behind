@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sun.security.util.Length;
 
@@ -50,6 +51,9 @@ public class UserController {
     @PatchMapping()
     public ResponseEntity<UserResponseDto> changeUser(@RequestBody UserResponseDto userResponseDto){
         System.out.println(userResponseDto);
+        System.out.println("호호호호호호호");
+//        int id = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName());
+//        System.out.println(id);
         UserResponseDto userChangeDto = userService.changeUser(userResponseDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(userChangeDto);

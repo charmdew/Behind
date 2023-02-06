@@ -1,6 +1,5 @@
 package com.reboot.behind.data.controller;
 
-import com.reboot.behind.data.dto.UserDto;
 import com.reboot.behind.service.S3Uploader;
 import com.reboot.behind.service.UserService;
 import lombok.RequiredArgsConstructor;
