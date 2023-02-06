@@ -96,10 +96,14 @@ const ProfileContainer = it => {
   const defaultLikeIcon = loginUser.followingUsers.includes(id);
   const [likeToggle, setLikeToggle] = useState(defaultLikeIcon);
 
+  // 좋아요 카운트
+  const [likeCnt, setLikeCnt] = useState(it.likeCnt);
+
   // 좋아요 기능
   const following = () => {
     // 좋아요 취소
     if (likeToggle) {
+      setLikeCnt(likeCnt - 1);
       axios({
         method: 'delete',
         url: 'api/users/like',
@@ -114,6 +118,7 @@ const ProfileContainer = it => {
     }
     // 좋아요 추가
     else {
+      setLikeCnt(likeCnt + 1);
       axios({
         method: 'post',
         url: 'api/users/like',
@@ -261,7 +266,7 @@ const ProfileContainer = it => {
                 justifyContent="space-between"
               >
                 {/* 좋아요 */}
-                <Box>
+                <Box display="flex" flexDirection="row-reverse">
                   <IconButton
                     ref={buttonA}
                     onMouseOver={buttonAonHover}
@@ -285,9 +290,12 @@ const ProfileContainer = it => {
                       )
                     }
                   />
+                  <Box display="flex" alignItems="center" pr="1" fontSize="23">
+                    {likeCnt}
+                  </Box>
                 </Box>
                 {/* 댓글창 */}
-                <Box>
+                <Box display="flex" flexDirection="row-reverse">
                   <IconButton
                     ref={buttonB}
                     onMouseOver={buttonBonHover}
@@ -298,6 +306,12 @@ const ProfileContainer = it => {
                     icon={commentToggle ? <ImProfile /> : <BiCommentDetail />}
                     onClick={() => setCommentToggle(!commentToggle)}
                   />
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    pr="1"
+                    fontSize="23"
+                  ></Box>
                 </Box>
               </Box>
             </Box>

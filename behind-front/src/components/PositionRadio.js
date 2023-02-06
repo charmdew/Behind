@@ -46,7 +46,7 @@ const PositionRadio = () => {
     setSelectedPosition(positionOptions.indexOf(e));
   };
 
-  const positionOptions = ['ALL', 'Backend', 'Frontend', 'Embedded'];
+  const positionOptions = ['ALL', 'Frontend', 'Backend', 'Embedded'];
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'position',

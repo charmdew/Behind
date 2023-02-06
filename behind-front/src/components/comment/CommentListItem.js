@@ -11,6 +11,7 @@ import {
   Button,
   InputGroup,
 } from '@chakra-ui/react';
+import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 import { useRef, useContext } from 'react';
 import { UsersStateContext } from '../../App';
 import axios from 'axios';
@@ -50,6 +51,7 @@ const CommentListItem = it => {
       });
   };
 
+  const editComment = () => {};
   const deleteComment = () => {};
 
   return (
@@ -64,28 +66,43 @@ const CommentListItem = it => {
       {/* 작성자, 작성시간, 댓글 내용 */}
       <Box mb="2">
         {/* 작성자, 작성시간 */}
-        <Box display="flex" mb={1}>
-          {/* 작성자 */}
-          <Box fontSize="sm" mr={2} fontWeight="bold">
-            {it.writerName}
+        <Box display="flex" justifyContent="space-between">
+          {/* 작성자, 작성시간 */}
+          <Box display="flex">
+            {/* 작성자 */}
+            <Box
+              display="flex"
+              flexDirection="column-reverse"
+              fontSize="sm"
+              mr={2}
+              fontWeight="bold"
+            >
+              {it.writerName}
+            </Box>
+            {/* 작성시간 */}
+            <Box
+              display="flex"
+              flexDirection="column-reverse"
+              fontSize="2xs"
+              color="gray.500"
+              fontStyle="italic"
+            >
+              {it.createTime}
+            </Box>
           </Box>
-          {/* 작성시간 */}
-          <Box
-            display="flex"
-            flexDirection="column-reverse"
-            fontSize="2xs"
-            color="gray.500"
-            fontStyle="italic"
-          >
-            {it.createTime}
-          </Box>
-          {/* 삭제, 수정 버튼 */}
 
-          <Box>
-            <Button onClick={deleteComment}>삭제</Button>
-          </Box>
-          <Box>
-            <Button onClick={deleteComment}>수정</Button>
+          {/* 삭제, 수정 버튼 */}
+          <Box display="flex">
+            <Box display="flex" flexDirection="column-reverse">
+              <IconButton size="xs" onClick={editComment} icon={<EditIcon />} />
+            </Box>
+            <Box display="flex" flexDirection="column-reverse">
+              <IconButton
+                size="xs"
+                onClick={deleteComment}
+                icon={<DeleteIcon />}
+              />
+            </Box>
           </Box>
         </Box>
         {/* 댓글 */}
