@@ -10,12 +10,12 @@ CORS(app)
 
 @app.route('/')
 def hello_world():  # put application's code here
-    return 'Hello World!'
+    return '<h1>Hello World!</h1>'
 
 
-@app.route('/nst', methods=['POST'])
+@app.route('/nst', methods=['GET'])
 def nst():
-    return "Neural Style Transfer!"
+    return "<h1>Neural Style Transfer!</h1>"
 
 
 @app.route('/nst/test', methods=['POST'])
@@ -45,7 +45,7 @@ def nst_test():
 
 
 # 여러 스타일을 적용하여 이미지 변환
-@app.route('/nst/multiple', methods=['POST'])
+@app.route('/nst', methods=['POST'])
 def nst_multiple():
     # d = request.get_json()
     # file = d['file']
