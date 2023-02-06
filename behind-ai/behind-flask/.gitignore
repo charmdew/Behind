@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/flask,pycharm+all,windows,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=flask,pycharm+all,windows,macos
 
+### AI models ###
+**/checkpoint/
+
+
 ### Flask ###
 instance/*
 !instance/.gitignore
@@ -208,6 +212,7 @@ Temporary Items
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
+
 .idea/**/dictionaries
 .idea/**/shelf
 
