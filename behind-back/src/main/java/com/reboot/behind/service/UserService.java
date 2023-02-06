@@ -23,4 +23,9 @@ public interface UserService {
     UserResponseDto ChangeDetail(Integer id, String detail ) throws Exception;
 
     void deleteUser(Integer id) throws Exception;
+
+    List<ImageResponseDto> getUserImage(Integer id);
+
+    void saveProfile(Integer id, String image);
+
 }

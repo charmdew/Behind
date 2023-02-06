@@ -1,6 +1,5 @@
 package com.reboot.behind.data.repository;
 
-import com.reboot.behind.data.dto.UserDto;
 import com.reboot.behind.data.entity.Comment;
 import com.reboot.behind.data.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

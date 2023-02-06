@@ -2,11 +2,10 @@ package com.reboot.behind.service.impl;
 
 import com.reboot.behind.data.dto.CommentDto;
 import com.reboot.behind.data.dto.CommentResponseDto;
-import com.reboot.behind.data.dto.UserDto;
-import com.reboot.behind.data.dto.UserResponseDto;
 import com.reboot.behind.data.entity.Comment;
 import com.reboot.behind.data.entity.User;
 import com.reboot.behind.data.repository.CommentRepository;
+import com.reboot.behind.data.repository.ReplyRepository;
 import com.reboot.behind.data.repository.UserRepository;
 import com.reboot.behind.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +22,14 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
 
     @Autowired
-    public CommentServiceImpl(CommentRepository commentRepository){
+    public CommentServiceImpl(CommentRepository commentRepository,
+                              ReplyRepository replyRepository){
         this.commentRepository = commentRepository;
+        this.replyRepository = replyRepository;
     }
     @Autowired
     UserRepository userRepository;
+    private final ReplyRepository replyRepository;
 
     @Override
     public List<CommentResponseDto> getCommentList(Integer id){
@@ -137,6 +139,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteComment(Integer id){
+        Comment foundComment = commentRepository.findById(id).get();
+        for(int i=0; i<foundComment.getReplies().size();i++){
+            replyRepository.deleteById(foundComment.getReplies().get(i).getReplyId());
+        }
+//        System.out.println(foundComment.getReplies());
         commentRepository.deleteById(id);
     }
 }

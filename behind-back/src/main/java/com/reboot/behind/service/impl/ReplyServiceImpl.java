@@ -2,7 +2,6 @@ package com.reboot.behind.service.impl;
 
 import com.reboot.behind.data.dto.CommentResponseDto;
 import com.reboot.behind.data.dto.ReplyDto;
-import com.reboot.behind.data.dto.ReplyResponseDto;
 import com.reboot.behind.data.entity.Comment;
 import com.reboot.behind.data.entity.Reply;
 import com.reboot.behind.data.entity.User;
