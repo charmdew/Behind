@@ -15,7 +15,6 @@ import { ImProfile } from 'react-icons/im';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UsersStateContext, UsersDispatchContext } from '../App';
-import { followingUserListStateContext } from '../pages/Likes';
 
 import ProfileCard from './ProfileCard';
 import Comment from './comment/Comment';
