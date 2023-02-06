@@ -9,12 +9,14 @@ import Likes from './pages/Likes';
 import Detail from './pages/Detail';
 import UserEdit from './pages/UserEdit';
 import MyPage from './pages/MyPage';
+import Login from './pages/Login';
 
 export const UsersStateContext = React.createContext();
 export const UsersDispatchContext = React.createContext();
 
 const App = () => {
   // 로그인한 유저id 저장
+
   const [loginUser, setLoginUser] = useState({});
   // 1번 id가 로그인 했다고 가정
   useEffect(() => {
@@ -50,6 +52,7 @@ const App = () => {
                 <Navbar />
                 <Routes>
                   <Route path="/" element={<Home />}></Route>
+                  <Route path="/login" element={<Login />}></Route>
                   <Route path="/likes/:id" element={<Likes />}></Route>
                   <Route path="/detail/:id" element={<Detail />}></Route>
                   <Route path="/useredit" element={<UserEdit />}></Route>

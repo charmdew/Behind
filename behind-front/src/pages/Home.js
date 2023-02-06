@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { useLocation } from 'react-router-dom';
 import React, { useState, useEffect, useMemo, useContext } from 'react';
 
 import ProfileList from '../components/ProfileList';
@@ -11,6 +11,9 @@ import { UsersStateContext } from '../App';
 export const FilteredUsersDispatchContext = React.createContext();
 
 const Home = () => {
+  const query = useLocation();
+  console.log(query);
+
   const { loginUser } = useContext(UsersStateContext);
   const [followingIdList, setFollowingIdList] = useState([]);
   const [users, setUsers] = useState([]);
