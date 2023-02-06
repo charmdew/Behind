@@ -27,6 +27,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         User user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
         PrintWriter writer = response.getWriter();
-        writer.write("{ \"token\":\""+jwtTokenProvider.createToken(user.getUserId(), user.getRole())+"\" }");
+        writer.write("{ \"token\":\""+jwtTokenProvider.createToken(user.getId(), user.getRole())+"\" }");
     }
 }
