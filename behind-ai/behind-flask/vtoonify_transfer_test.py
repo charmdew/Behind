@@ -132,23 +132,102 @@ print("=========================================================================
 print("학습된 모델 불러오는데 걸리는 시간")
 print(f"{time.time() - start:.4f} sec")  # 종료와 함께 수행시간 출력
 
+# # 변환할 이미지 파일
+# input_file_name = "person06.jpg"
+# image_path = os.path.join(DATA_DIR, input_file_name)
+# original_image = load_image(image_path)
+#
+#
+# ##### 이미지 전처리 #####
+# frame = cv2.imread(image_path)
+# frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+#
+# scale = 1
+# kernel_1d = np.array([[0.125],[0.375],[0.375],[0.125]])
+# # We detect the face in the image, and resize the image so that the eye distance is 64 pixels.
+# # Centered on the eyes, we crop the image to almost 400x400 (based on args.padding).
+# # paras = get_video_crop_parameter(frame, landmarkpredictor, padding=[200,200,200,200]) # => 이렇게 하면 얼굴에 조금 더 초점을 맞추어 자름, 숫자가 클수록 더 넓은 범위의 사진을 처리함
+# paras = get_video_crop_parameter(frame, landmarkpredictor, padding=[300,300,300,300])
+# if paras is not None:
+#     h,w,top,bottom,left,right,scale = paras
+#     H, W = int(bottom-top), int(right-left)
+#     # for HR image, we apply gaussian blur to it to avoid over-sharp stylization results
+#     if scale <= 0.75:
+#         frame = cv2.sepFilter2D(frame, -1, kernel_1d, kernel_1d)
+#     if scale <= 0.375:
+#         frame = cv2.sepFilter2D(frame, -1, kernel_1d, kernel_1d)
+#     frame = cv2.resize(frame, (w, h))[top:bottom, left:right]
+#     x = transform(frame).unsqueeze(dim=0).to(device)
+# else:
+#     print('no face detected!')
+#
+# ##### 이미지 변환 #####
+# start = time.time()  # 시작
+#
+# y_tilde = [0] * N
+# with torch.no_grad():
+#     for i in range(N):
+#         I = align_face(frame, landmarkpredictor)
+#         I = transform(I).unsqueeze(dim=0).to(device)
+#         s_w = pspencoder(I)
+#         s_w = vtoonify[i].zplus2wplus(s_w)
+#         s_w[:, :7] = exstyle[i][:, :7]
+#         # parsing network works best on 512x512 images, so we predict parsing maps on upsmapled frames
+#         # followed by downsampling the parsing maps
+#         x_p = F.interpolate(
+#             parsingpredictor(2 * (F.interpolate(x, scale_factor=2, mode='bilinear', align_corners=False)))[0],
+#             scale_factor=0.5, recompute_scale_factor=False).detach()
+#         # we give parsing maps lower weight (1/16)
+#         inputs = torch.cat((x, x_p / 16.), dim=1)
+#         # d_s has no effect when backbone is toonify
+#         y_tilde[i] = vtoonify[i](inputs, s_w.repeat(inputs.size(0), 1, 1), d_s=0.5)
+#         y_tilde[i] = torch.clamp(y_tilde[i], -1, 1)
+#
+# print("=====================================================================================================")
+# print("이미지 변환하는데 걸리는 시간")
+# print(f"{time.time() - start:.4f} sec")  # 종료와 함께 수행시간 출력
+#
+# ##### 결과 출력 #####
+# fig = plt.figure(figsize=(8, 4))  # rows*cols 행렬의 i번째 subplot 생성
+# rows = 1
+# cols = 4
+# idx = 1
+#
+# # 변환된 이미지 저장
+# result_img = []
+#
+# for i in range(N):
+#     #     visualize(y_tilde[i][0].cpu(), 30)
+#     # 변환한 이미지 저장
+#     result_img.append(tensor2cv2(y_tilde[i][0].cpu()))
+#     # '파일이름_스타일타입.jpg' 형식으로 저장
+#     cv2.imwrite(os.path.join(OUT_DIR, input_file_name[:-4] + '_' + style_types[i] + '.jpg'), result_img[i])
+#
+#     # 단일 플롯에 다수 이미지 그리기
+#     ax = fig.add_subplot(rows, cols, idx)
+#     ax.imshow(cv2.cvtColor(result_img[i], cv2.COLOR_BGR2RGB))
+#     ax.set_xlabel(style_types[i])
+#     ax.set_xticks([]), ax.set_yticks([])
+#     idx += 1
+#
+# plt.show()
 
 def main(input_image, input_image_fname):
     # 변환할 이미지 파일
-    content_image = input_image
     input_file_name = input_image_fname
-    # image_path = os.path.join(DATA_DIR, input_file_name)
-    # original_image = load_image(image_path)
+    image_path = os.path.join(DATA_DIR, input_file_name)
+    original_image = load_image(image_path)
 
     ##### 이미지 전처리 #####
-    frame = np.array(content_image)
+    frame = cv2.imread(image_path)
+    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
     scale = 1
     kernel_1d = np.array([[0.125], [0.375], [0.375], [0.125]])
     # We detect the face in the image, and resize the image so that the eye distance is 64 pixels.
     # Centered on the eyes, we crop the image to almost 400x400 (based on args.padding).
-    paras = get_video_crop_parameter(frame, landmarkpredictor, padding=[200,200,200,200]) # => 이렇게 하면 얼굴에 조금 더 초점을 맞추어 자름, 숫자가 클수록 더 넓은 범위의 사진을 처리함
-    # paras = get_video_crop_parameter(frame, landmarkpredictor, padding=[300, 300, 300, 300])
+    # paras = get_video_crop_parameter(frame, landmarkpredictor, padding=[200,200,200,200]) # => 이렇게 하면 얼굴에 조금 더 초점을 맞추어 자름, 숫자가 클수록 더 넓은 범위의 사진을 처리함
+    paras = get_video_crop_parameter(frame, landmarkpredictor, padding=[300, 300, 300, 300])
     if paras is not None:
         h, w, top, bottom, left, right, scale = paras
         H, W = int(bottom - top), int(right - left)
