@@ -49,6 +49,7 @@ module.exports = function (app) {
       pathRewrite: {
         '^/likes/api': '',
       },
+      changeOrigin: true,
     })
   );
 };

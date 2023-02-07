@@ -99,9 +99,9 @@ const UserInfo = () => {
       return { ...prePosition, backend: e.target.checked };
     });
   };
-  const positionEmbededHandleChange = e => {
+  const positionEmbeddedHandleChange = e => {
     setPosition(prePosition => {
-      return { ...prePosition, embeded: e.target.checked };
+      return { ...prePosition, embedded: e.target.checked };
     });
   };
 
@@ -204,7 +204,7 @@ const UserInfo = () => {
       })
         .then(() => {
           navigate('/mypage', { replace: true });
-          refreshLoginUserInfo();
+          refreshLoginUserInfo(loginUser.id);
         })
         .catch(function (error) {
           // 오류발생시 실행
@@ -387,10 +387,10 @@ const UserInfo = () => {
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={editedUser.position.embeded}
-                        onChange={positionEmbededHandleChange}
+                        defaultChecked={editedUser.position.embedded}
+                        onChange={positionEmbeddedHandleChange}
                       >
-                        Embeded
+                        Embedded
                       </Checkbox>
                     </Stack>
                   </FormControl>

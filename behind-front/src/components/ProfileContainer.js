@@ -19,11 +19,30 @@ import { UsersStateContext, UsersDispatchContext } from '../App';
 import ProfileCard from './ProfileCard';
 import Comment from './comment/Comment';
 // 인자에 사용하고 싶은 유저 property를 가져와서 사용!
+
+function getCookie(cookie_name) {
+  var x, y;
+  var val = document.cookie.split(';');
+
+  for (var i = 0; i < val.length; i++) {
+    x = val[i].substr(0, val[i].indexOf('='));
+    y = val[i].substr(val[i].indexOf('=') + 1);
+    x = x.replace(/^\s+|\s+$/g, ''); // 앞과 뒤의 공백 제거하기
+    if (x == cookie_name) {
+      return unescape(y); // unescape로 디코딩 후 값 리턴
+    }
+  }
+}
+
 const ProfileContainer = it => {
+  const LoginUserId = getCookie('LoginUserId');
   const navigate = useNavigate();
-  const id = it.id;
+  const { position } = it;
+  const { id } = it;
   const { index } = it;
   const { followingIdList } = it;
+  console.log(followingIdList);
+  console.log(it);
 
   const { loginUser } = useContext(UsersStateContext);
   const { refreshLoginUserInfo } = useContext(UsersDispatchContext);
@@ -39,10 +58,10 @@ const ProfileContainer = it => {
 
   // 선호 포지션, 선호 트랙 추출
   const getPreferPosition = () => {
-    const positionList = Object.keys(it.position);
+    const positionList = Object.keys(position);
     let temp = [];
     positionList.forEach(element => {
-      if (it.position[element] === true) {
+      if (position[element] === true) {
         switch (element) {
           case 'frontend':
             temp.push('FrontEnd');
@@ -118,9 +137,9 @@ const ProfileContainer = it => {
         url: 'api/users/like',
         data: {
           followUser: String(id),
-          user: parseInt(loginUser.id),
+          user: parseInt(LoginUserId),
         },
-      }).then(() => refreshLoginUserInfo());
+      }).then(() => refreshLoginUserInfo(LoginUserId));
     }
     // 좋아요 추가
     else {
@@ -129,9 +148,9 @@ const ProfileContainer = it => {
         url: 'api/users/like',
         data: {
           followUser: parseInt(id),
-          user: parseInt(loginUser.id),
+          user: parseInt(LoginUserId),
         },
-      }).then(() => refreshLoginUserInfo());
+      }).then(() => refreshLoginUserInfo(LoginUserId));
     }
   };
 
@@ -279,7 +298,7 @@ const ProfileContainer = it => {
                     aria-label="Call Sage"
                     fontSize="30px"
                     icon={
-                      parseInt(id) !== parseInt(loginUser.id) ? (
+                      parseInt(id) !== parseInt(LoginUserId) ? (
                         likeToggle ? (
                           <Box onClick={following}>
                             <RiHeartsFill />
