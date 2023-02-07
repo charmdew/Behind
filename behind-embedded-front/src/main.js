@@ -18,8 +18,10 @@ const createWindow = () => {
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
+  // Temp start
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
+  // Temp end
 }
 
 // This method will be called when Electron has finished
