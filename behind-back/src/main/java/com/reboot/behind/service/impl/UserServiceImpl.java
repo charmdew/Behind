@@ -1,24 +1,15 @@
 package com.reboot.behind.service.impl;
 
-import com.google.common.primitives.Ints;
 import com.reboot.behind.data.dto.*;
 import com.reboot.behind.data.entity.User;
 import com.reboot.behind.data.repository.SearchRepository;
 import com.reboot.behind.data.repository.UserRepository;
 import com.reboot.behind.service.UserService;
-import com.sun.org.apache.xalan.internal.xsltc.util.IntegerArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.ArrayUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -277,8 +268,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Integer id) {userRepository.deleteById(id);}
 
-    public List<ImageResponseDto> getUserImage(Integer id) {
-        List<ImageResponseDto> userImageList = new ArrayList<>();
+    public List<String> getUserImage(Integer id) {
+        List<String> userImageList = new ArrayList<>();
+
+        User foundUser = userRepository.findById(id).get();
+        String[] array = foundUser.getImages().split(",");
+        for (int i=0; i<array.length; i++){
+            userImageList.add(array[i]);
+        }
 
         //String image split으로 자르고 배열에 넣어서 보내기
 
@@ -290,6 +287,15 @@ public class UserServiceImpl implements UserService {
         User foundUser = userRepository.findById(id).get();
         foundUser.setProfile(image);
 
+        userRepository.save(foundUser);
+
+    }
+    public void saveImage(Integer id, String image){
+
+        User foundUser = userRepository.findById(id).get();
+        String images = foundUser.getImages()+","+image;
+        System.out.println(images);
+        foundUser.setImages(images);
         userRepository.save(foundUser);
 
     }

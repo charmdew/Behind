@@ -29,7 +29,7 @@ public class S3Uploader {
 
     public String uploadImage(MultipartFile multipartFile, String dirName) throws IOException {
         String fileName = dirName + "/" + multipartFile.getName() + LocalDateTime.now();
-
+        // dirname = Id / 파일이름.시각
         ObjectMetadata objectMetaData = new ObjectMetadata();
         objectMetaData.setContentType(multipartFile.getContentType());
         objectMetaData.setContentLength(multipartFile.getSize());
