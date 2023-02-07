@@ -1,31 +1,27 @@
 import React from 'react'
-import { Box, Image, Text, Flex, Heading, Button } from '@chakra-ui/react'
+import { Box, Image, Flex } from '@chakra-ui/react'
 
-const Layout = ({ heading, body, imageSrc, imageAlt }) => {
+const Layout = ({ heading, body, imageSrc, imageAlt, isButton }) => {
   return (
     <Box w="100vw" h="100vh" p="5%" bgColor="teal">
       <Flex
         direction="column"
+        justify="center"
         w="100%"
         h="100%"
         p="5%"
+        gap="5%"
         bgColor="white"
         borderRadius="lg">
-        <Heading p="8" textAlign="center">
+        <Box as="header" fontSize="4vw" fontWeight="bold" textAlign="center">
           {heading}
-        </Heading>
-        <Flex
-          direction="row"
-          flexGrow="1"
-          justify="space-between"
-          align="center">
-          <Flex direction="column" align="center">
-            <Text flexGrow="1" fontSize="xx-large" textAlign="center">
+        </Box>
+        <Flex direction="row" justify="center" gap="5vw">
+          <Flex direction="column" justify="center" align="center" gap="3vh">
+            <Box as="main" fontSize="3vw" textAlign="center">
               {body}
-            </Text>
-            <Button colorScheme="teal" size="lg" w="fit-content" m="8">
-              확인
-            </Button>
+            </Box>
+            {showButton(isButton)}
           </Flex>
           {showImage(imageSrc, imageAlt)}
         </Flex>
@@ -34,11 +30,25 @@ const Layout = ({ heading, body, imageSrc, imageAlt }) => {
   )
 }
 
+const showButton = (isButton) => {
+  if (isButton) {
+    return (
+      <Box
+        px="4vw"
+        py="1.5vh"
+        color="white"
+        bgColor="teal"
+        fontSize="3vw"
+        borderRadius="lg">
+        확인
+      </Box>
+    )
+  }
+}
+
 const showImage = (imageSrc, imageAlt) => {
   if (imageSrc) {
-    return (
-      <Image m="8" w="50%" objectFit="contain" src={imageSrc} alt={imageAlt} />
-    )
+    return <Image w="40vw" objectFit="contain" src={imageSrc} alt={imageAlt} />
   }
 }
 
