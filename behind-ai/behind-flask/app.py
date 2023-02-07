@@ -100,18 +100,18 @@ def vtoonify():
 
     # ##### 결과 이미지 데이터 #####
     # # 변환된 이미지
-    # b64encoded_images = vtoonify_transfer.main(content_image, content_file.filename)
+    b64encoded_images = vtoonify_transfer.main(content_image, content_file.filename)
 
     # # base64로 인코딩된 문자열을 디코딩
-    # styled_image_data = [b64encoded.decode("utf-8") for b64encoded in b64encoded_images]
+    styled_image_data = [b64encoded.decode("utf-8") for b64encoded in b64encoded_images]
 
     # # 이미지 데이터를 JSON으로 응답하는 경우
     # # return json.dumps({"images": styled_image_data})
-    # return jsonify({"images": styled_image_data})
+    return jsonify({"images": styled_image_data})
 
-    ##### 변환하는데 걸린 시간 #####
-    total_time = vtoonify_transfer.main(content_image, content_file.filename)
-    return jsonify({"total_time(sec)": total_time})
+    # ##### 변환하는데 걸린 시간 #####
+    # total_time = vtoonify_transfer.main(content_image, content_file.filename)
+    # return jsonify({"total_time(sec)": total_time})
 
 
 if __name__ == '__main__':

@@ -11,6 +11,8 @@ import torchvision
 import torch.nn.functional as F
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+from PIL import Image
+import io, base64
 
 from VToonify.model.vtoonify import VToonify
 from VToonify.model.bisenet.model import BiSeNet
@@ -189,15 +191,12 @@ def main(input_image, input_image_fname):
     print("이미지 변환하는데 걸리는 시간")
     print(f"{total_time:.4f} sec")  # 종료와 함께 수행시간 출력
 
-    ##### 결과 출력 #####
-    fig = plt.figure(figsize=(12, 8))  # rows*cols 행렬의 i번째 subplot 생성
-    rows = 2
-    cols = 2
-    idx = 1
-
+    ##### 결과 처리 #####
     # 변환된 이미지 저장
     result_img = []
 
+    # base64로 인코딩된 결과 이미지를 저장하는 리스트
+    b64encoded_images = []
     for i in range(N):
         #     visualize(y_tilde[i][0].cpu(), 30)
         # 변환한 이미지 저장
@@ -205,12 +204,13 @@ def main(input_image, input_image_fname):
         # '파일이름_스타일타입.jpg' 형식으로 저장
         cv2.imwrite(os.path.join(OUT_DIR, input_file_name[:-4] + '_' + style_types[i] + '.jpg'), result_img[i])
 
-        # 단일 플롯에 다수 이미지 그리기
-        ax = fig.add_subplot(rows, cols, idx)
-        ax.imshow(cv2.cvtColor(result_img[i], cv2.COLOR_BGR2RGB))
-        ax.set_xlabel(style_types[i])
-        ax.set_xticks([]), ax.set_yticks([])
-        idx += 1
+        ## 이미지 데이터 JSON으로 응답
+        styled_image = cv2.cvtColor(result_img[i], cv2.COLOR_BGR2RGB)
+        styled_image = Image.fromarray(styled_image)
+        bytesIO = io.BytesIO()
+        styled_image.save(bytesIO, "JPEG")
+        b64encoded = base64.b64encode(bytesIO.getvalue())
+        # base64로 인코딩된 이미지 리스트에 저장
+        b64encoded_images.append(b64encoded)
 
-    plt.show()
-    return total_time
+    return b64encoded_images
