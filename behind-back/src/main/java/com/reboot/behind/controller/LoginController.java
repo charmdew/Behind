@@ -28,7 +28,10 @@ public class LoginController {
 
     @GetMapping("/success")
     public @ResponseBody String success() {
-        return "성공 페이지임동";
+
+        PrincipalDetails pd = (PrincipalDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int id = pd.getUser().getId();
+        return id+"";
     }
 
 
