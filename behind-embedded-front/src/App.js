@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from 'react-auth-kit'
 import { ChakraProvider, theme } from '@chakra-ui/react'
 
-import AfterShootPage from './pages/StartPage'
+import AfterShootPage from './pages/AfterShootPage'
 import EndPage from './pages/EndPage'
 import LoginGuidePage from './pages/LoginGuidePage'
 import LoginQRScanPage from './pages/LoginQRScanPage'
@@ -12,16 +12,23 @@ import MenuSelectPage from './pages/MenuSelectPage'
 import PhotoSelectPage from './pages/PhotoSelectPage'
 import PhotoShootGuidePage from './pages/PhotoShootGuidePage'
 import PhotoShootPage from './pages/PhotoShootPage'
+import PhotoTransformPage from './pages/PhotoTransformPage'
 import PrintMenuPage from './pages/PrintMenuPage'
 import StartPage from './pages/StartPage'
 
 function App() {
+  const [imageSrc, setImageSrc] = useState(null)
+  // Temp start
+  const cookieDomain = window.location.hostname
+  const cookieSecure = window.location.protocol === 'https:'
+  // Temp end
+
   return (
     <AuthProvider
       authType={'cookie'}
-      authName={'_auth'}
-      cookieDomain={window.location.hostname}
-      cookieSecure={window.location.protocol === 'https:'}>
+      authName={'accesstoken'}
+      cookieDomain={cookieDomain}
+      cookieSecure={cookieSecure}>
       <ChakraProvider theme={theme}>
         <HashRouter>
           <Routes>
@@ -34,8 +41,15 @@ function App() {
               path="/photo-shoot-guide"
               element={<PhotoShootGuidePage />}
             />
-            <Route path="/photo-shoot" element={<PhotoShootPage />} />
-            <Route path="/after-shoot" element={<AfterShootPage />} />
+            <Route
+              path="/photo-shoot"
+              element={<PhotoShootPage setImageSrc={setImageSrc} />}
+            />
+            <Route
+              path="/after-shoot"
+              element={<AfterShootPage imageSrc={imageSrc} />}
+            />
+            <Route path="/photo-transform" element={<PhotoTransformPage />} />
             <Route path="/photo-select" element={<PhotoSelectPage />} />
             <Route path="/print" element={<PrintMenuPage />} />
             <Route path="/end" element={<EndPage />} />

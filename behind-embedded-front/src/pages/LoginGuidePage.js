@@ -1,19 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Layout from '../components/Layout'
-import qrQuideImageTemp from '../assets/qr-guide-image-temp.jpg'
+import qrGuideImageTemp from '../assets/qr-guide-image-temp.jpg'
 
 const LoginGuidePage = () => {
   const navigate = useNavigate()
 
-  window.addEventListener(
-    'keydown',
-    (e) => {
-      if (e.key === 'Enter') navigate('/login-qr-scan')
-    },
-    true
-  )
+  const keyDownHandler = (e) => {
+    // temp start
+    if (e.key === 'ArrowLeft') navigate('/')
+    // temp end
+    if (e.key === 'Enter') navigate('/login-qr-scan')
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', keyDownHandler)
+
+    return () => {
+      window.removeEventListener('keydown', keyDownHandler)
+    }
+  }, [])
 
   return (
     <Layout
@@ -31,8 +38,9 @@ const LoginGuidePage = () => {
           위치시켜주세요.
         </>
       }
-      imageSrc={qrQuideImageTemp}
-      imageAlt="QR Guide"
+      imageSrc={qrGuideImageTemp}
+      imageAlt="QR guide"
+      isButton={true}
     />
   )
 }
