@@ -117,8 +117,8 @@ for i, style_type in enumerate(style_types):
     print("model file name:", style_type, 'generator')
 
     # model.to(torch.device('cuda')) : CUDA에 최적화된 모델로 변환됨
-    vtoonify[i].to(torch.device(device))
-    # vtoonify[i].to(device)
+    # vtoonify[i].to(torch.device(device))
+    vtoonify[i].to(device)
 
     exstyles = np.load(os.path.join(MODEL_DIR, style_type[:-3] + '_exstyle_code.npy'), allow_pickle='TRUE').item()
     stylename = list(exstyles.keys())[int(style_type[-3:])]
