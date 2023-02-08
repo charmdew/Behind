@@ -269,17 +269,21 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Integer id) {userRepository.deleteById(id);}
 
     public List<String> getUserImage(Integer id) {
+        //String image split으로 자르고 배열에 넣어서 보내기
+
         List<String> userImageList = new ArrayList<>();
 
         User foundUser = userRepository.findById(id).get();
-        String[] array = foundUser.getImages().split(",");
-        for (int i=0; i<array.length; i++){
-            userImageList.add(array[i]);
+        if (foundUser.getImages()==null){
+            return userImageList;
         }
-
-        //String image split으로 자르고 배열에 넣어서 보내기
-
-        return userImageList;
+       else {
+            String[] array = foundUser.getImages().split(",");
+            for (int i = 0; i < array.length; i++) {
+                userImageList.add(array[i]);
+            }
+            return userImageList;
+        }
     }
 
     public void saveProfile(Integer id, String image) {
@@ -293,10 +297,16 @@ public class UserServiceImpl implements UserService {
     public void saveImage(Integer id, String image){
 
         User foundUser = userRepository.findById(id).get();
-        String images = foundUser.getImages()+","+image;
-        System.out.println(images);
-        foundUser.setImages(images);
-        userRepository.save(foundUser);
+        if (foundUser.getImages()==null){
+            String images = image;
+            foundUser.setImages(images);
+            userRepository.save(foundUser);
+        }
+        else {
+            String images = foundUser.getImages() + "," + image;
+            foundUser.setImages(images);
+            userRepository.save(foundUser);
+        }
 
     }
 

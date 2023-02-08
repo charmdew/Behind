@@ -7,6 +7,7 @@ import com.reboot.behind.data.dto.SignInResultDto;
 import com.reboot.behind.data.dto.SignUpRequestDto;
 import com.reboot.behind.data.dto.SignUpResultDto;
 import com.reboot.behind.service.SignService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class SignController {
         this.signService = signService;
     }
 
+    @ApiOperation(
+            value = "회원 가입"
+            , notes = "회원 가입을 합니다")
     @PostMapping("/in")
     public ResponseEntity<SignInResultDto> signIn(@RequestBody SignInRequestDto signInRequestDto) throws  RuntimeException{
         LOGGER.info("[signIn] 로그인 시도 중 id : {}, pw : ****", signInRequestDto.getId() );
@@ -40,6 +44,9 @@ public class SignController {
 
     }
 
+    @ApiOperation(
+            value = "로그인"
+            , notes = "로그인을 합니다")
     @PostMapping(value = "/up")
     public ResponseEntity<SignUpResultDto> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
         LOGGER.info("[signUp] 회원가입을 수행합니다. id : {}, password : ****, name : {}",
