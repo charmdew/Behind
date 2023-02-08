@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from PIL import Image
 import json, base64, io
 from flask_cors import CORS, cross_origin
+from waitress import serve
 
 import neural_style_transfer
 import vtoonify_transfer
@@ -114,5 +115,12 @@ def vtoonify():
     # return jsonify({"total_time(sec)": total_time})
 
 
+mode = "dev"
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    if mode == "dev":
+        app.run(host='0.0.0.0', port=5000, debug=True)
+    else:
+        # serve(app, host='0.0.0.0', port=5000, threads=4, url_prefix="/my-app")
+        serve(app, host='0.0.0.0', port=5000, thread=4)
+
