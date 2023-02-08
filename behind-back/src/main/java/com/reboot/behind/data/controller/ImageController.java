@@ -32,6 +32,7 @@ public class ImageController {
             int tokenid = pd.getUser().getId();
             // user에 넣는거 추가
             userService.saveImage(tokenid, fileName);
+            userService.saveProfile(tokenid, fileName);
             return ResponseEntity.status(HttpStatus.OK).body("사진 등록 완료!");
         }
         catch (Exception e){

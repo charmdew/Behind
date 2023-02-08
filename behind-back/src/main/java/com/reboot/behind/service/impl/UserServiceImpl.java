@@ -266,7 +266,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Integer id) {userRepository.deleteById(id);}
+    public void deleteUser(Integer id) {
+
+        User founduser = userRepository.findById(id).get();
+        founduser.setUserId("deletedUser");
+        userRepository.save(founduser);
+        List<Integer> following = founduser.getFollowingUsers();
+        for(int i = 0; i < following.size(); i++ ){
+            User foundFollwingUser = userRepository.findById(following.get(i)).get();
+            foundFollwingUser.setLikeCnt((foundFollwingUser.getLikeCnt()-1));
+            foundFollwingUser.getFollowedUsers().remove(Integer.valueOf(founduser.getId()));
+            userRepository.save(foundFollwingUser);
+        }
+        List<Integer> followed = founduser.getFollowedUsers();
+        for(int i=0; i<followed.size(); i++){
+            User foundFollowedUser = userRepository.findById(followed.get(i)).get();
+            foundFollowedUser.getFollowedUsers().remove(Integer.valueOf(founduser.getId()));
+            userRepository.save(foundFollowedUser);
+        }
+
+    }
 
     public List<String> getUserImage(Integer id) {
         //String image split으로 자르고 배열에 넣어서 보내기
