@@ -115,7 +115,7 @@ const ProfileCard = ({ phoneNum, tag, email, name }) => {
             objectPosition="center"
             // 프로필 카드 이미지 자리
             // src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-            src="https://picsum.photos/200/300"
+            src="https://behind-pic.s3.ap-northeast-2.amazonaws.com/string5/multipartFile2023-02-08T09%3A52%3A41.157317100"
             alt="avatar"
           />
           <Box

@@ -42,7 +42,7 @@ const Home = () => {
   const { setLoginUser, getUser } = useContext(UsersDispatchContext);
   useEffect(() => {
     const token = getCookie('token');
-    // console.log(jwt_decode(token).role);
+
     if ((document.cookie.length === 0 || !token) && query.search.length === 0) {
       console.log('로그인 페이지로');
       navigate('/login');
@@ -61,6 +61,9 @@ const Home = () => {
       setCookie('LoginUserId', `${loginUserId}`, '1');
       setCookie('token', `${token}`, '1');
       getUser();
+      if (jwt_decode(token).role === 'TEMP') {
+        navigate('/useredit', { replace: true });
+      }
     } else if (
       query.search.length === 0 &&
       !(document.cookie.length === 0 || !document.cookie.token || !token)

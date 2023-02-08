@@ -25,11 +25,26 @@ import { CommentDispatchContext } from './Comment';
 
 import axios from 'axios';
 
+function getCookie(cookie_name) {
+  var x, y;
+  var val = document.cookie.split(';');
+
+  for (var i = 0; i < val.length; i++) {
+    x = val[i].substr(0, val[i].indexOf('='));
+    y = val[i].substr(val[i].indexOf('=') + 1);
+    x = x.replace(/^\s+|\s+$/g, ''); // 앞과 뒤의 공백 제거하기
+    if (x == cookie_name) {
+      return unescape(y); // unescape로 디코딩 후 값 리턴
+    }
+  }
+}
+
 const CommentListItem = it => {
+  console.log(it);
+  const LoginUserId = getCookie('LoginUserId');
   const { loginUser } = useContext(UsersStateContext);
   const { getCommentList } = useContext(CommentDispatchContext);
   const inputContent = useRef();
-  console.log(it);
 
   const [thisComment, setThisComment] = useState(it.comment);
   const thisCommentHandleChange = e => {
@@ -75,7 +90,7 @@ const CommentListItem = it => {
     e.preventDefault();
     //추가 데이터
     const newReply = {
-      writerId: parseInt(loginUser.id),
+      writerId: parseInt(LoginUserId),
       content: e.target[0].value,
       commentId: parseInt(it.commentId),
     };
@@ -166,7 +181,7 @@ const CommentListItem = it => {
 
           {/* 삭제 버튼 */}
           <Box display="flex" flexDirection="column-reverse">
-            {loginUser.id === it.writerId ? (
+            {parseInt(LoginUserId) === parseInt(it.writerId) ? (
               <IconButton
                 size="sm"
                 onClick={deleteComment}
@@ -191,7 +206,11 @@ const CommentListItem = it => {
           {/* Here is the custom input */}
           <Input height="8" fontSize="sm" as={EditableInput} />
 
-          {loginUser.id === it.writerId ? <EditableControls /> : <></>}
+          {parseInt(LoginUserId) === parseInt(it.writerId) ? (
+            <EditableControls />
+          ) : (
+            <></>
+          )}
         </Editable>
       </Box>
 

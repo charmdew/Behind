@@ -14,9 +14,23 @@ import { UsersStateContext } from '../../App';
 
 export const CommentDispatchContext = React.createContext();
 
+function getCookie(cookie_name) {
+  var x, y;
+  var val = document.cookie.split(';');
+
+  for (var i = 0; i < val.length; i++) {
+    x = val[i].substr(0, val[i].indexOf('='));
+    y = val[i].substr(val[i].indexOf('=') + 1);
+    x = x.replace(/^\s+|\s+$/g, ''); // 앞과 뒤의 공백 제거하기
+    if (x == cookie_name) {
+      return unescape(y); // unescape로 디코딩 후 값 리턴
+    }
+  }
+}
+
 const Comment = ({ profileUserId }) => {
   const inputContent = useRef();
-
+  const LoginUserId = getCookie('LoginUserId');
   const { loginUser } = useContext(UsersStateContext);
 
   const [commentList, setCommentList] = useState([]);
@@ -38,8 +52,8 @@ const Comment = ({ profileUserId }) => {
     e.preventDefault();
     //추가 데이터
     const newComment = {
-      writerUser: loginUser.id,
-      profileUser: profileUserId,
+      writerUser: parseInt(LoginUserId),
+      profileUser: parseInt(profileUserId),
       content: e.target[0].value,
     };
     axios({

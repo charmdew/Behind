@@ -87,7 +87,11 @@ const MyPage = () => {
   const userUnregister = () => {
     axios({
       method: 'delete',
-      url: `api/users/${LoginUserId}`,
+      url: 'api/users/',
+      params: {
+        id: parseInt(LoginUserId),
+      },
+      headers: { 'Content-Type': 'application/json' },
     }).then(response => {
       alert('회원탈퇴가 완료되었습니다.');
       navigate('/', { replace: true });
