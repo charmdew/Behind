@@ -275,7 +275,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Integer id) {userRepository.deleteById(id);}
+    public void deleteUser(Integer id) {
+
+        User founduser = userRepository.findById(id).get();
+        founduser.setUserId("deletedUser");
+        userRepository.save(founduser);
+    }
 
     public List<ImageResponseDto> getUserImage(Integer id) {
         List<ImageResponseDto> userImageList = new ArrayList<>();
