@@ -16,10 +16,7 @@ const LoginGuidePage = () => {
 
   useEffect(() => {
     window.addEventListener('keydown', keyDownHandler)
-
-    return () => {
-      window.removeEventListener('keydown', keyDownHandler)
-    }
+    return () => window.removeEventListener('keydown', keyDownHandler)
   }, [])
 
   return (

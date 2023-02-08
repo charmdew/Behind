@@ -18,11 +18,8 @@ const MenuSelectPage = () => {
 
   useEffect(() => {
     window.addEventListener('keydown', keyDownHandler)
-
-    return () => {
-      window.removeEventListener('keydown', keyDownHandler)
-    }
-  }, [])
+    return () => window.removeEventListener('keydown', keyDownHandler)
+  }, [selection])
 
   const body = (
     <Flex direction="row" gap="5vw">
