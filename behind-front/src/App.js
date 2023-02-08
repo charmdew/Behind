@@ -31,33 +31,39 @@ function getCookie(cookie_name) {
 const App = () => {
   // 로그인한 유저id 저장
   const [loginUser, setLoginUser] = useState({});
-  const LoginUserId = getCookie('LoginUserId');
-  const token = getCookie('token');
-
-  useEffect(() => {
+  const [followingIdList, setfollowingIdList] = useState([]);
+  // const token = getCookie('token');
+  const getUser = () => {
+    const LoginUserId = getCookie('LoginUserId');
+    console.log(LoginUserId);
     axios.get(`/api/users/${LoginUserId}`).then(response => {
       setLoginUser(response.data);
+      setfollowingIdList(response.data.followingUsers);
     });
-  }, []);
+  };
+
+  // useEffect(() => {
+  //   getUser();
+  // }, [LoginUserId]);
 
   const refreshLoginUserInfo = LoginUserId => {
     console.log('refresh', LoginUserId);
     axios.get(`/api/users/${LoginUserId}`).then(response => {
       setLoginUser(response.data);
+      setfollowingIdList(response.data.followingUsers);
     });
   };
 
   const value = useMemo(
     () => ({
       loginUser,
+      followingIdList,
     }),
-    [loginUser]
+    [loginUser, followingIdList]
   );
-
   const memoizedDispatches = useMemo(() => {
-    return { refreshLoginUserInfo, setLoginUser };
+    return { refreshLoginUserInfo, setLoginUser, getUser };
   }, []);
-
   return (
     <ChakraProvider theme={theme}>
       <UsersStateContext.Provider value={value}>

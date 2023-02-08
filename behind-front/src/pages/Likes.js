@@ -32,36 +32,27 @@ const Likes = ({}) => {
   };
 
   const [followingList, setFollowingList] = useState([]);
-  const [followingIdList, setFollowingIdList] = useState([]);
-  const getfollowingList = async () => {
-    const tempList = [];
-    const tempIdList = [];
-    const response = await axios.get(`api/users/${id}`);
-    const likedId = response.data.followingUsers;
-    for (const ID of likedId) {
-      const userInfo = await axios.get(`api/users/${ID}`);
-      tempList.push(userInfo.data);
-      tempIdList.push(ID);
-    }
-    setFollowingIdList(tempIdList);
-    setFollowingList(tempList);
-  };
-
   const [followerList, setFollowerList] = useState([]);
-  const getfollowerList = async () => {
-    const tempList = [];
+  const getfollowList = async () => {
+    const followingtempList = [];
+    const followertempList = [];
     const response = await axios.get(`api/users/${id}`);
-    const likedId = response.data.followedUsers;
-    for (const ID of likedId) {
+    const followingUsers = response.data.followingUsers;
+    const followedUsers = response.data.followedUsers;
+    for (const ID of followingUsers) {
       const userInfo = await axios.get(`api/users/${ID}`);
-      tempList.push(userInfo.data);
+      followingtempList.push(userInfo.data);
     }
-    setFollowerList(tempList);
+    for (const ID of followedUsers) {
+      const userInfo = await axios.get(`api/users/${ID}`);
+      followertempList.push(userInfo.data);
+    }
+    setFollowingList(followingtempList);
+    setFollowerList(followertempList);
   };
 
   useEffect(() => {
-    getfollowingList();
-    getfollowerList();
+    getfollowList();
   }, [loginUser]);
 
   return (
@@ -84,16 +75,10 @@ const Likes = ({}) => {
         </TabList>
         <TabPanels>
           <TabPanel p="0">
-            <ProfileList
-              userList={followingList}
-              followingIdList={followingIdList}
-            />
+            <ProfileList userList={followingList} />
           </TabPanel>
           <TabPanel p="0">
-            <ProfileList
-              userList={followerList}
-              followingIdList={followingIdList}
-            />
+            <ProfileList userList={followerList} />
           </TabPanel>
         </TabPanels>
       </Tabs>

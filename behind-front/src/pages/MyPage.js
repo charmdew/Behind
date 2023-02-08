@@ -167,7 +167,7 @@ const MyPage = () => {
         {/* 컨테이너, 상세정보 */}
         <Box>
           {/* 컨테이너 */}
-          <ProfileContainer {...loginUser} followingIdList={[]} />
+          <ProfileContainer {...loginUser} />
 
           {/* 상세정보 */}
           <Box>

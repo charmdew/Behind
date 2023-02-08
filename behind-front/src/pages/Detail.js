@@ -19,17 +19,33 @@ import ProfileContainer from './../components/ProfileContainer';
 
 // 더미 유저 정보
 
+function getCookie(cookie_name) {
+  var x, y;
+  var val = document.cookie.split(';');
+
+  for (var i = 0; i < val.length; i++) {
+    x = val[i].substr(0, val[i].indexOf('='));
+    y = val[i].substr(val[i].indexOf('=') + 1);
+    x = x.replace(/^\s+|\s+$/g, ''); // 앞과 뒤의 공백 제거하기
+    if (x == cookie_name) {
+      return unescape(y); // unescape로 디코딩 후 값 리턴
+    }
+  }
+}
+
 const Detail = () => {
+  const LoginUserId = getCookie('LoginUserId');
   const { loginUser } = useContext(UsersStateContext);
   const [detailUser, setDetailUser] = useState({});
   const { id } = useParams();
 
-  // 실제로는 params에 해당하는 회원 정보를 직접 요청하겠지만
-  // 지금은 전체회원정보에서 params id에 해당하는 회원을 필터링했음
-  const getDetailUser = async () => {
-    await axios.get(`api/users/${id}`).then(res => {
+  const getDetailUser = () => {
+    axios.get(`api/users/${id}`).then(res => {
       const user = res.data;
       setDetailUser(user);
+    });
+    axios.get(`api/users/${LoginUserId}`).then(res => {
+      const loginUserInfo = res.data;
     });
   };
 

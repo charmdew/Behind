@@ -36,16 +36,20 @@ function getCookie(cookie_name) {
 
 const ProfileContainer = it => {
   const LoginUserId = getCookie('LoginUserId');
+  console.log(LoginUserId);
   const navigate = useNavigate();
   const { position } = it;
   const { id } = it;
   const { index } = it;
-  const { followingIdList } = it;
-  console.log(followingIdList);
-  console.log(it);
 
   const { loginUser } = useContext(UsersStateContext);
-  const { refreshLoginUserInfo } = useContext(UsersDispatchContext);
+  const { followingIdList } = useContext(UsersStateContext);
+  console.log(followingIdList);
+  const { refreshLoginUserInfo, getUser } = useContext(UsersDispatchContext);
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   // 내 프로필 클릭하면 mypage로 보내는 기능
   const goDetail = () => {
@@ -113,7 +117,6 @@ const ProfileContainer = it => {
   const [commentToggle, setCommentToggle] = useState(false);
 
   // 좋아요 아이콘 토글
-  // console.log('followingIdList', followingIdList);
   const defaultLikeIcon = followingIdList.includes(id);
   const [likeToggle, setLikeToggle] = useState(defaultLikeIcon);
   // console.log('초기 버튼', it.name, defaultLikeIcon);
