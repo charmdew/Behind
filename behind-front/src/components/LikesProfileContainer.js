@@ -15,6 +15,7 @@ import { ImProfile } from 'react-icons/im';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UsersStateContext, UsersDispatchContext } from '../App';
+import { DetectorStateContext, DetectorDispatchContext } from '../pages/Likes';
 
 import ProfileCard from './ProfileCard';
 import Comment from './comment/Comment';
@@ -45,6 +46,7 @@ const ProfileContainer = ({
   track,
 }) => {
   const LoginUserId = getCookie('LoginUserId');
+  console.log(position);
   const navigate = useNavigate();
   // const { position } = it;
   // const { id } = it;
@@ -52,6 +54,8 @@ const ProfileContainer = ({
   const { loginUser } = useContext(UsersStateContext);
   const [followingIdList, setfollowingIdList] = useState([]);
   const { refreshLoginUserInfo, getUser } = useContext(UsersDispatchContext);
+  const { changeDetector } = useContext(DetectorStateContext);
+  const { setChangeDetector } = useContext(DetectorDispatchContext);
 
   const updateFollowingIdList = () => {
     axios.get(`/api/users/${LoginUserId}`).then(response => {
@@ -61,6 +65,7 @@ const ProfileContainer = ({
 
   useEffect(() => {
     updateFollowingIdList();
+    console.log(followingIdList);
   }, []);
 
   // 내 프로필 클릭하면 mypage로 보내는 기능
@@ -140,7 +145,7 @@ const ProfileContainer = ({
   // 좋아요 카운트
   const [likeCount, setLikeCount] = useState(likeCnt);
   useEffect(() => {
-    setLikeCount(likeCount);
+    setLikeCount(likeCnt);
   }, [likeCnt]);
 
   // 좋아요 기능
@@ -156,6 +161,7 @@ const ProfileContainer = ({
         },
       }).then(() => {
         refreshLoginUserInfo(LoginUserId);
+        setChangeDetector(changeDetector + 1);
         updateFollowingIdList();
       });
     }
@@ -170,6 +176,7 @@ const ProfileContainer = ({
         },
       }).then(() => {
         refreshLoginUserInfo(LoginUserId);
+        setChangeDetector(changeDetector + 1);
         updateFollowingIdList();
       });
     }

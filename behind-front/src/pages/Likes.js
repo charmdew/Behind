@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { UsersStateContext } from '../App';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Text } from '@chakra-ui/react';
 
-import ProfileList from '../components/ProfileList';
+import LikesProfileList from '../components/LikesProfileList';
 import {
   IconButton,
   Tabs,
@@ -15,6 +15,9 @@ import {
 } from '@chakra-ui/react';
 
 import axios from 'axios';
+
+export const DetectorStateContext = React.createContext();
+export const DetectorDispatchContext = React.createContext();
 
 const Likes = ({}) => {
   const { id } = useParams();
@@ -30,6 +33,18 @@ const Likes = ({}) => {
       return `${id}'s Likes`;
     }
   };
+
+  const [changeDetector, setChangeDetector] = useState(0);
+
+  const DetectorState = useMemo(
+    () => ({
+      changeDetector,
+    }),
+    [changeDetector]
+  );
+  const DetectorDispatches = useMemo(() => {
+    return { setChangeDetector };
+  }, []);
 
   const [followingList, setFollowingList] = useState([]);
   const [followerList, setFollowerList] = useState([]);
@@ -51,38 +66,47 @@ const Likes = ({}) => {
     setFollowerList(followertempList);
   };
 
+  console.log('followingList', followingList);
+  console.log('followerList', followerList);
+
   useEffect(() => {
     getfollowList();
   }, [loginUser]);
 
-  return (
-    <div>
-      <Box alignItems="center" display="flex" w="100%" bg="gray.100">
-        <IconButton
-          onClick={() => {
-            navigate(-1);
-          }}
-          size="lg"
-          icon={<FiArrowLeft />}
-        />
-        <Text as="b">{Back_Word()}</Text>
-      </Box>
+  useEffect(() => {
+    getfollowList();
+  }, [changeDetector]);
 
-      <Tabs bg="white" isFitted variant="solid-rounded" colorScheme="yellow">
-        <TabList>
-          <Tab fontSize="xl">Following</Tab>
-          <Tab fontSize="xl">Follower</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel p="0">
-            <ProfileList userList={followingList} />
-          </TabPanel>
-          <TabPanel p="0">
-            <ProfileList userList={followerList} />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-    </div>
+  return (
+    <DetectorStateContext.Provider value={DetectorState}>
+      <DetectorDispatchContext.Provider value={DetectorDispatches}>
+        <Box alignItems="center" display="flex" w="100%" bg="gray.100">
+          <IconButton
+            onClick={() => {
+              navigate(-1);
+            }}
+            size="lg"
+            icon={<FiArrowLeft />}
+          />
+          <Text as="b">{Back_Word()}</Text>
+        </Box>
+
+        <Tabs bg="white" isFitted variant="solid-rounded" colorScheme="yellow">
+          <TabList>
+            <Tab fontSize="xl">Following</Tab>
+            <Tab fontSize="xl">Follower</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel p="0">
+              <LikesProfileList userList={followingList} />
+            </TabPanel>
+            <TabPanel p="0">
+              <LikesProfileList userList={followerList} />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </DetectorDispatchContext.Provider>
+    </DetectorStateContext.Provider>
   );
 };
 

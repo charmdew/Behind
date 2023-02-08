@@ -3,14 +3,13 @@ import { BsPhone } from 'react-icons/bs';
 import { FiAtSign } from 'react-icons/fi';
 import React, { useState } from 'react';
 
-const ProfileCard = it => {
+const ProfileCard = ({ phoneNum, tag, email, name }) => {
   // 포토 카드 실물 사이즈 : ( 54*86 )mm
 
   const [colorToggle, setColorToggle] = useState(false);
-
-  const tag = () => {
+  const tags = () => {
     let temp = '#';
-    temp = temp + it.tag.join(' #');
+    temp = temp + tag.join(' #');
     return temp;
   };
 
@@ -49,7 +48,7 @@ const ProfileCard = it => {
                 display="flex"
                 alignItems="center"
               >
-                {it.name}
+                {name}
               </Box>
               <Box
                 pt={2}
@@ -57,7 +56,7 @@ const ProfileCard = it => {
                 display="flex"
                 alignItems="center"
               >
-                {tag()}
+                {tags()}
               </Box>
             </Box>
 
@@ -73,7 +72,7 @@ const ProfileCard = it => {
                 <Icon as={FiAtSign} boxSize={4} />
               </Box>
               <Text pt={0.7} pl={2} fontStyle="italic" fontWeight="semibold">
-                {it.email}
+                {email}
               </Text>
             </Box>
             <Box
@@ -88,7 +87,7 @@ const ProfileCard = it => {
               </Box>
 
               <Text pt={0.7} pl={2} fontStyle="italic" fontWeight="semibold">
-                {it.phoneNum}
+                {phoneNum}
               </Text>
             </Box>
           </Box>
@@ -137,10 +136,10 @@ const ProfileCard = it => {
                 alignItems="center"
                 color="gray.200"
               >
-                {it.name}
+                {name}
               </Box>
               <Box pt={2} color="gray.500" display="flex" alignItems="center">
-                {tag()}
+                {tags()}
               </Box>
             </Box>
 
@@ -162,7 +161,7 @@ const ProfileCard = it => {
                 fontStyle="italic"
                 fontWeight="semibold"
               >
-                {it.email}
+                {email}
               </Text>
             </Box>
             <Box
@@ -183,7 +182,7 @@ const ProfileCard = it => {
                 fontStyle="italic"
                 fontWeight="semibold"
               >
-                {it.phoneNum}
+                {phoneNum}
               </Text>
             </Box>
           </Box>

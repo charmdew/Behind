@@ -34,15 +34,35 @@ import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
-const UserInfo = () => {
-  const { loginUser } = useContext(UsersStateContext);
-  const { refreshLoginUserInfo } = useContext(UsersDispatchContext);
+function getCookie(cookie_name) {
+  var x, y;
+  var val = document.cookie.split(';');
+
+  for (var i = 0; i < val.length; i++) {
+    x = val[i].substr(0, val[i].indexOf('='));
+    y = val[i].substr(val[i].indexOf('=') + 1);
+    x = x.replace(/^\s+|\s+$/g, ''); // 앞과 뒤의 공백 제거하기
+    if (x == cookie_name) {
+      return unescape(y); // unescape로 디코딩 후 값 리턴
+    }
+  }
+}
+
+const UserInfo = ({ loginUser }) => {
+  console.log(loginUser);
   // 로그인 상태 ? 회원정보수정 : 회원정보입력
-  const isLogin = useMemo(() => (loginUser ? true : false));
   const headWord = () => (isLogin ? '회원정보수정' : '회원정보입력');
   const navigate = useNavigate();
+  const { refreshLoginUserInfo } = useContext(UsersDispatchContext);
+
+  const LoginUserId = getCookie('LoginUserId');
 
   const [editedUser, setEditedUser] = useState(loginUser);
+  const isLogin = useMemo(() => (loginUser ? true : false));
+  // useEffect(() => {
+  //   setEditedUser(loginUser);
+  // }, [loginUser]);
+
   const [name, setName] = useState(loginUser.name);
   const [email, setEmail] = useState(loginUser.email);
   const [phoneNum, setPhoneNum] = useState(loginUser.phoneNum);
@@ -87,9 +107,11 @@ const UserInfo = () => {
   // 선호포지션 수정
   useEffect(() => {
     setEditedUser({ ...editedUser, position: position });
+    console.log('수정', editedUser);
   }, [position]);
 
   const positionFrontendHandleChange = e => {
+    console.log(e.target.checked);
     setPosition(prePosition => {
       return { ...prePosition, frontend: e.target.checked };
     });
@@ -191,7 +213,7 @@ const UserInfo = () => {
         track: editedUser.track,
         phoneNum: editedUser.phoneNum,
         showPhoneNum: editedUser.showPhoneNum,
-        id: parseInt(editedUser.id),
+        id: parseInt(LoginUserId),
       };
 
       axios({
@@ -204,7 +226,7 @@ const UserInfo = () => {
       })
         .then(() => {
           navigate('/mypage', { replace: true });
-          refreshLoginUserInfo(loginUser.id);
+          refreshLoginUserInfo(LoginUserId);
         })
         .catch(function (error) {
           // 오류발생시 실행
@@ -212,7 +234,6 @@ const UserInfo = () => {
         });
     }
   };
-
   return (
     <div>
       <Box alignItems="center" display="flex" w="100%" bg="gray.100">
@@ -349,7 +370,7 @@ const UserInfo = () => {
                       </FormLabel>
                       <Switch
                         id="email-alerts"
-                        defaultChecked={editedUser.showPhoneNum}
+                        defaultChecked={loginUser.showPhoneNum}
                         onChange={showPhoneNumHandleChange}
                       />
                     </FormControl>
@@ -371,7 +392,7 @@ const UserInfo = () => {
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={editedUser.position.frontend}
+                        defaultChecked={loginUser.position.frontend}
                         onChange={positionFrontendHandleChange}
                       >
                         FrontEnd
@@ -379,7 +400,7 @@ const UserInfo = () => {
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={editedUser.position.backend}
+                        defaultChecked={loginUser.position.backend}
                         onChange={positionBackendHandleChange}
                       >
                         BackEnd
@@ -387,7 +408,7 @@ const UserInfo = () => {
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={editedUser.position.embedded}
+                        defaultChecked={loginUser.position.embedded}
                         onChange={positionEmbeddedHandleChange}
                       >
                         Embedded
@@ -411,7 +432,7 @@ const UserInfo = () => {
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={editedUser.track.ai}
+                        defaultChecked={loginUser.track.ai}
                         onChange={trackAiHandleChange}
                       >
                         AI
@@ -419,7 +440,7 @@ const UserInfo = () => {
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={editedUser.track.blockchain}
+                        defaultChecked={loginUser.track.blockchain}
                         onChange={trackBlockchainHandleChange}
                       >
                         BlockChain
@@ -427,7 +448,7 @@ const UserInfo = () => {
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={editedUser.track.iot}
+                        defaultChecked={loginUser.track.iot}
                         onChange={trackIotHandleChange}
                       >
                         IoT
@@ -435,7 +456,7 @@ const UserInfo = () => {
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={editedUser.track.bigdata}
+                        defaultChecked={loginUser.track.bigdata}
                         onChange={trackBigdataHandleChange}
                       >
                         BigData
@@ -443,7 +464,7 @@ const UserInfo = () => {
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={editedUser.track.metabus}
+                        defaultChecked={loginUser.track.metabus}
                         onChange={trackMetabusHandleChange}
                       >
                         Metabus
@@ -472,7 +493,7 @@ const UserInfo = () => {
                     </Stack>
 
                     <HStack spacing={4}>
-                      {editedUser.tag.map(word => (
+                      {tag.map(word => (
                         <Tag
                           size="lg"
                           key={word}

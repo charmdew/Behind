@@ -3,7 +3,6 @@
 import axios from 'axios';
 
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import { UsersStateContext, UsersDispatchContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import ProfileContainer from './../components/ProfileContainer';
 
@@ -56,15 +55,26 @@ function removeCookie(cookie_name, value, days) {
   // 설정 일수만큼 현재시간에 만료값으로 지정
 
   var cookie_value =
-    escape(value) + (days == null ? '' : '; expires=' + exdate.toUTCString());
+    escape(value) +
+    (days == null ? '' : '; path=/' + '; expires=' + exdate.toUTCString());
   document.cookie = cookie_name + '=' + cookie_value;
 }
 
 const MyPage = () => {
   const LoginUserId = getCookie('LoginUserId');
-  const { loginUser } = useContext(UsersStateContext);
   const navigate = useNavigate();
-  const { refreshLoginUserInfo } = useContext(UsersDispatchContext);
+
+  const [loginUser, setLoginUser] = useState({});
+  const getLoginUser = () => {
+    axios.get(`/api/users/${LoginUserId}`).then(response => {
+      setLoginUser(response.data);
+    });
+  };
+  useEffect(() => {
+    getLoginUser();
+  }, []);
+
+  console.log(loginUser);
 
   // 회원탈퇴 모달
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -77,7 +87,7 @@ const MyPage = () => {
   const userUnregister = () => {
     axios({
       method: 'delete',
-      url: `api/users/${loginUser.id}`,
+      url: `api/users/${LoginUserId}`,
     }).then(response => {
       alert('회원탈퇴가 완료되었습니다.');
       navigate('/', { replace: true });
@@ -86,6 +96,7 @@ const MyPage = () => {
 
   // 상세 정보 수정
   const [detailInfo, setDetailInfo] = useState(loginUser.detail);
+  // useEffect(() => {}, []);
   const detailContentHandleChange = e => {
     setDetailInfo(e);
   };
@@ -100,7 +111,7 @@ const MyPage = () => {
       },
     })
       .then(() => {
-        refreshLoginUserInfo(LoginUserId);
+        getLoginUser();
       })
       .catch(function (error) {
         // 오류발생시 실행
@@ -167,7 +178,11 @@ const MyPage = () => {
         {/* 컨테이너, 상세정보 */}
         <Box>
           {/* 컨테이너 */}
-          <ProfileContainer {...loginUser} />
+          {Object.keys(loginUser).length !== 0 ? (
+            <ProfileContainer {...loginUser} />
+          ) : (
+            <></>
+          )}
 
           {/* 상세정보 */}
           <Box>
@@ -190,41 +205,45 @@ const MyPage = () => {
                 overflow="hidden"
                 p="7"
               >
-                <Editable
-                  lineHeight="150%"
-                  letterSpacing=".1rem"
-                  textAlign="start"
-                  defaultValue={loginUser.detail}
-                  fontSize="lg"
-                  isPreviewFocusable={false}
-                  onChange={detailContentHandleChange}
-                >
-                  <Box
-                    display="flex"
-                    mb="2"
-                    pr="1"
-                    justifyContent="space-between"
-                  >
-                    <Box ml="5" pb="2" fontSize="2xl" fontStyle="italic">
-                      <Text pl="3" pr="3" borderBottom="2px solid">
-                        More Info
-                      </Text>
-                    </Box>
-                    <Box>
-                      <EditableControls />
-                    </Box>
-                  </Box>
-
-                  <EditablePreview />
-
-                  <Textarea
-                    fontSize="xl"
-                    as={EditableTextarea}
-                    rows="10"
+                {Object.keys(loginUser).length !== 0 ? (
+                  <Editable
                     lineHeight="150%"
                     letterSpacing=".1rem"
-                  />
-                </Editable>
+                    textAlign="start"
+                    defaultValue={loginUser.detail}
+                    fontSize="lg"
+                    isPreviewFocusable={false}
+                    onChange={detailContentHandleChange}
+                  >
+                    <Box
+                      display="flex"
+                      mb="2"
+                      pr="1"
+                      justifyContent="space-between"
+                    >
+                      <Box ml="5" pb="2" fontSize="2xl" fontStyle="italic">
+                        <Text pl="3" pr="3" borderBottom="2px solid">
+                          More Info
+                        </Text>
+                      </Box>
+                      <Box>
+                        <EditableControls />
+                      </Box>
+                    </Box>
+
+                    <EditablePreview />
+
+                    <Textarea
+                      fontSize="xl"
+                      as={EditableTextarea}
+                      rows="10"
+                      lineHeight="150%"
+                      letterSpacing=".1rem"
+                    />
+                  </Editable>
+                ) : (
+                  <></>
+                )}
               </Box>
             </Flex>
           </Box>
