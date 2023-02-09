@@ -115,6 +115,27 @@ def vtoonify():
     # return jsonify({"total_time(sec)": total_time})
 
 
+@app.route('/images/style-transfer', methods=['POST'])
+def style_transfer():
+    # 파일 받기
+    content_file = request.files['photo']
+
+    # 변환할 이미지
+    content_image = Image.open(content_file.stream)
+
+    # ##### 결과 이미지 데이터 #####
+    b64encoded_images = []
+    # # 변환된 이미지
+    b64encoded_images.extend(neural_style_transfer.main_multiple_styles(content_image, content_file.filename))
+    b64encoded_images.extend(vtoonify_transfer.main(content_image, content_file.filename))
+
+    # base64로 인코딩된 문자열을 디코딩
+    styled_image_data = [b64encoded.decode("utf-8") for b64encoded in b64encoded_images]
+
+    # 이미지 데이터를 json으로 응답
+    return jsonify({"images": styled_image_data})
+
+
 mode = "dev"
 
 if __name__ == '__main__':
