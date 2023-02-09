@@ -4,6 +4,9 @@
 ### AI models ###
 **/checkpoint/
 
+### output images ###
+**/output/
+
 
 ### Flask ###
 instance/*
