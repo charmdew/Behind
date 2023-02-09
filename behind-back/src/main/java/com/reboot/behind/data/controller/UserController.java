@@ -1,5 +1,6 @@
 package com.reboot.behind.data.controller;
 
+import com.reboot.behind.config.security.auth.PrincipalDetails;
 import com.reboot.behind.data.dto.*;
 import com.reboot.behind.data.entity.User;
 import com.reboot.behind.service.UserService;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sun.security.util.Length;
 
@@ -32,56 +34,113 @@ public class UserController {
         , notes = "모든 사용자의 정보를 가져온다")
     @GetMapping()
     public ResponseEntity<?> getUserList(){
-        List<UserResponseDto> userlist = userService.getUserList();
-        return ResponseEntity.status(HttpStatus.OK).body(userlist);
+        try {
+            List<UserResponseDto> userlist = userService.getUserList();
+            return ResponseEntity.status(HttpStatus.OK).body(userlist);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
     }
     @ApiOperation(
             value = "Id(pk)를 이용한 마이페이지 회원정보 조회"
             , notes = "Id(pk)를 이용한 1명의 회원정보를 가져온다")
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDto> getUserDetail(@PathVariable Integer id){
-        UserResponseDto userDetail = userService.userDetail(id);
+    public ResponseEntity<?> getUserDetail(@PathVariable Integer id){
+        try {
+            UserResponseDto userDetail = userService.userDetail(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(userDetail);
+            return ResponseEntity.status(HttpStatus.OK).body(userDetail);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
     }
     @ApiOperation(
             value = "디테일을 제외한 회원정보 수정"
             , notes = "디테일을 제외한 회원정보를 수정한다")
     @PatchMapping()
-    public ResponseEntity<UserResponseDto> changeUser(@RequestBody UserResponseDto userResponseDto){
+    public ResponseEntity<?> changeUser(@RequestBody UserResponseDto userResponseDto){
         System.out.println(userResponseDto);
-        UserResponseDto userChangeDto = userService.changeUser(userResponseDto);
-
-        return ResponseEntity.status(HttpStatus.OK).body(userChangeDto);
+        System.out.println("호호호호호호호");
+        try{
+            PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            int tokenid = pd.getUser().getId();
+            System.out.println(tokenid);
+            if (tokenid == userResponseDto.getId()) {
+                UserResponseDto userChangeDto = userService.changeUser(userResponseDto);
+                return ResponseEntity.status(HttpStatus.OK).body(userChangeDto);
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
+            }
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
     }
     @ApiOperation(
             value = "회원 Detail 수정"
             , notes = "회원 Detail을 수정한다.")
     @PatchMapping("/detail")
-    public ResponseEntity<UserResponseDto> ChangeDetail(@RequestBody ChangeUserDetailDto changeUserDetailDto) throws Exception {
-        UserResponseDto userResponseDto = userService.ChangeDetail(changeUserDetailDto.getId(), changeUserDetailDto.getDetail());
+    public ResponseEntity<?> ChangeDetail(@RequestBody ChangeUserDetailDto changeUserDetailDto) throws Exception {
+        try {
+            PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            int tokenid = pd.getUser().getId();
+            System.out.println(tokenid);
+            if (tokenid == changeUserDetailDto.getId()) {
+                UserResponseDto userResponseDto = userService.ChangeDetail(changeUserDetailDto.getId(), changeUserDetailDto.getDetail());
 
-        return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
+                return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
+            }
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
+
     }
     @ApiOperation(
             value = "좋아요(팔로우) 좋아요 리스트에 추가"
             , notes = "좋아요(팔로우)를 누르면 팔로우 리스트에 추가한다")
     @PostMapping("/like")
     public ResponseEntity<?> createFollower(@RequestBody FollowerDto followerDto){
-        NewLikeCountDto  cnt = new NewLikeCountDto();
-        cnt.setNewLikeCnt(userService.saveFollower(followerDto));
-
-        return ResponseEntity.status(HttpStatus.OK).body(cnt);
+        try {
+            PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            int tokenid = pd.getUser().getId();
+            System.out.println(tokenid);
+            if (tokenid == followerDto.getUser()) {
+                NewLikeCountDto  cnt = new NewLikeCountDto();
+                cnt.setNewLikeCnt(userService.saveFollower(followerDto));
+                return ResponseEntity.status(HttpStatus.OK).body(cnt);
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
+            }
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
     }
     @ApiOperation(
             value = "좋아요(팔로우) 삭제"
             , notes = "좋아요(팔로우)삭제 리스트에서 제거")
     @DeleteMapping("/like")
     public ResponseEntity<?> deleteFollower(@RequestBody FollowerDto followerDto) throws Exception {
-        NewLikeCountDto  cnt = new NewLikeCountDto();
-        cnt.setNewLikeCnt(userService.deleteFollower(followerDto));
-
-        return ResponseEntity.status(HttpStatus.OK).body(cnt);
+        try {
+            PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            int tokenid = pd.getUser().getId();
+            System.out.println(tokenid);
+            if (tokenid == followerDto.getUser()) {
+                NewLikeCountDto  cnt = new NewLikeCountDto();
+                cnt.setNewLikeCnt(userService.deleteFollower(followerDto));
+                return ResponseEntity.status(HttpStatus.OK).body(cnt);
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
+            }
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
     }
     @ApiOperation(
             value = "유저 검색"
@@ -99,8 +158,13 @@ public class UserController {
 
     @GetMapping("/search")
     public ResponseEntity<?> getSearchUserList(@RequestParam int position, @RequestParam int track){
-        List<UserResponseDto> userlist = userService.getSearchUserList(position,track);
-        return ResponseEntity.status(HttpStatus.OK).body(userlist);
+        try {
+            List<UserResponseDto> userlist = userService.getSearchUserList(position, track);
+            return ResponseEntity.status(HttpStatus.OK).body(userlist);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
     }
 
     @ApiOperation(
@@ -109,30 +173,55 @@ public class UserController {
 
     @DeleteMapping()
     public ResponseEntity<String> deleteUser(Integer id) throws  Exception{
-        userService.deleteUser(id);
-        return ResponseEntity.status(HttpStatus.OK).body("유저 삭제 완료!");
+        try {
+            PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            int tokenid = pd.getUser().getId();
+            if (tokenid == id) {
+                userService.deleteUser(id);
+                return ResponseEntity.status(HttpStatus.OK).body("유저 삭제 완료!");
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
+            }
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
     }
 
     @ApiOperation(
             value = "유저 이미지 조회"
             , notes = "유저의 이미지 목록을 조회한다")
 
-    @GetMapping("/img")
+    @GetMapping("/images")
     public ResponseEntity<?> getUserImages(Integer id){
-//        userService.deleteUser(id);
-        List<ImageResponseDto> userImages = userService.getUserImage(id);
-        return ResponseEntity.status(HttpStatus.OK).body(userImages);
+        try {
+            List<String> userImages = userService.getUserImage(id);
+            return ResponseEntity.status(HttpStatus.OK).body(userImages);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
     }
 
     @ApiOperation(
             value = "유저 프로필 저장"
             , notes = "유저의 프로필을 저장한다.")
 
-    @PatchMapping("/img")
+    @PatchMapping("/images")
     public ResponseEntity<String> selectProfileImage(Integer id, String image){
-        userService.saveProfile(id,image);
-//        List<ImageResponseDto> userImages = userService.getUserImage(image);
-        return ResponseEntity.status(HttpStatus.OK).body("프로필 등록 완료!");
+        try {
+            PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            int tokenid = pd.getUser().getId();
+            if (tokenid == id) {
+                userService.saveProfile(id, image);
+                return ResponseEntity.status(HttpStatus.OK).body("프로필 등록 완료!");
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
+            }
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
     }
 
 }

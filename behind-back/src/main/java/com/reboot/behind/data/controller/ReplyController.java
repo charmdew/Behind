@@ -1,5 +1,6 @@
 package com.reboot.behind.data.controller;
 
+import com.reboot.behind.config.security.auth.PrincipalDetails;
 import com.reboot.behind.data.dto.ChangeReplyDto;
 import com.reboot.behind.data.dto.ReplyDto;
 import com.reboot.behind.service.ReplyService;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,9 +34,20 @@ public class ReplyController {
             , notes = "대댓글을 작성한다.")
     @PostMapping()
     public ResponseEntity<String> createReply(@RequestBody ReplyDto replyDto){
-        replyService.saveReply(replyDto);
+        try {
+            PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            int tokenid = pd.getUser().getId();
+            if (tokenid == replyDto.getWriterId()) {
+                replyService.saveReply(replyDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body("대댓글 생성완료");
+                return ResponseEntity.status(HttpStatus.OK).body("대댓글 생성완료");
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
+            }
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
     }
 
     @ApiOperation(
@@ -42,9 +55,14 @@ public class ReplyController {
             , notes = "대댓글을 수정한다.")
     @PatchMapping()
     public ResponseEntity<String> changeReplyContent(@RequestBody ChangeReplyDto changeReplyDto){
-         replyService.changeReply(changeReplyDto.getReplyId(), changeReplyDto.getContent());
-
-        return ResponseEntity.status(HttpStatus.OK).body("수정완료");
+        try {
+            replyService.changeReply(changeReplyDto.getReplyId(), changeReplyDto.getContent());
+            // 쓰는사람 id 받아와야함
+            return ResponseEntity.status(HttpStatus.OK).body("수정완료");
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
     }
 
     @ApiOperation(
@@ -52,8 +70,13 @@ public class ReplyController {
             , notes = "대댓글을 삭제한다.")
     @DeleteMapping()
     public ResponseEntity<String> deleteComment(Integer id) throws Exception{
-        replyService.deleteReply(id);
-
-        return ResponseEntity.status(HttpStatus.OK).body("대댓글 삭제완료!!!!");
+        try {
+            replyService.deleteReply(id);
+            // 쓰는사람 id 받아와야함
+            return ResponseEntity.status(HttpStatus.OK).body("대댓글 삭제완료!!!!");
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
     }
 }
