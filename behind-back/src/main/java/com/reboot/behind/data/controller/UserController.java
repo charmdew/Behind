@@ -157,9 +157,9 @@ public class UserController {
             "4:BLOCKCHAIN")
 
     @GetMapping("/search")
-    public ResponseEntity<?> getSearchUserList(@RequestParam int position, @RequestParam int track){
+    public ResponseEntity<?> getSearchUserList(@RequestParam int position, @RequestParam int track,@RequestParam int page,@RequestParam int volume){
         try {
-            List<UserResponseDto> userlist = userService.getSearchUserList(position, track);
+            List<UserResponseDto> userlist = userService.getSearchUserList(position, track,page,volume);
             return ResponseEntity.status(HttpStatus.OK).body(userlist);
         }
         catch (Exception e){

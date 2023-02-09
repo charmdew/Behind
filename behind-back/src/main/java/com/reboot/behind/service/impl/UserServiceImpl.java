@@ -235,14 +235,10 @@ public class UserServiceImpl implements UserService {
         }
         return foundfolloweduser.getLikeCnt();
     }
-    public List<UserResponseDto> getSearchUserList(int x,int y) {
-        List<User> userlist = searchRepository.searchUser(x,y);
+    public List<UserResponseDto> getSearchUserList(int x,int y,int page,int volume) {
+        List<User> userlist = searchRepository.searchUser(x,y,(page*volume),volume);
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
         for (int i = 0; i < userlist.size(); i++) {
-            if(userlist.get(i).getUserId().equals("deletedUser")){
-                System.out.println("hoho");
-                continue;
-            }
 
             UserResponseDto userResponseDto = new UserResponseDto();
             UserResponseDto.Position position = new UserResponseDto.Position();
@@ -284,6 +280,7 @@ public class UserServiceImpl implements UserService {
 
         User founduser = userRepository.findById(id).get();
         founduser.setUserId("deletedUser");
+
         userRepository.save(founduser);
         List<Integer> following = founduser.getFollowingUsers();
         for(int i = 0; i < following.size(); i++ ){

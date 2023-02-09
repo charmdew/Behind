@@ -16,16 +16,18 @@ public class SearchRepository {
     private EntityManager em;
 
 
-    public List<User> searchUser(int x, int y) {
+    public List<User> searchUser(int x, int y,int z,int w) {
 
         String jpql = "select u from User u";
-        String whereSql = " where ";
+        String whereSql = " where u.userId != 'deletedUser' and ";
         List<String> whereCondition = new ArrayList<>();
         if(x==0 && y==0){
+            jpql+= " where u.userId != 'deletedUser'";
             jpql += " order by u.id desc";
+            System.out.println(jpql);
             TypedQuery<User> query = em.createQuery(jpql, User.class);
 
-            return query.getResultList();
+            return query.setFirstResult(z).setMaxResults((z+w)).getResultList();
         }
         switch (x) {
             case 0:
@@ -70,6 +72,6 @@ public class SearchRepository {
         System.out.println(jpql);
         TypedQuery<User> query = em.createQuery(jpql, User.class);
 
-        return query.setFirstResult(0).setMaxResults(2).getResultList();
+        return query.setFirstResult(z).setMaxResults((z+w)).getResultList();
     }
 }
