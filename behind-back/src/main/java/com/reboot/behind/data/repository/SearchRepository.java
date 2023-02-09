@@ -1,6 +1,7 @@
 package com.reboot.behind.data.repository;
 
 import com.reboot.behind.data.entity.User;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -14,12 +15,14 @@ public class SearchRepository {
     @PersistenceContext
     private EntityManager em;
 
+
     public List<User> searchUser(int x, int y) {
 
         String jpql = "select u from User u";
         String whereSql = " where ";
         List<String> whereCondition = new ArrayList<>();
         if(x==0 && y==0){
+            jpql += " order by u.id desc";
             TypedQuery<User> query = em.createQuery(jpql, User.class);
 
             return query.getResultList();
@@ -63,6 +66,7 @@ public class SearchRepository {
         System.out.println(whereCondition);
         jpql += whereSql;
         jpql += String.join("", whereCondition);
+        jpql += " order by u.id desc";
         System.out.println(jpql);
         TypedQuery<User> query = em.createQuery(jpql, User.class);
 

@@ -30,8 +30,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         LOGGER.info("[onAuthenticationSuccess] url 생성 : {}", url);
 
         User user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
-        url += "?id="+user.getId();
-        url += "&X-AUTH-TOKEN="+jwtTokenProvider.createToken(user.getId(), user.getRole());
+        url += "?X-AUTH-TOKEN="+jwtTokenProvider.createToken(user.getId(), user.getRole());// &를 지우고 ?
 
         LOGGER.info("[onAuthenticationSuccess] redirect 실행");
         getRedirectStrategy().sendRedirect(request, response, url);

@@ -1,24 +1,15 @@
 package com.reboot.behind.service.impl;
 
-import com.google.common.primitives.Ints;
 import com.reboot.behind.data.dto.*;
 import com.reboot.behind.data.entity.User;
 import com.reboot.behind.data.repository.SearchRepository;
 import com.reboot.behind.data.repository.UserRepository;
 import com.reboot.behind.service.UserService;
-import com.sun.org.apache.xalan.internal.xsltc.util.IntegerArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.ArrayUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -38,6 +29,12 @@ public class UserServiceImpl implements UserService {
         List<User> userlist = userRepository.findAll();
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
         for (int i = 0; i < userlist.size(); i++) {
+            if(userlist.get(i).getUserId().equals("deletedUser")){
+                System.out.println("hoho");
+                continue;
+            }
+
+            System.out.println(userlist.get(i).getUserId());
             UserResponseDto userResponseDto = new UserResponseDto();
             UserResponseDto.Position position = new UserResponseDto.Position();
             UserResponseDto.Track track = new UserResponseDto.Track();
@@ -217,6 +214,7 @@ public class UserServiceImpl implements UserService {
             userRepository.save(foundfolloweruser);
             userRepository.save(foundfolloweduser);
         }
+
         return foundfolloweduser.getLikeCnt();
     }
 
@@ -241,6 +239,11 @@ public class UserServiceImpl implements UserService {
         List<User> userlist = searchRepository.searchUser(x,y);
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
         for (int i = 0; i < userlist.size(); i++) {
+            if(userlist.get(i).getUserId().equals("deletedUser")){
+                System.out.println("hoho");
+                continue;
+            }
+
             UserResponseDto userResponseDto = new UserResponseDto();
             UserResponseDto.Position position = new UserResponseDto.Position();
             UserResponseDto.Track track = new UserResponseDto.Track();
@@ -282,14 +285,38 @@ public class UserServiceImpl implements UserService {
         User founduser = userRepository.findById(id).get();
         founduser.setUserId("deletedUser");
         userRepository.save(founduser);
+        List<Integer> following = founduser.getFollowingUsers();
+        for(int i = 0; i < following.size(); i++ ){
+            User foundFollwingUser = userRepository.findById(following.get(i)).get();
+            foundFollwingUser.setLikeCnt((foundFollwingUser.getLikeCnt()-1));
+            foundFollwingUser.getFollowedUsers().remove(Integer.valueOf(founduser.getId()));
+            userRepository.save(foundFollwingUser);
+        }
+        List<Integer> followed = founduser.getFollowedUsers();
+        for(int i=0; i<followed.size(); i++){
+            User foundFollowedUser = userRepository.findById(followed.get(i)).get();
+            foundFollowedUser.getFollowingUsers().remove(Integer.valueOf(founduser.getId()));
+            userRepository.save(foundFollowedUser);
+        }
+
     }
 
-    public List<ImageResponseDto> getUserImage(Integer id) {
-        List<ImageResponseDto> userImageList = new ArrayList<>();
-
+    public List<String> getUserImage(Integer id) {
         //String image split으로 자르고 배열에 넣어서 보내기
 
-        return userImageList;
+        List<String> userImageList = new ArrayList<>();
+
+        User foundUser = userRepository.findById(id).get();
+        if (foundUser.getImages()==null){
+            return userImageList;
+        }
+       else {
+            String[] array = foundUser.getImages().split(",");
+            for (int i = 0; i < array.length; i++) {
+                userImageList.add(array[i]);
+            }
+            return userImageList;
+        }
     }
 
     public void saveProfile(Integer id, String image) {
@@ -298,6 +325,21 @@ public class UserServiceImpl implements UserService {
         foundUser.setProfile(image);
 
         userRepository.save(foundUser);
+
+    }
+    public void saveImage(Integer id, String image){
+
+        User foundUser = userRepository.findById(id).get();
+        if (foundUser.getImages()==null){
+            String images = image;
+            foundUser.setImages(images);
+            userRepository.save(foundUser);
+        }
+        else {
+            String images = foundUser.getImages() + "," + image;
+            foundUser.setImages(images);
+            userRepository.save(foundUser);
+        }
 
     }
 
