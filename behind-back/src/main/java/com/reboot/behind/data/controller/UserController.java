@@ -104,15 +104,15 @@ public class UserController {
             value = "좋아요(팔로우) 좋아요 리스트에 추가"
             , notes = "좋아요(팔로우)를 누르면 팔로우 리스트에 추가한다")
     @PostMapping("/like")
-    public ResponseEntity<String> createFollower(@RequestBody FollowerDto followerDto){
+    public ResponseEntity<?> createFollower(@RequestBody FollowerDto followerDto){
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             int tokenid = pd.getUser().getId();
             System.out.println(tokenid);
             if (tokenid == followerDto.getUser()) {
-                userService.saveFollower(followerDto);
-
-                return ResponseEntity.status(HttpStatus.OK).body("팔로우 성공!");
+                NewLikeCountDto  cnt = new NewLikeCountDto();
+                cnt.setNewLikeCnt(userService.saveFollower(followerDto));
+                return ResponseEntity.status(HttpStatus.OK).body(cnt);
             } else {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
             }
@@ -125,14 +125,15 @@ public class UserController {
             value = "좋아요(팔로우) 삭제"
             , notes = "좋아요(팔로우)삭제 리스트에서 제거")
     @DeleteMapping("/like")
-    public ResponseEntity<String> deleteFollower(@RequestBody FollowerDto followerDto) throws Exception {
+    public ResponseEntity<?> deleteFollower(@RequestBody FollowerDto followerDto) throws Exception {
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             int tokenid = pd.getUser().getId();
             System.out.println(tokenid);
             if (tokenid == followerDto.getUser()) {
-                userService.deleteFollower(followerDto);
-                return ResponseEntity.status(HttpStatus.OK).body("팔로우 취소!");
+                NewLikeCountDto  cnt = new NewLikeCountDto();
+                cnt.setNewLikeCnt(userService.deleteFollower(followerDto));
+                return ResponseEntity.status(HttpStatus.OK).body(cnt);
             } else {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
             }

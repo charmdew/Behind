@@ -29,6 +29,12 @@ public class UserServiceImpl implements UserService {
         List<User> userlist = userRepository.findAll();
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
         for (int i = 0; i < userlist.size(); i++) {
+            if(userlist.get(i).getUserId().equals("deletedUser")){
+                System.out.println("hoho");
+                continue;
+            }
+
+            System.out.println(userlist.get(i).getUserId());
             UserResponseDto userResponseDto = new UserResponseDto();
             UserResponseDto.Position position = new UserResponseDto.Position();
             UserResponseDto.Track track = new UserResponseDto.Track();
@@ -194,7 +200,7 @@ public class UserServiceImpl implements UserService {
         return userResponseDto;
     }
 
-    public void saveFollower(FollowerDto followerDto) {
+    public Integer saveFollower(FollowerDto followerDto) {
         User foundfolloweruser = userRepository.findById(followerDto.getUser()).get(); //팔로윙
         User foundfolloweduser = userRepository.findById(followerDto.getFollowUser()).get(); //팔로우드
         List<Integer> following = foundfolloweruser.getFollowingUsers();
@@ -209,27 +215,35 @@ public class UserServiceImpl implements UserService {
             userRepository.save(foundfolloweduser);
         }
 
-
+        return foundfolloweduser.getLikeCnt();
     }
 
-    public void deleteFollower(FollowerDto followerDto) {
+    public Integer deleteFollower(FollowerDto followerDto) {
         User foundfolloweruser = userRepository.findById(followerDto.getUser()).get(); //팔로윙
         User foundfolloweduser = userRepository.findById(followerDto.getFollowUser()).get(); //팔로우드
         List<Integer> following = foundfolloweruser.getFollowingUsers();
         List<Integer> followed = foundfolloweduser.getFollowedUsers();
 
-        following.remove(Integer.valueOf(followerDto.getFollowUser()));
-        followed.remove(Integer.valueOf(followerDto.getUser()));
-        foundfolloweruser.setFollowingUsers(following);
-        foundfolloweduser.setFollowedUsers(followed);
-        foundfolloweduser.setLikeCnt((foundfolloweduser.getLikeCnt() - 1));
-        userRepository.save(foundfolloweruser);
-        userRepository.save(foundfolloweduser);
+        if (followed.contains(followerDto.getUser())) {
+            following.remove(Integer.valueOf(followerDto.getFollowUser()));
+            followed.remove(Integer.valueOf(followerDto.getUser()));
+            foundfolloweruser.setFollowingUsers(following);
+            foundfolloweduser.setFollowedUsers(followed);
+            foundfolloweduser.setLikeCnt((foundfolloweduser.getLikeCnt() - 1));
+            userRepository.save(foundfolloweruser);
+            userRepository.save(foundfolloweduser);
+        }
+        return foundfolloweduser.getLikeCnt();
     }
     public List<UserResponseDto> getSearchUserList(int x,int y) {
         List<User> userlist = searchRepository.searchUser(x,y);
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
         for (int i = 0; i < userlist.size(); i++) {
+            if(userlist.get(i).getUserId().equals("deletedUser")){
+                System.out.println("hoho");
+                continue;
+            }
+
             UserResponseDto userResponseDto = new UserResponseDto();
             UserResponseDto.Position position = new UserResponseDto.Position();
             UserResponseDto.Track track = new UserResponseDto.Track();
@@ -281,7 +295,7 @@ public class UserServiceImpl implements UserService {
         List<Integer> followed = founduser.getFollowedUsers();
         for(int i=0; i<followed.size(); i++){
             User foundFollowedUser = userRepository.findById(followed.get(i)).get();
-            foundFollowedUser.getFollowedUsers().remove(Integer.valueOf(founduser.getId()));
+            foundFollowedUser.getFollowingUsers().remove(Integer.valueOf(founduser.getId()));
             userRepository.save(foundFollowedUser);
         }
 

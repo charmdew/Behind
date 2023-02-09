@@ -16,9 +16,9 @@ public interface UserService {
 
     UserResponseDto userDetail(Integer id);
 
-    void saveFollower(FollowerDto followerDto);
+    Integer saveFollower(FollowerDto followerDto);
 
-    void deleteFollower(FollowerDto followerDto) throws Exception;
+    Integer deleteFollower(FollowerDto followerDto) throws Exception;
 
     UserResponseDto ChangeDetail(Integer id, String detail ) throws Exception;
 
