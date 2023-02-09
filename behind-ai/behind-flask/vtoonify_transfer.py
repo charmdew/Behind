@@ -7,10 +7,7 @@ import cv2
 import dlib
 import torch
 from torchvision import transforms
-import torchvision
 import torch.nn.functional as F
-from tqdm import tqdm
-import matplotlib.pyplot as plt
 from PIL import Image
 import io, base64
 
@@ -24,8 +21,8 @@ os.environ['CUDA_VISIBLE_DEVICES'] = "0"
 CODE_DIR = 'VToonify'
 IMAGE_DIR = 'static/images'
 
-device = 'cpu'
-# device = 'cuda'
+# device = 'cpu'
+device = 'cuda'
 
 MODEL_DIR = os.path.join(os.getcwd(), CODE_DIR, 'checkpoint')
 DATA_DIR = os.path.join(os.getcwd(), IMAGE_DIR, 'data')
@@ -70,8 +67,8 @@ illustration136
 #              'illustration050']
 style_types = ['cartoon026',
              'arcane000',
-             'pixar052',
-             'caricature039']
+             'caricature039',
+             'illustration050']
 
 
 ##### 'VToonify/checkpoint/' 폴더에 필요한 파일 목록 #####

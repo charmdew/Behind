@@ -5,7 +5,8 @@ import numpy as np
 import os, time, io, base64
 
 # os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-
+os.environ['TFHUB_MODEL_LOAD_FORMAT'] = 'COMPRESSED'
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 def main(input_image, input_image_fname):
     ##### 모델 로드 #####
@@ -131,7 +132,7 @@ def main_multiple_styles(input_image, input_image_fname):
     # 스타일 이미지 파일 저장 경로
     STYLE_IMG_FOLDER = os.path.join('static', 'images', 'style')
     # 스타일 이미지 파일명
-    style_image_files = ['candinsky.jpg', 'dalmado.jpg', 'girl.jpg', 'gogh.jpg']
+    style_image_files = ['picasso.jpg', 'dalmado.jpg', 'gogh.jpg', 'scream.jpg']
     # style_image_files = ['candinsky.jpg', 'dalmado.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg', 'monarisa.jpg',
     #                      'picasso.jpg', 'rain_princess.jpg', 'scream.jpg', 'starry_night.jpg', 'tiger.jpg',
     #                      'zentangle_art.jpg']
