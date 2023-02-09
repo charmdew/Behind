@@ -44,6 +44,15 @@ const Home = () => {
   const query = useLocation();
   useEffect(() => {
     const token = getCookie('token');
+    console.log('getCookie(token)', getCookie(token));
+    console.log('document.cookie', document.cookie);
+    console.log('document.cookie.length', document.cookie.length);
+    console.log('document.cookie.token', document.cookie.token);
+    console.log('typeof(document.cookie.token)', typeof document.cookie.token);
+    console.log('document.cookie.token', !!document.cookie.token);
+    console.log('token', token);
+    console.log('typeof(token)', typeof token);
+    console.log('token', !!token);
 
     if ((document.cookie.length === 0 || !token) && query.search.length === 0) {
       console.log('로그인 페이지로');

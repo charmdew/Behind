@@ -2,25 +2,17 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  Box,
-  Flex,
-  Image,
-  chakra,
-  Container,
-  IconButton,
-} from '@chakra-ui/react';
+import { Box, Flex, chakra, Container, IconButton } from '@chakra-ui/react';
 import { RiHeartsLine, RiHeartsFill } from 'react-icons/ri';
 import { BiCommentDetail } from 'react-icons/bi';
 import { ImProfile } from 'react-icons/im';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { UsersStateContext, UsersDispatchContext } from '../App';
+import { UsersStateContext } from '../App';
 import { DetectorStateContext, DetectorDispatchContext } from '../pages/Likes';
 
 import ProfileCard from './ProfileCard';
 import Comment from './comment/Comment';
-// 인자에 사용하고 싶은 유저 property를 가져와서 사용!
 
 function getCookie(cookie_name) {
   var x, y;
@@ -48,36 +40,11 @@ const ProfileContainer = ({
 }) => {
   const token = getCookie('token');
   const LoginUserId = jwt_decode(token).sub;
-  console.log(position);
   const navigate = useNavigate();
-  // const { position } = it;
-  // const { id } = it;
 
   const { loginUser } = useContext(UsersStateContext);
-  // const [followingIdList, setfollowingIdList] = useState([]);
-  // const { refreshLoginUserInfo, getUser } = useContext(UsersDispatchContext);
   const { followingIdList } = useContext(DetectorStateContext);
   const { getfollowList } = useContext(DetectorDispatchContext);
-
-  // const updateFollowingIdList = () => {
-  //   axios({
-  //     url: `/api/users/${LoginUserId}`,
-  //     method: 'get',
-  //     headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
-  //   })
-  //     .then(response => {
-  //       setfollowingIdList(response.data.followingUsers);
-  //     })
-  //     .catch(function (error) {
-  //       // 오류발생시 실행
-  //       console.log(error);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   updateFollowingIdList();
-  //   console.log(followingIdList);
-  // }, []);
 
   // 내 프로필 클릭하면 mypage로 보내는 기능
   const goDetail = () => {
@@ -147,7 +114,6 @@ const ProfileContainer = ({
   // 좋아요 아이콘 토글
   const defaultLikeIcon = followingIdList.includes(id);
   const [likeToggle, setLikeToggle] = useState(defaultLikeIcon);
-  // console.log('초기 버튼', it.name, defaultLikeIcon);
   useEffect(() => {
     const TF = followingIdList.includes(id);
     setLikeToggle(TF);
@@ -172,10 +138,7 @@ const ProfileContainer = ({
           user: parseInt(LoginUserId),
         },
       }).then(() => {
-        // refreshLoginUserInfo(LoginUserId);
         getfollowList();
-        // setChangeDetector(changeDetector + 1);
-        // updateFollowingIdList();
       });
     }
     // 좋아요 추가
@@ -189,10 +152,7 @@ const ProfileContainer = ({
           user: parseInt(LoginUserId),
         },
       }).then(() => {
-        // refreshLoginUserInfo(LoginUserId);
         getfollowList();
-        // setChangeDetector(changeDetector + 1);
-        // updateFollowingIdList();
       });
     }
   };

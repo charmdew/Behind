@@ -41,8 +41,6 @@ function getCookie(cookie_name) {
 }
 
 const NavBar = () => {
-  // const token = getCookie('token');
-  // const LoginUserId = jwt_decode(token).sub;
   const { loginUser } = useContext(UsersStateContext);
   const LoginUserId = loginUser.id;
 

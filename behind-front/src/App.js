@@ -36,19 +36,21 @@ const App = () => {
   // const token = getCookie('token');
   const getUser = () => {
     const token = getCookie('token');
-    const LoginUserId = jwt_decode(token).sub;
-    axios({
-      url: `/api/users/${LoginUserId}`,
-      method: 'get',
-      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
-    })
-      .then(response => {
-        setLoginUser(response.data);
+    if (token.length) {
+      const LoginUserId = jwt_decode(token).sub;
+      axios({
+        url: `/api/users/${LoginUserId}`,
+        method: 'get',
+        headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       })
-      .catch(function (error) {
-        // 오류발생시 실행
-        console.log(error);
-      });
+        .then(response => {
+          setLoginUser(response.data);
+        })
+        .catch(function (error) {
+          // 오류발생시 실행
+          console.log(error);
+        });
+    }
   };
 
   useEffect(() => {

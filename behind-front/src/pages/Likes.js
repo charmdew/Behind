@@ -53,8 +53,6 @@ const Likes = ({}) => {
     }
   };
 
-  // const [changeDetector, setChangeDetector] = useState(0);
-
   const [followingIdList, setfollowingIdList] = useState(null);
   const [followingList, setFollowingList] = useState(null);
   const [followerList, setFollowerList] = useState(null);
@@ -99,9 +97,6 @@ const Likes = ({}) => {
     getfollowList();
   }, []);
 
-  // useEffect(() => {
-  //   getfollowList();
-  // }, [changeDetector]);
   if (followingList && followerList && followingIdList) {
     return (
       <DetectorStateContext.Provider value={DetectorState}>
