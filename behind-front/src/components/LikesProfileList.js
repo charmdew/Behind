@@ -7,8 +7,8 @@ const ProfileList = ({ userList }) => {
   return (
     <SimpleGrid bg="white" minChildWidth="500px" spacing="40px">
       {userList.map(it => (
-        <GridItem>
-          <LikesProfileContainer key={parseInt(it.id)} {...it} />
+        <GridItem key={it.id.toString()}>
+          <LikesProfileContainer {...it} />
         </GridItem>
       ))}
     </SimpleGrid>

@@ -133,7 +133,6 @@ const NavBar = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      ~
       <chakra.header
         bg={bg}
         w="full"

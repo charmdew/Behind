@@ -37,10 +37,10 @@ function getCookie(cookie_name) {
 
 const Likes = ({}) => {
   const { id } = useParams();
-  const { loginUser } = useContext(UsersStateContext);
-  const LoginUserId = loginUser.id;
+  // const { loginUser } = useContext(UsersStateContext);
+  // const LoginUserId = loginUser.id;
   const token = getCookie('token');
-  // const LoginUserId = jwt_decode(token).sub;
+  const LoginUserId = jwt_decode(token).sub;
   console.log(id);
   const navigate = useNavigate();
 
@@ -53,20 +53,11 @@ const Likes = ({}) => {
     }
   };
 
-  const [changeDetector, setChangeDetector] = useState(0);
+  // const [changeDetector, setChangeDetector] = useState(0);
 
-  const DetectorState = useMemo(
-    () => ({
-      changeDetector,
-    }),
-    [changeDetector]
-  );
-  const DetectorDispatches = useMemo(() => {
-    return { setChangeDetector };
-  }, []);
-
-  const [followingList, setFollowingList] = useState([]);
-  const [followerList, setFollowerList] = useState([]);
+  const [followingIdList, setfollowingIdList] = useState(null);
+  const [followingList, setFollowingList] = useState(null);
+  const [followerList, setFollowerList] = useState(null);
   const getfollowList = async () => {
     const followingtempList = [];
     const followertempList = [];
@@ -74,6 +65,7 @@ const Likes = ({}) => {
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     });
     const followingUsers = response.data.followingUsers;
+    setfollowingIdList(followingUsers);
     const followedUsers = response.data.followedUsers;
     for (const ID of followingUsers) {
       const userInfo = await axios.get(`api/users/${ID}`, {
@@ -90,49 +82,66 @@ const Likes = ({}) => {
     setFollowingList(followingtempList);
     setFollowerList(followertempList);
   };
+  const DetectorDispatches = useMemo(() => {
+    return { getfollowList };
+  }, []);
+  const DetectorState = useMemo(
+    () => ({
+      followingIdList,
+    }),
+    [followingIdList]
+  );
 
   console.log('followingList', followingList);
   console.log('followerList', followerList);
 
   useEffect(() => {
     getfollowList();
-  }, [LoginUserId]);
+  }, []);
 
-  useEffect(() => {
-    getfollowList();
-  }, [changeDetector]);
+  // useEffect(() => {
+  //   getfollowList();
+  // }, [changeDetector]);
+  if (followingList && followerList && followingIdList) {
+    return (
+      <DetectorStateContext.Provider value={DetectorState}>
+        <DetectorDispatchContext.Provider value={DetectorDispatches}>
+          <Box alignItems="center" display="flex" w="100%" bg="gray.100">
+            <IconButton
+              onClick={() => {
+                navigate(-1);
+              }}
+              size="lg"
+              icon={<FiArrowLeft />}
+            />
+            <Text as="b">{Back_Word()}</Text>
+          </Box>
 
-  return (
-    <DetectorStateContext.Provider value={DetectorState}>
-      <DetectorDispatchContext.Provider value={DetectorDispatches}>
-        <Box alignItems="center" display="flex" w="100%" bg="gray.100">
-          <IconButton
-            onClick={() => {
-              navigate(-1);
-            }}
-            size="lg"
-            icon={<FiArrowLeft />}
-          />
-          <Text as="b">{Back_Word()}</Text>
-        </Box>
-
-        <Tabs bg="white" isFitted variant="solid-rounded" colorScheme="yellow">
-          <TabList>
-            <Tab fontSize="xl">Following</Tab>
-            <Tab fontSize="xl">Follower</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel p="0">
-              <LikesProfileList userList={followingList} />
-            </TabPanel>
-            <TabPanel p="0">
-              <LikesProfileList userList={followerList} />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </DetectorDispatchContext.Provider>
-    </DetectorStateContext.Provider>
-  );
+          <Tabs
+            bg="white"
+            isFitted
+            variant="solid-rounded"
+            colorScheme="yellow"
+          >
+            <TabList>
+              <Tab fontSize="xl">Following</Tab>
+              <Tab fontSize="xl">Follower</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel p="0">
+                <LikesProfileList userList={followingList} />
+              </TabPanel>
+              <TabPanel p="0">
+                <LikesProfileList userList={followerList} />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </DetectorDispatchContext.Provider>
+      </DetectorStateContext.Provider>
+    );
+  } else {
+    return <></>;
+  }
 };
 
 export default Likes;
