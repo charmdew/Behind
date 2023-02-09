@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useRef } from 'react';
 import { UsersStateContext } from '../App';
+import QRcode from './QRcode';
 import jwt_decode from 'jwt-decode';
 import {
   Modal,
@@ -120,15 +121,19 @@ const NavBar = () => {
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>QR코드를 비춰주세요</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>QRQRQRQR</ModalBody>
+          <ModalBody>
+            <Box display="flex" justifyContent="center" alignContent="center">
+              <QRcode />
+            </Box>
+          </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-
+      ~
       <chakra.header
         bg={bg}
         w="full"
