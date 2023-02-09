@@ -70,6 +70,6 @@ public class SearchRepository {
         System.out.println(jpql);
         TypedQuery<User> query = em.createQuery(jpql, User.class);
 
-        return query.getResultList();
+        return query.setFirstResult(0).setMaxResults(2).getResultList();
     }
 }

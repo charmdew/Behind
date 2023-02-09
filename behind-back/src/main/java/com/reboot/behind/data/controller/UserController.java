@@ -65,9 +65,9 @@ public class UserController {
         System.out.println("호호호호호호호");
         try{
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            System.out.println(tokenid);
-            if (tokenid == userResponseDto.getId()) {
+            int tokenId = pd.getUser().getId();
+            System.out.println(tokenId);
+            if (tokenId == userResponseDto.getId()) {
                 UserResponseDto userChangeDto = userService.changeUser(userResponseDto);
                 return ResponseEntity.status(HttpStatus.OK).body(userChangeDto);
             } else {
@@ -85,9 +85,9 @@ public class UserController {
     public ResponseEntity<?> ChangeDetail(@RequestBody ChangeUserDetailDto changeUserDetailDto) throws Exception {
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            System.out.println(tokenid);
-            if (tokenid == changeUserDetailDto.getId()) {
+            int tokenId = pd.getUser().getId();
+            System.out.println(tokenId);
+            if (tokenId == changeUserDetailDto.getId()) {
                 UserResponseDto userResponseDto = userService.ChangeDetail(changeUserDetailDto.getId(), changeUserDetailDto.getDetail());
 
                 return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
@@ -107,9 +107,9 @@ public class UserController {
     public ResponseEntity<?> createFollower(@RequestBody FollowerDto followerDto){
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            System.out.println(tokenid);
-            if (tokenid == followerDto.getUser()) {
+            int tokenId = pd.getUser().getId();
+            System.out.println(tokenId);
+            if (tokenId == followerDto.getUser()) {
                 NewLikeCountDto  cnt = new NewLikeCountDto();
                 cnt.setNewLikeCnt(userService.saveFollower(followerDto));
                 return ResponseEntity.status(HttpStatus.OK).body(cnt);
@@ -128,9 +128,9 @@ public class UserController {
     public ResponseEntity<?> deleteFollower(@RequestBody FollowerDto followerDto) throws Exception {
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            System.out.println(tokenid);
-            if (tokenid == followerDto.getUser()) {
+            int tokenId = pd.getUser().getId();
+            System.out.println(tokenId);
+            if (tokenId == followerDto.getUser()) {
                 NewLikeCountDto  cnt = new NewLikeCountDto();
                 cnt.setNewLikeCnt(userService.deleteFollower(followerDto));
                 return ResponseEntity.status(HttpStatus.OK).body(cnt);
@@ -175,8 +175,8 @@ public class UserController {
     public ResponseEntity<String> deleteUser(Integer id) throws  Exception{
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            if (tokenid == id) {
+            int tokenId = pd.getUser().getId();
+            if (tokenId == id) {
                 userService.deleteUser(id);
                 return ResponseEntity.status(HttpStatus.OK).body("유저 삭제 완료!");
             } else {
@@ -211,8 +211,8 @@ public class UserController {
     public ResponseEntity<String> selectProfileImage(Integer id, String image){
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            if (tokenid == id) {
+            int tokenId = pd.getUser().getId();
+            if (tokenId == id) {
                 userService.saveProfile(id, image);
                 return ResponseEntity.status(HttpStatus.OK).body("프로필 등록 완료!");
             } else {

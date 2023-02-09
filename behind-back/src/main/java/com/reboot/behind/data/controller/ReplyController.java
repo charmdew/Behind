@@ -36,8 +36,8 @@ public class ReplyController {
     public ResponseEntity<String> createReply(@RequestBody ReplyDto replyDto){
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            if (tokenid == replyDto.getWriterId()) {
+            int tokenId = pd.getUser().getId();
+            if (tokenId == replyDto.getWriterId()) {
                 replyService.saveReply(replyDto);
 
                 return ResponseEntity.status(HttpStatus.OK).body("대댓글 생성완료");

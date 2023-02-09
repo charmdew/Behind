@@ -52,8 +52,8 @@ public class CommentController {
     public ResponseEntity<?> createComment(@RequestBody CommentDto commentDto){
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            if (tokenid == commentDto.getWriterUser()) {
+            int tokenId = pd.getUser().getId();
+            if (tokenId == commentDto.getWriterUser()) {
                 CommentResponseDto commentResponseDto = commentService.saveComment(commentDto);
 
                 return ResponseEntity.status(HttpStatus.OK).body(commentResponseDto);
