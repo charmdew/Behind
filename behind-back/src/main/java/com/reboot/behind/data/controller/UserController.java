@@ -67,19 +67,21 @@ public class UserController {
             value = "좋아요(팔로우) 좋아요 리스트에 추가"
             , notes = "좋아요(팔로우)를 누르면 팔로우 리스트에 추가한다")
     @PostMapping("/like")
-    public ResponseEntity<String> createFollower(@RequestBody FollowerDto followerDto){
-        userService.saveFollower(followerDto);
+    public ResponseEntity<?> createFollower(@RequestBody FollowerDto followerDto){
+        NewLikeCountDto  cnt = new NewLikeCountDto();
+        cnt.setNewLikeCnt(userService.saveFollower(followerDto));
 
-        return ResponseEntity.status(HttpStatus.OK).body("팔로우 성공!");
+        return ResponseEntity.status(HttpStatus.OK).body(cnt);
     }
     @ApiOperation(
             value = "좋아요(팔로우) 삭제"
             , notes = "좋아요(팔로우)삭제 리스트에서 제거")
     @DeleteMapping("/like")
-    public ResponseEntity<String> deleteFollower(@RequestBody FollowerDto followerDto) throws Exception {
-        userService.deleteFollower(followerDto);
+    public ResponseEntity<?> deleteFollower(@RequestBody FollowerDto followerDto) throws Exception {
+        NewLikeCountDto  cnt = new NewLikeCountDto();
+        cnt.setNewLikeCnt(userService.deleteFollower(followerDto));
 
-        return ResponseEntity.status(HttpStatus.OK).body("팔로우 취소!");
+        return ResponseEntity.status(HttpStatus.OK).body(cnt);
     }
     @ApiOperation(
             value = "유저 검색"
