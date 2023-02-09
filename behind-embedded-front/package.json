@@ -1,7 +1,7 @@
 {
   "name": "behind-embedded-front",
   "productName": "behind-embedded-front",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "Frontend app for the Behind",
   "main": ".webpack/main",
   "scripts": {
@@ -40,7 +40,6 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@yudiel/react-qr-scanner": "^1.1.3",
-    "axios": "^1.3.2",
     "electron-squirrel-startup": "^1.0.0",
     "framer-motion": "^8.5.5",
     "jwt-decode": "^3.1.2",
@@ -49,7 +48,11 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.8.0",
-    "react-webcam": "^7.0.1"
+    "react-webcam": "^7.0.1",
+    "swiper": "^9.0.3"
+  },
+  "engines": {
+    "node": ">=16 <17"
   },
   "prettier": "prettier-config-standard"
 }

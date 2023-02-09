@@ -11,7 +11,12 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     fullscreen: true,
     webPreferences: {
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      contextIsolation: false,
+      nodeIntegration: true
+      // Temp start
+      // webSecurity: false
+      // Temp end
     }
   })
 
