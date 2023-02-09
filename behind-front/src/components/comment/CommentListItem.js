@@ -1,3 +1,5 @@
+import jwt_decode from 'jwt-decode';
+import { useRef, useContext, useState } from 'react';
 import ReCommentList from './ReCommentList';
 
 // 대댓글 열기 버튼
@@ -19,8 +21,6 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
-import { useRef, useContext, useState } from 'react';
-import { UsersStateContext } from '../../App';
 import { CommentDispatchContext } from './Comment';
 
 import axios from 'axios';
@@ -41,8 +41,8 @@ function getCookie(cookie_name) {
 
 const CommentListItem = it => {
   console.log(it);
-  const LoginUserId = getCookie('LoginUserId');
-  const { loginUser } = useContext(UsersStateContext);
+  const token = getCookie('token');
+  const LoginUserId = jwt_decode(token).sub;
   const { getCommentList } = useContext(CommentDispatchContext);
   const inputContent = useRef();
 
@@ -54,7 +54,7 @@ const CommentListItem = it => {
     axios({
       url: 'api/comment',
       method: 'patch',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       data: {
         commentId: parseInt(it.commentId),
         content: thisComment,
@@ -76,7 +76,7 @@ const CommentListItem = it => {
       params: {
         id: it.commentId,
       },
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     }).then(() => {
       getCommentList();
     });
@@ -97,7 +97,7 @@ const CommentListItem = it => {
     axios({
       url: 'api/reply',
       method: 'post',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       data: {
         ...newReply,
       },

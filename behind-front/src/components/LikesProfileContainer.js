@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -45,7 +46,8 @@ const ProfileContainer = ({
   name,
   track,
 }) => {
-  const LoginUserId = getCookie('LoginUserId');
+  const token = getCookie('token');
+  const LoginUserId = jwt_decode(token).sub;
   console.log(position);
   const navigate = useNavigate();
   // const { position } = it;
@@ -58,9 +60,18 @@ const ProfileContainer = ({
   const { setChangeDetector } = useContext(DetectorDispatchContext);
 
   const updateFollowingIdList = () => {
-    axios.get(`/api/users/${LoginUserId}`).then(response => {
-      setfollowingIdList(response.data.followingUsers);
-    });
+    axios({
+      url: `/api/users/${LoginUserId}`,
+      method: 'get',
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
+    })
+      .then(response => {
+        setfollowingIdList(response.data.followingUsers);
+      })
+      .catch(function (error) {
+        // 오류발생시 실행
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -155,6 +166,7 @@ const ProfileContainer = ({
       axios({
         method: 'delete',
         url: 'api/users/like',
+        headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
         data: {
           followUser: String(id),
           user: parseInt(LoginUserId),
@@ -170,6 +182,7 @@ const ProfileContainer = ({
       axios({
         method: 'post',
         url: 'api/users/like',
+        headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
         data: {
           followUser: parseInt(id),
           user: parseInt(LoginUserId),

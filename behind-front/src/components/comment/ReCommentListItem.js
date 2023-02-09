@@ -1,3 +1,7 @@
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+import { useRef, useContext, useState } from 'react';
+
 import {
   Box,
   IconButton,
@@ -14,11 +18,9 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
-import { useRef, useContext, useState } from 'react';
+
 import { UsersStateContext } from '../../App';
 import { CommentDispatchContext } from './Comment';
-
-import axios from 'axios';
 
 function getCookie(cookie_name) {
   var x, y;
@@ -35,8 +37,8 @@ function getCookie(cookie_name) {
 }
 
 const ReCommentListItem = it => {
-  const LoginUserId = getCookie('LoginUserId');
-  const { loginUser } = useContext(UsersStateContext);
+  const token = getCookie('token');
+  const LoginUserId = jwt_decode(token).sub;
   const { getCommentList } = useContext(CommentDispatchContext);
 
   const [thisReply, setThisReply] = useState(it.content);
@@ -48,7 +50,7 @@ const ReCommentListItem = it => {
     axios({
       url: 'api/reply',
       method: 'patch',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       data: {
         replyId: parseInt(it.replyId),
         content: thisReply,
@@ -70,7 +72,7 @@ const ReCommentListItem = it => {
       params: {
         id: it.replyId,
       },
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     }).then(() => {
       getCommentList();
     });

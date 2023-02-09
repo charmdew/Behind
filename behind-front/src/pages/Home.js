@@ -1,13 +1,15 @@
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
-import React, { useState, useEffect, useMemo, useContext } from 'react';
 import jwt_decode from 'jwt-decode';
+
+import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useMemo } from 'react';
+
+import { Box } from '@chakra-ui/react';
 
 import ProfileList from '../components/ProfileList';
 import PositionRadio from '../components/PositionRadio';
 import TrackRadio from '../components/TrackRadio';
 
-import { Box } from '@chakra-ui/react';
 import { UsersStateContext, UsersDispatchContext } from '../App';
 export const FilteredUsersDispatchContext = React.createContext();
 
@@ -37,9 +39,9 @@ function getCookie(cookie_name) {
 }
 
 const Home = () => {
+  console.log('home 렌더링');
   const navigate = useNavigate();
   const query = useLocation();
-  const { setLoginUser, getUser } = useContext(UsersDispatchContext);
   useEffect(() => {
     const token = getCookie('token');
 
@@ -51,16 +53,11 @@ const Home = () => {
       (document.cookie.length === 0 || !document.cookie.token || !token)
     ) {
       console.log('토큰 설정 후 홈 렌더링');
-      const regex = /\?|id=|\&X-AUTH-TOKEN=/;
-      // '?id=', '&X-AUTH-TOKEN' 구분자로 자르기
-      const values = query.search.split(regex);
-      // 배열에서 undefined를 포함한 0, null, false 제거
-      const result = values.filter(values => values);
-      const loginUserId = result[0];
-      const token = result[1];
-      setCookie('LoginUserId', `${loginUserId}`, '1');
+      const token = query.search.replace('?X-AUTH-TOKEN=', '');
+      const LoginUserId = jwt_decode(token).sub;
+      console.log(token);
+      setCookie('LoginUserId', `${LoginUserId}`, '1');
       setCookie('token', `${token}`, '1');
-      getUser();
       if (jwt_decode(token).role === 'TEMP') {
         navigate('/useredit', { replace: true });
       }
@@ -68,28 +65,20 @@ const Home = () => {
       query.search.length === 0 &&
       !(document.cookie.length === 0 || !document.cookie.token || !token)
     ) {
-      const LoginUserId = getCookie('LoginUserId');
       const token = getCookie('token');
+      const LoginUserId = jwt_decode(token).sub;
     } else {
-      const LoginUserId = getCookie('LoginUserId');
       const token = getCookie('token');
+      const LoginUserId = jwt_decode(token).sub;
     }
   }, []);
-
-  // useEffect(() => {
-  //   const LoginUserId = getCookie('LoginUserId');
-  //   axios.get('api/users').then(response => {
-  //     setUsers(response.data);
-  //   });
-  // }, [loginUser]);
-  const { followingIdList } = useContext(UsersStateContext);
-  console.log(followingIdList);
 
   const [users, setUsers] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState(0);
   const [selectedTrack, setSelectedTrack] = useState(0);
 
   useEffect(() => {
+    const token = getCookie('token');
     axios({
       method: 'get',
       url: 'api/users/search',
@@ -97,7 +86,10 @@ const Home = () => {
         position: parseInt(selectedPosition),
         track: parseInt(selectedTrack),
       },
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-AUTH-TOKEN': token,
+      },
     }).then(res => {
       setUsers(res.data);
     });
@@ -106,40 +98,35 @@ const Home = () => {
   const memoizedFilterDispatches = useMemo(() => {
     return { setSelectedPosition, setSelectedTrack };
   }, []);
-  if (followingIdList) {
-    return (
-      <div>
-        <FilteredUsersDispatchContext.Provider value={memoizedFilterDispatches}>
-          <Box>
-            {/* 포지션,트랙 라디오 */}
-            <Box
-              pt="10"
-              pb="10"
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              bg="white"
-              borderBottom="solid 40px"
-              borderBottomColor="#4E6C50"
-            >
-              {/* 포지션 */}
-              <Box mb="5">
-                <PositionRadio />
-              </Box>
-              {/* 트랙 */}
-              <Box>
-                <TrackRadio />
-              </Box>
+  return (
+    <div>
+      <FilteredUsersDispatchContext.Provider value={memoizedFilterDispatches}>
+        <Box>
+          {/* 포지션,트랙 라디오 */}
+          <Box
+            pt="10"
+            pb="10"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            bg="white"
+            borderBottom="solid 40px"
+            borderBottomColor="#4E6C50"
+          >
+            {/* 포지션 */}
+            <Box mb="5">
+              <PositionRadio />
             </Box>
-            <ProfileList userList={users} />
+            {/* 트랙 */}
+            <Box>
+              <TrackRadio />
+            </Box>
           </Box>
-        </FilteredUsersDispatchContext.Provider>
-      </div>
-    );
-  } else {
-    getUser();
-    return <></>;
-  }
+          <ProfileList userList={users} />
+        </Box>
+      </FilteredUsersDispatchContext.Provider>
+    </div>
+  );
 };
 
 export default Home;

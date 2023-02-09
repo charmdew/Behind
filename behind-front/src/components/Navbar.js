@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useRef } from 'react';
 import { UsersStateContext } from '../App';
-
+import jwt_decode from 'jwt-decode';
 import {
   Modal,
   ModalOverlay,
@@ -25,9 +25,25 @@ import {
 } from '@chakra-ui/react';
 import { AiOutlineMenu } from 'react-icons/ai';
 
+function getCookie(cookie_name) {
+  var x, y;
+  var val = document.cookie.split(';');
+
+  for (var i = 0; i < val.length; i++) {
+    x = val[i].substr(0, val[i].indexOf('='));
+    y = val[i].substr(val[i].indexOf('=') + 1);
+    x = x.replace(/^\s+|\s+$/g, ''); // 앞과 뒤의 공백 제거하기
+    if (x == cookie_name) {
+      return unescape(y); // unescape로 디코딩 후 값 리턴
+    }
+  }
+}
+
 const NavBar = () => {
+  // const token = getCookie('token');
+  // const LoginUserId = jwt_decode(token).sub;
   const { loginUser } = useContext(UsersStateContext);
-  const loginUserId = loginUser.id;
+  const LoginUserId = loginUser.id;
 
   const bg = useColorModeValue('#4E6C50', 'gray.800');
   const mobileNav = useDisclosure();
@@ -39,7 +55,7 @@ const NavBar = () => {
 
   // Likes으로 가라
   const GoMyLikes = () => {
-    return navigate(`/likes/${loginUserId}`);
+    return navigate(`/likes/${LoginUserId}`);
   };
   // MyPage으로 가라
   const GoMyPage = () => {
@@ -228,7 +244,10 @@ const NavBar = () => {
                 <Button
                   onMouseOver={HamQRButtonOnHover}
                   onMouseOut={HamQRButtonOffHover}
-                  onClick={onOpen}
+                  onClick={() => {
+                    onOpen();
+                    mobileNav.onClose();
+                  }}
                   w="full"
                   variant="ghost"
                 >
@@ -237,7 +256,10 @@ const NavBar = () => {
                 <Button
                   onMouseOver={HamLikesButtonOnHover}
                   onMouseOut={HamLikesButtonOffHover}
-                  onClick={GoMyLikes}
+                  onClick={() => {
+                    GoMyLikes();
+                    mobileNav.onClose();
+                  }}
                   w="full"
                   variant="ghost"
                 >
@@ -246,7 +268,10 @@ const NavBar = () => {
                 <Button
                   onMouseOver={HamMypageButtonOnHover}
                   onMouseOut={HamMypageButtonOffHover}
-                  onClick={GoMyPage}
+                  onClick={() => {
+                    GoMyPage();
+                    mobileNav.onClose();
+                  }}
                   w="full"
                   variant="ghost"
                 >

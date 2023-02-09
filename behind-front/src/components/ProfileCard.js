@@ -192,4 +192,4 @@ const ProfileCard = ({ phoneNum, tag, email, name }) => {
   }
 };
 
-export default ProfileCard;
+export default React.memo(ProfileCard);

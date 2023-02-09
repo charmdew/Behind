@@ -1,8 +1,9 @@
 // 로그인한 나에 대한 정보는 App.js에서 보관
 
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProfileContainer from './../components/ProfileContainer';
 
@@ -61,15 +62,25 @@ function removeCookie(cookie_name, value, days) {
 }
 
 const MyPage = () => {
-  const LoginUserId = getCookie('LoginUserId');
+  const token = getCookie('token');
+  const LoginUserId = jwt_decode(token).sub;
   const navigate = useNavigate();
 
   const [loginUser, setLoginUser] = useState({});
   const getLoginUser = () => {
-    axios.get(`/api/users/${LoginUserId}`).then(response => {
-      setLoginUser(response.data);
-    });
+    axios({
+      url: `/api/users/${LoginUserId}`,
+      method: 'get',
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
+    })
+      .then(res => {
+        setLoginUser(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
+
   useEffect(() => {
     getLoginUser();
   }, []);
@@ -91,8 +102,8 @@ const MyPage = () => {
       params: {
         id: parseInt(LoginUserId),
       },
-      headers: { 'Content-Type': 'application/json' },
-    }).then(response => {
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
+    }).then(() => {
       alert('회원탈퇴가 완료되었습니다.');
       navigate('/', { replace: true });
     });
@@ -108,13 +119,14 @@ const MyPage = () => {
     axios({
       url: 'api/users/detail',
       method: 'patch',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       data: {
-        id: parseInt(loginUser.id),
+        id: parseInt(LoginUserId),
         detail: detailInfo,
       },
     })
-      .then(() => {
+      .then(res => {
+        console.log(res);
         getLoginUser();
       })
       .catch(function (error) {

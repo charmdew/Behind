@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import jwt_decode from 'jwt-decode';
 import CommentList from './CommentList';
 
 import {
@@ -30,8 +30,8 @@ function getCookie(cookie_name) {
 
 const Comment = ({ profileUserId }) => {
   const inputContent = useRef();
-  const LoginUserId = getCookie('LoginUserId');
-  const { loginUser } = useContext(UsersStateContext);
+  const token = getCookie('token');
+  const LoginUserId = jwt_decode(token).sub;
 
   const [commentList, setCommentList] = useState([]);
 
@@ -39,7 +39,7 @@ const Comment = ({ profileUserId }) => {
     await axios({
       method: 'get',
       url: `api/comment?id=${profileUserId}`,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     }).then(res => {
       setCommentList(res.data);
     });
@@ -59,7 +59,7 @@ const Comment = ({ profileUserId }) => {
     axios({
       url: 'api/comment',
       method: 'post',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       data: {
         ...newComment,
       },

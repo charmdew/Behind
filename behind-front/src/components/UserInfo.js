@@ -8,7 +8,7 @@
 
 import { useContext, useEffect, useState, useMemo } from 'react';
 import { UsersStateContext, UsersDispatchContext } from '../App';
-
+import jwt_decode from 'jwt-decode';
 import {
   SimpleGrid,
   GridItem,
@@ -49,20 +49,16 @@ function getCookie(cookie_name) {
 }
 
 const UserInfo = ({ loginUser }) => {
-  console.log(loginUser);
+  const token = getCookie('token');
+  const LoginUserId = jwt_decode(token).sub;
+  const isTemp = jwt_decode(token).role;
+  console.log(isTemp);
   // 로그인 상태 ? 회원정보수정 : 회원정보입력
-  const headWord = () => (isLogin ? '회원정보수정' : '회원정보입력');
+  const headWord = () => (isTemp === 'USER' ? '회원정보수정' : '회원정보입력');
   const navigate = useNavigate();
   const { refreshLoginUserInfo } = useContext(UsersDispatchContext);
 
-  const LoginUserId = getCookie('LoginUserId');
-
   const [editedUser, setEditedUser] = useState(loginUser);
-  const isLogin = useMemo(() => (loginUser ? true : false));
-  // useEffect(() => {
-  //   setEditedUser(loginUser);
-  // }, [loginUser]);
-
   const [name, setName] = useState(loginUser.name);
   const [email, setEmail] = useState(loginUser.email);
   const [phoneNum, setPhoneNum] = useState(loginUser.phoneNum);
@@ -219,7 +215,7 @@ const UserInfo = ({ loginUser }) => {
       axios({
         url: 'api/users',
         method: 'patch',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
         data: {
           ...requestUserData,
         },
@@ -244,8 +240,8 @@ const UserInfo = ({ loginUser }) => {
           size="lg"
           icon={<FiArrowLeft />}
         />
-        {/* <Text as="b">{`${headWord()}`}</Text> */}
-        <Text as="b">회원정보수정</Text>
+        <Text as="b">{`${headWord()}`}</Text>
+        {/* <Text as="b">회원정보수정</Text> */}
       </Box>
 
       <Box display="flex" justifyContent="center" bg="#4E6C50" p="10" pb="20">

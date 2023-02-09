@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState, useMemo } from 'react';
-import { UsersStateContext } from '../App';
-import { FiArrowLeft } from 'react-icons/fi';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Text } from '@chakra-ui/react';
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
-import LikesProfileList from '../components/LikesProfileList';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import { FiArrowLeft } from 'react-icons/fi';
+import { Box, Text } from '@chakra-ui/react';
 import {
   IconButton,
   Tabs,
@@ -14,19 +15,37 @@ import {
   TabPanel,
 } from '@chakra-ui/react';
 
-import axios from 'axios';
+import LikesProfileList from '../components/LikesProfileList';
+import { UsersStateContext } from '../App';
 
 export const DetectorStateContext = React.createContext();
 export const DetectorDispatchContext = React.createContext();
 
+function getCookie(cookie_name) {
+  var x, y;
+  var val = document.cookie.split(';');
+
+  for (var i = 0; i < val.length; i++) {
+    x = val[i].substr(0, val[i].indexOf('='));
+    y = val[i].substr(val[i].indexOf('=') + 1);
+    x = x.replace(/^\s+|\s+$/g, ''); // 앞과 뒤의 공백 제거하기
+    if (x == cookie_name) {
+      return unescape(y); // unescape로 디코딩 후 값 리턴
+    }
+  }
+}
+
 const Likes = ({}) => {
   const { id } = useParams();
   const { loginUser } = useContext(UsersStateContext);
-  const loginUserId = loginUser.id;
+  const LoginUserId = loginUser.id;
+  const token = getCookie('token');
+  // const LoginUserId = jwt_decode(token).sub;
+  console.log(id);
   const navigate = useNavigate();
 
   const Back_Word = () => {
-    if (parseInt(id) === parseInt(loginUserId)) {
+    if (parseInt(id) === parseInt(LoginUserId)) {
       return 'My Likes';
     } else {
       // 이 id에 해당하는 사람의 이름으로 수정해야 함
@@ -51,15 +70,21 @@ const Likes = ({}) => {
   const getfollowList = async () => {
     const followingtempList = [];
     const followertempList = [];
-    const response = await axios.get(`api/users/${id}`);
+    const response = await axios.get(`api/users/${id}`, {
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
+    });
     const followingUsers = response.data.followingUsers;
     const followedUsers = response.data.followedUsers;
     for (const ID of followingUsers) {
-      const userInfo = await axios.get(`api/users/${ID}`);
+      const userInfo = await axios.get(`api/users/${ID}`, {
+        headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
+      });
       followingtempList.push(userInfo.data);
     }
     for (const ID of followedUsers) {
-      const userInfo = await axios.get(`api/users/${ID}`);
+      const userInfo = await axios.get(`api/users/${ID}`, {
+        headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
+      });
       followertempList.push(userInfo.data);
     }
     setFollowingList(followingtempList);
@@ -71,7 +96,7 @@ const Likes = ({}) => {
 
   useEffect(() => {
     getfollowList();
-  }, [loginUser]);
+  }, [LoginUserId]);
 
   useEffect(() => {
     getfollowList();

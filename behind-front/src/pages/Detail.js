@@ -1,4 +1,7 @@
-// params로 받은 Id로 유저 정보 불러와서 렌더링
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+import { useContext, useEffect, useState } from 'react';
+
 import {
   Box,
   Text,
@@ -7,15 +10,11 @@ import {
   Editable,
   EditablePreview,
 } from '@chakra-ui/react';
-
 import { FiArrowLeft } from 'react-icons/fi';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useContext, useEffect, useState } from 'react';
-import { UsersStateContext } from '../App';
-import axios from 'axios';
-
 import ProfileContainer from './../components/ProfileContainer';
+import { UsersStateContext } from '../App';
 
 // 더미 유저 정보
 
@@ -34,29 +33,38 @@ function getCookie(cookie_name) {
 }
 
 const Detail = () => {
-  const LoginUserId = getCookie('LoginUserId');
-  const { loginUser } = useContext(UsersStateContext);
+  const navigate = useNavigate();
+  const token = getCookie('token');
+  const LoginUserId = jwt_decode(token).sub;
   const [detailUser, setDetailUser] = useState({});
   const { id } = useParams();
 
   const getDetailUser = () => {
-    axios.get(`api/users/${id}`).then(res => {
-      const user = res.data;
-      setDetailUser(user);
-    });
-    axios.get(`api/users/${LoginUserId}`).then(res => {
-      const loginUserInfo = res.data;
-    });
+    axios({
+      url: `api/users/${id}`,
+      method: 'get',
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
+    })
+      .then(res => {
+        const user = res.data;
+        if (user.userId === 'deletedUser') {
+          alert('탈퇴된 회원입니다.');
+          navigate('/', { replace: true });
+        }
+        setDetailUser(user);
+      })
+      .catch(function (error) {
+        // 오류발생시 실행
+        console.log(error);
+      });
   };
 
   useEffect(() => {
     getDetailUser();
   }, [id]);
 
-  const navigate = useNavigate();
-
   // 나의 디테일 페이지를 url로 접근할 때 mypage로 보내기
-  if (parseInt(loginUser.id) === parseInt(id)) {
+  if (parseInt(LoginUserId) === parseInt(id)) {
     return navigate('/mypage', { replace: true });
   }
 

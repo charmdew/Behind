@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
 import { ChakraProvider, theme } from '@chakra-ui/react';
+import jwt_decode from 'jwt-decode';
 
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -29,37 +30,54 @@ function getCookie(cookie_name) {
 }
 
 const App = () => {
+  console.log('APP 렌더');
   // 로그인한 유저id 저장
   const [loginUser, setLoginUser] = useState({});
-  const [followingIdList, setfollowingIdList] = useState([]);
   // const token = getCookie('token');
   const getUser = () => {
-    const LoginUserId = getCookie('LoginUserId');
-    console.log(LoginUserId);
-    axios.get(`/api/users/${LoginUserId}`).then(response => {
-      setLoginUser(response.data);
-      setfollowingIdList(response.data.followingUsers);
-    });
+    const token = getCookie('token');
+    const LoginUserId = jwt_decode(token).sub;
+    axios({
+      url: `/api/users/${LoginUserId}`,
+      method: 'get',
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
+    })
+      .then(response => {
+        setLoginUser(response.data);
+      })
+      .catch(function (error) {
+        // 오류발생시 실행
+        console.log(error);
+      });
   };
 
-  // useEffect(() => {
-  //   getUser();
-  // }, [LoginUserId]);
+  useEffect(() => {
+    if (document.cookie.length !== 0) {
+      getUser();
+    }
+  }, []);
 
   const refreshLoginUserInfo = LoginUserId => {
-    console.log('refresh', LoginUserId);
-    axios.get(`/api/users/${LoginUserId}`).then(response => {
-      setLoginUser(response.data);
-      setfollowingIdList(response.data.followingUsers);
-    });
+    const token = getCookie('token');
+    axios({
+      url: `/api/users/${LoginUserId}`,
+      method: 'get',
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
+    })
+      .then(response => {
+        setLoginUser(response.data);
+      })
+      .catch(function (error) {
+        // 오류발생시 실행
+        console.log(error);
+      });
   };
 
   const value = useMemo(
     () => ({
       loginUser,
-      followingIdList,
     }),
-    [loginUser, followingIdList]
+    [loginUser]
   );
   const memoizedDispatches = useMemo(() => {
     return { refreshLoginUserInfo, setLoginUser, getUser };

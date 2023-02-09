@@ -1,7 +1,11 @@
-import UserInfo from '../components/UserInfo';
-import { Box } from '@chakra-ui/react';
 import axios from 'axios';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import jwt_decode from 'jwt-decode';
+
+import { Box } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+
+import UserInfo from '../components/UserInfo';
+
 function getCookie(cookie_name) {
   var x, y;
   var val = document.cookie.split(';');
@@ -17,17 +21,22 @@ function getCookie(cookie_name) {
 }
 
 const UserEdit = () => {
-  const LoginUserId = getCookie('LoginUserId');
+  const token = getCookie('token');
+  const LoginUserId = jwt_decode(token).sub;
 
   const [loginUserInfo, setLoginUserInfo] = useState({});
+
   async function getLoginUserInfo() {
-    const info = await axios
-      .get(`/api/users/${LoginUserId}`)
-      .then(response => {
-        return response.data;
+    const info = await axios({
+      url: `/api/users/${LoginUserId}`,
+      method: 'get',
+      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
+    })
+      .then(res => {
+        return res.data;
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.log(error);
       });
     setLoginUserInfo(info);
   }
