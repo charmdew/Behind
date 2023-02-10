@@ -36,8 +36,8 @@ public class ReplyController {
     public ResponseEntity<String> createReply(@RequestBody ReplyDto replyDto){
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            if (tokenid == replyDto.getWriterId()) {
+            int tokenId = pd.getUser().getId();
+            if (tokenId == replyDto.getWriterId()) {
                 replyService.saveReply(replyDto);
 
                 return ResponseEntity.status(HttpStatus.OK).body("대댓글 생성완료");
@@ -56,9 +56,16 @@ public class ReplyController {
     @PatchMapping()
     public ResponseEntity<String> changeReplyContent(@RequestBody ChangeReplyDto changeReplyDto){
         try {
-            replyService.changeReply(changeReplyDto.getReplyId(), changeReplyDto.getContent());
-            // 쓰는사람 id 받아와야함
-            return ResponseEntity.status(HttpStatus.OK).body("수정완료");
+            PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            int tokenId = pd.getUser().getId();
+            if (tokenId == changeReplyDto.getWriterUser()) {
+                replyService.changeReply(changeReplyDto.getReplyId(), changeReplyDto.getContent());
+                // 쓰는사람 id 받아와야함
+                return ResponseEntity.status(HttpStatus.OK).body("수정완료");
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
+            }
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
@@ -69,11 +76,18 @@ public class ReplyController {
             value = "대댓글 삭제"
             , notes = "대댓글을 삭제한다.")
     @DeleteMapping()
-    public ResponseEntity<String> deleteComment(Integer id) throws Exception{
+    public ResponseEntity<String> deleteComment(Integer id, Integer writerUser) throws Exception{
         try {
-            replyService.deleteReply(id);
-            // 쓰는사람 id 받아와야함
-            return ResponseEntity.status(HttpStatus.OK).body("대댓글 삭제완료!!!!");
+            PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            int tokenId = pd.getUser().getId();
+            if (tokenId == writerUser) {
+                replyService.deleteReply(id);
+                // 쓰는사람 id 받아와야함
+                return ResponseEntity.status(HttpStatus.OK).body("대댓글 삭제완료!!!!");
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
+            }
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");

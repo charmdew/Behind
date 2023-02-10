@@ -65,9 +65,9 @@ public class UserController {
         System.out.println("호호호호호호호");
         try{
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            System.out.println(tokenid);
-            if (tokenid == userResponseDto.getId()) {
+            int tokenId = pd.getUser().getId();
+            System.out.println(tokenId);
+            if (tokenId == userResponseDto.getId()) {
                 UserResponseDto userChangeDto = userService.changeUser(userResponseDto);
                 return ResponseEntity.status(HttpStatus.OK).body(userChangeDto);
             } else {
@@ -85,9 +85,9 @@ public class UserController {
     public ResponseEntity<?> ChangeDetail(@RequestBody ChangeUserDetailDto changeUserDetailDto) throws Exception {
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            System.out.println(tokenid);
-            if (tokenid == changeUserDetailDto.getId()) {
+            int tokenId = pd.getUser().getId();
+            System.out.println(tokenId);
+            if (tokenId == changeUserDetailDto.getId()) {
                 UserResponseDto userResponseDto = userService.ChangeDetail(changeUserDetailDto.getId(), changeUserDetailDto.getDetail());
 
                 return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
@@ -107,9 +107,9 @@ public class UserController {
     public ResponseEntity<?> createFollower(@RequestBody FollowerDto followerDto){
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            System.out.println(tokenid);
-            if (tokenid == followerDto.getUser()) {
+            int tokenId = pd.getUser().getId();
+            System.out.println(tokenId);
+            if (tokenId == followerDto.getUser()) {
                 NewLikeCountDto  cnt = new NewLikeCountDto();
                 cnt.setNewLikeCnt(userService.saveFollower(followerDto));
                 return ResponseEntity.status(HttpStatus.OK).body(cnt);
@@ -128,9 +128,9 @@ public class UserController {
     public ResponseEntity<?> deleteFollower(@RequestBody FollowerDto followerDto) throws Exception {
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            System.out.println(tokenid);
-            if (tokenid == followerDto.getUser()) {
+            int tokenId = pd.getUser().getId();
+            System.out.println(tokenId);
+            if (tokenId == followerDto.getUser()) {
                 NewLikeCountDto  cnt = new NewLikeCountDto();
                 cnt.setNewLikeCnt(userService.deleteFollower(followerDto));
                 return ResponseEntity.status(HttpStatus.OK).body(cnt);
@@ -157,9 +157,9 @@ public class UserController {
             "4:BLOCKCHAIN")
 
     @GetMapping("/search")
-    public ResponseEntity<?> getSearchUserList(@RequestParam int position, @RequestParam int track){
+    public ResponseEntity<?> getSearchUserList(@RequestParam int position, @RequestParam int track,@RequestParam int page,@RequestParam int volume){
         try {
-            List<UserResponseDto> userlist = userService.getSearchUserList(position, track);
+            List<UserResponseDto> userlist = userService.getSearchUserList(position, track,page,volume);
             return ResponseEntity.status(HttpStatus.OK).body(userlist);
         }
         catch (Exception e){
@@ -175,8 +175,8 @@ public class UserController {
     public ResponseEntity<String> deleteUser(Integer id) throws  Exception{
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            if (tokenid == id) {
+            int tokenId = pd.getUser().getId();
+            if (tokenId == id) {
                 userService.deleteUser(id);
                 return ResponseEntity.status(HttpStatus.OK).body("유저 삭제 완료!");
             } else {
@@ -211,8 +211,8 @@ public class UserController {
     public ResponseEntity<String> selectProfileImage(Integer id, String image){
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            if (tokenid == id) {
+            int tokenId = pd.getUser().getId();
+            if (tokenId == id) {
                 userService.saveProfile(id, image);
                 return ResponseEntity.status(HttpStatus.OK).body("프로필 등록 완료!");
             } else {
@@ -220,6 +220,36 @@ public class UserController {
             }
         }
         catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
+    }
+
+    @ApiOperation(
+            value = "팔로우 유저 조회"
+            , notes = "내가 팔로우한 유저를 조회한다.")
+
+    @GetMapping("/following")
+    public ResponseEntity<?> getFollowingUser(int id){
+        try {
+            List<UserResponseDto> userlist = userService.getFollowingUser(id);
+            return ResponseEntity.status(HttpStatus.OK).body(userlist);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
+    }
+
+    @ApiOperation(
+            value = "나를 팔로우한 유저 조회"
+            , notes = "나를 팔로우한 유저를 조회한다.")
+
+    @GetMapping("/followed")
+    public ResponseEntity<?> getFollowedUser(int id){
+        try {
+            List<UserResponseDto> userlist = userService.getFollowedUser(id);
+            return ResponseEntity.status(HttpStatus.OK).body(userlist);
+        }
+        catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
         }
     }

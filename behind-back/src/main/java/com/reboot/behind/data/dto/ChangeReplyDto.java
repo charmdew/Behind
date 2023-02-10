@@ -11,6 +11,8 @@ import lombok.ToString;
 @ToString
 public class ChangeReplyDto {
 
+    private int writerUser;
+
     private int replyId;
 
     private String content;

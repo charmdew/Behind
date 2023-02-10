@@ -10,7 +10,7 @@ public interface UserService {
 //    UserResponseDto saveUser(UserDto userDto);
     List<UserResponseDto> getUserList();
 
-    List<UserResponseDto> getSearchUserList(int position,int track);
+    List<UserResponseDto> getSearchUserList(int position,int track,int page,int volume);
 
     UserResponseDto changeUser(UserResponseDto userResponseDto);
 
@@ -29,4 +29,8 @@ public interface UserService {
     void saveProfile(Integer id, String image);
 
     void saveImage(Integer id, String image);
+
+    List<UserResponseDto> getFollowingUser(int id);
+
+    List<UserResponseDto> getFollowedUser(int id);
 }
