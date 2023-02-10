@@ -224,6 +224,36 @@ public class UserController {
         }
     }
 
+    @ApiOperation(
+            value = "팔로우 유저 조회"
+            , notes = "내가 팔로우한 유저를 조회한다.")
+
+    @GetMapping("/following")
+    public ResponseEntity<?> getFollowingUser(int id){
+        try {
+            List<UserResponseDto> userlist = userService.getFollowingUser(id);
+            return ResponseEntity.status(HttpStatus.OK).body(userlist);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
+    }
+
+    @ApiOperation(
+            value = "나를 팔로우한 유저 조회"
+            , notes = "나를 팔로우한 유저를 조회한다.")
+
+    @GetMapping("/followed")
+    public ResponseEntity<?> getFollowedUser(int id){
+        try {
+            List<UserResponseDto> userlist = userService.getFollowedUser(id);
+            return ResponseEntity.status(HttpStatus.OK).body(userlist);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
+    }
+
 }
 
 

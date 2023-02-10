@@ -340,6 +340,97 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    public List<UserResponseDto> getFollowingUser(int id){
+        User founduser = userRepository.findById(id).get();
+        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+        List<Integer> following = founduser.getFollowingUsers();
+        for(int i = 0; i < following.size(); i++ ){
+            User foundFollwingUser = userRepository.findById(following.get(i)).get();
+            UserResponseDto userResponseDto = new UserResponseDto();
+            UserResponseDto.Position position = new UserResponseDto.Position();
+            UserResponseDto.Track track = new UserResponseDto.Track();
+
+            position.setFrontend(foundFollwingUser.isFront());
+            position.setBackend(foundFollwingUser.isBack());
+            position.setEmbedded(foundFollwingUser.isEmbedded());
+
+
+            track.setAi(foundFollwingUser.isAi());
+            track.setIot(foundFollwingUser.isIot());
+            track.setBigdata(foundFollwingUser.isBigData());
+            track.setBlockchain(foundFollwingUser.isBlockChain());
+            track.setMetabus(foundFollwingUser.isMetaBus());
+
+            userResponseDto.setId(foundFollwingUser.getId());
+            userResponseDto.setUserId(foundFollwingUser.getUserId());
+            userResponseDto.setDetail(foundFollwingUser.getDetail());
+            userResponseDto.setTag(foundFollwingUser.getTag());
+            userResponseDto.setEmail(foundFollwingUser.getEmail());
+            userResponseDto.setName(foundFollwingUser.getName());
+            userResponseDto.setPhoneNum(foundFollwingUser.getPhoneNum());
+            userResponseDto.setShowPhoneNum(foundFollwingUser.isShowPhoneNum());
+            userResponseDto.setFollowingUsers(foundFollwingUser.getFollowingUsers());
+            userResponseDto.setFollowedUsers(foundFollwingUser.getFollowedUsers());
+            userResponseDto.setImages(foundFollwingUser.getImages());
+            userResponseDto.setProfile(foundFollwingUser.getProfile());
+            userResponseDto.setLikeCnt(foundFollwingUser.getLikeCnt());
+            userResponseDto.setPosition(position);
+            userResponseDto.setTrack(track);
+            userResponseDtoList.add(userResponseDto);
+
+        }
+        List<Integer> followed = founduser.getFollowedUsers();
+        for(int i=0; i<followed.size(); i++){
+            User foundFollowedUser = userRepository.findById(followed.get(i)).get();
+            foundFollowedUser.getFollowingUsers().remove(Integer.valueOf(founduser.getId()));
+            userRepository.save(foundFollowedUser);
+        }
+
+        return userResponseDtoList;
+    }
+
+    public List<UserResponseDto> getFollowedUser(int id){
+        User founduser = userRepository.findById(id).get();
+        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+        List<Integer> followed = founduser.getFollowedUsers();
+        for(int i = 0; i < followed.size(); i++ ){
+            User foundFollwingUser = userRepository.findById(followed.get(i)).get();
+            UserResponseDto userResponseDto = new UserResponseDto();
+            UserResponseDto.Position position = new UserResponseDto.Position();
+            UserResponseDto.Track track = new UserResponseDto.Track();
+
+            position.setFrontend(foundFollwingUser.isFront());
+            position.setBackend(foundFollwingUser.isBack());
+            position.setEmbedded(foundFollwingUser.isEmbedded());
+
+
+            track.setAi(foundFollwingUser.isAi());
+            track.setIot(foundFollwingUser.isIot());
+            track.setBigdata(foundFollwingUser.isBigData());
+            track.setBlockchain(foundFollwingUser.isBlockChain());
+            track.setMetabus(foundFollwingUser.isMetaBus());
+
+            userResponseDto.setId(foundFollwingUser.getId());
+            userResponseDto.setUserId(foundFollwingUser.getUserId());
+            userResponseDto.setDetail(foundFollwingUser.getDetail());
+            userResponseDto.setTag(foundFollwingUser.getTag());
+            userResponseDto.setEmail(foundFollwingUser.getEmail());
+            userResponseDto.setName(foundFollwingUser.getName());
+            userResponseDto.setPhoneNum(foundFollwingUser.getPhoneNum());
+            userResponseDto.setShowPhoneNum(foundFollwingUser.isShowPhoneNum());
+            userResponseDto.setFollowingUsers(foundFollwingUser.getFollowingUsers());
+            userResponseDto.setFollowedUsers(foundFollwingUser.getFollowedUsers());
+            userResponseDto.setImages(foundFollwingUser.getImages());
+            userResponseDto.setProfile(foundFollwingUser.getProfile());
+            userResponseDto.setLikeCnt(foundFollwingUser.getLikeCnt());
+            userResponseDto.setPosition(position);
+            userResponseDto.setTrack(track);
+            userResponseDtoList.add(userResponseDto);
+
+        }
+
+        return userResponseDtoList;
+    }
 }
 
 

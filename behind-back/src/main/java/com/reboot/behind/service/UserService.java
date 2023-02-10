@@ -29,4 +29,8 @@ public interface UserService {
     void saveProfile(Integer id, String image);
 
     void saveImage(Integer id, String image);
+
+    List<UserResponseDto> getFollowingUser(int id);
+
+    List<UserResponseDto> getFollowedUser(int id);
 }
