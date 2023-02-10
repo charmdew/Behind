@@ -131,6 +131,37 @@ print("=========================================================================
 print("학습된 모델 불러오는데 걸리는 시간")
 print(f"{time.time() - start:.4f} sec")  # 종료와 함께 수행시간 출력
 
+# 이미지 크기 조정
+def resize(image, size):
+    # 원본 이미지의 크기
+    h, w = image.shape[:2]
+    ash = size[1] / h
+    asw = size[0] / w
+    
+    # 이미지 비율 맞춰 자르기
+    if asw > ash:
+        sizeas = (int(w * asw), int(h * asw))
+    else:
+        sizeas = (int(w * ash), int(h * ash))
+    pic = cv2.resize(image, dsize=sizeas)
+    resized_image = pic[int(sizeas[1] / 2 - size[1] / 2):int(sizeas[1] / 2 + size[1] / 2),
+                  int(sizeas[0] / 2 - size[0] / 2):int(sizeas[0] / 2 + size[0] / 2), :]
+
+    # # 이미지 비율 맞춰 축소
+    # base_pic = np.zeros((size[1], size[0], 3), np.uint8)
+    # if asw < ash:
+    #     sizeas = (int(w*asw), int(h*asw))
+    # else:
+    #     sizeas = (int(w*ash), int(h*ash))
+    # print(sizeas)
+    # pic = cv2.resize(styled_image, dsize = sizeas)
+    # print(pic.shape)
+    # print(base_pic.shape)
+    # base_pic[int(size[1] / 2 - sizeas[1] / 2):int(size[1] / 2 + sizeas[1] / 2),
+    # int(size[0] / 2 - sizeas[0] / 2):int(size[0] / 2 + sizeas[0] / 2), :] = pic
+    
+    return resized_image
+
 
 def main(input_image, input_image_fname):
     # 변환할 이미지 파일
@@ -189,20 +220,28 @@ def main(input_image, input_image_fname):
     print(f"{total_time:.4f} sec")  # 종료와 함께 수행시간 출력
 
     ##### 결과 처리 #####
+    # 결과 이미지 사이즈 고정
+    target_size = (324, 400)
+
     # 변환된 이미지 저장
     result_img = []
 
     # base64로 인코딩된 결과 이미지를 저장하는 리스트
     b64encoded_images = []
     for i in range(N):
-        #     visualize(y_tilde[i][0].cpu(), 30)
         # 변환한 이미지 저장
         result_img.append(tensor2cv2(y_tilde[i][0].cpu()))
+
+        ## 리사이즈 처리
+        result_img[i] = resize(result_img[i], target_size)
+
         # '파일이름_스타일타입.jpg' 형식으로 저장
         cv2.imwrite(os.path.join(OUT_DIR, input_file_name[:-4] + '_' + style_types[i] + '.jpg'), result_img[i])
 
-        ## 이미지 데이터 JSON으로 응답
+        # 색상 표현 방식 변경
         styled_image = cv2.cvtColor(result_img[i], cv2.COLOR_BGR2RGB)
+
+        ## 이미지 데이터 JSON으로 응답
         styled_image = Image.fromarray(styled_image)
         bytesIO = io.BytesIO()
         styled_image.save(bytesIO, "JPEG")
