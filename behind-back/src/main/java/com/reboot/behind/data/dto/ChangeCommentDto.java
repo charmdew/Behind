@@ -9,6 +9,8 @@ import lombok.ToString;
 @ToString
 public class ChangeCommentDto {
 
+    private int writerUser;
+
     private int commentId;
 
     private String content;

@@ -52,8 +52,8 @@ public class CommentController {
     public ResponseEntity<?> createComment(@RequestBody CommentDto commentDto){
         try {
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            int tokenid = pd.getUser().getId();
-            if (tokenid == commentDto.getWriterUser()) {
+            int tokenId = pd.getUser().getId();
+            if (tokenId == commentDto.getWriterUser()) {
                 CommentResponseDto commentResponseDto = commentService.saveComment(commentDto);
 
                 return ResponseEntity.status(HttpStatus.OK).body(commentResponseDto);
@@ -72,10 +72,15 @@ public class CommentController {
             , notes = "댓글 id를 통해 댓글 수정")
     public  ResponseEntity<?> changeCommentContent(@RequestBody ChangeCommentDto changeCommentDto) throws Exception{
         try {
-            //user번호 필요함
-            CommentResponseDto commentResponseDto = commentService.changeComment(changeCommentDto.getCommentId(), changeCommentDto.getContent());
+            PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            int tokenId = pd.getUser().getId();
+            if (tokenId == changeCommentDto.getWriterUser()) {
+                CommentResponseDto commentResponseDto = commentService.changeComment(changeCommentDto.getCommentId(), changeCommentDto.getContent());
 
-            return ResponseEntity.status(HttpStatus.OK).body(commentResponseDto);
+                return ResponseEntity.status(HttpStatus.OK).body(commentResponseDto);
+            }else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
+            }
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
@@ -86,11 +91,18 @@ public class CommentController {
     @ApiOperation(
             value = "댓글 id를 통해 댓글 삭제"
             , notes = "댓글 id를 통해 댓글 삭제")
-    public ResponseEntity<String> deleteComment(Integer id) throws  Exception{
+    public ResponseEntity<String> deleteComment(Integer id ,Integer writerUser) throws  Exception{
         try {
-            commentService.deleteComment(id);
-            //user 번호 필요함
-            return ResponseEntity.status(HttpStatus.OK).body("삭제완료!!!!");
+            PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            int tokenId = pd.getUser().getId();
+            if (tokenId == writerUser) {
+                commentService.deleteComment(id);
+                //user 번호 필요함
+                return ResponseEntity.status(HttpStatus.OK).body("삭제완료!!!!");
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
+            }
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
