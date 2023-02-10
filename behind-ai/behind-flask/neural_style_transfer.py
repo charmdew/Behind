@@ -184,7 +184,7 @@ def main_multiple_styles(input_image, input_image_fname):
 
         ## 이미지 데이터 JSON으로 응답
         bytesIO = io.BytesIO()
-        styled_image.save(bytesIO, "JPEG")
+        styled_image.save(bytesIO, "PNG" if input_image_fname.split('.')[1]=='png' else 'JPEG')
         b64encoded = base64.b64encode(bytesIO.getvalue())
         # base64로 인코딩된 이미지 리스트에 저장
         b64encoded_images.append(b64encoded)
