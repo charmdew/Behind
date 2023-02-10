@@ -318,6 +318,7 @@ const ProfileContainer = ({
               {/* 좋아요 */}
               <Box display="flex" flexDirection="row-reverse">
                 <IconButton
+                  onClick={following}
                   ref={buttonA}
                   onMouseOver={buttonAonHover}
                   onMouseOut={buttonAoffHover}
@@ -327,11 +328,11 @@ const ProfileContainer = ({
                   icon={
                     parseInt(id) !== parseInt(LoginUserId) ? (
                       likeToggle ? (
-                        <Box onClick={following}>
+                        <Box>
                           <RiHeartsFill />
                         </Box>
                       ) : (
-                        <Box onClick={following}>
+                        <Box>
                           <RiHeartsLine />
                         </Box>
                       )
@@ -341,7 +342,7 @@ const ProfileContainer = ({
                   }
                 />
                 <Box display="flex" alignItems="center" pr="1" fontSize="23">
-                  {likeCount}
+                  {likeCount === 0 ? '' : likeCount}
                 </Box>
               </Box>
               {/* 댓글창 */}

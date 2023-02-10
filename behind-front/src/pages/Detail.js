@@ -83,7 +83,7 @@ const Detail = () => {
         </Box>
         <ProfileContainer {...detailUser} />
         <Flex
-          bg="#edf3f8"
+          // bg="#edf3f8"
           _dark={{ bg: '#3e3e3e' }}
           w="full"
           alignItems="center"
@@ -94,13 +94,15 @@ const Detail = () => {
             <Box>
               <Flex
                 flexDirection="column"
-                bg="#edf3f8"
+                // bg="#edf3f8"
                 _dark={{ bg: '#3e3e3e' }}
                 w="full"
                 alignItems="center"
                 justifyContent="center"
               >
                 <Box
+                  border="solid 2px"
+                  borderColor="#4E6C50"
                   w="md"
                   mx="auto"
                   bg="white"
