@@ -13,17 +13,27 @@ import TrackRadio from '../components/TrackRadio';
 import { UsersStateContext, UsersDispatchContext } from '../App';
 export const FilteredUsersDispatchContext = React.createContext();
 
-function setCookie(cookie_name, value, days) {
-  var exdate = new Date();
-  exdate.setDate(exdate.getDate() + days);
-  // 설정 일수만큼 현재시간에 만료값으로 지정
+// function setCookie(cookie_name, value, days) {
+//   var exdate = new Date();
+//   exdate.setDate(exdate.getDate() + days);
+//   // 설정 일수만큼 현재시간에 만료값으로 지정
 
-  var cookie_value =
+//   var cookie_value =
+//     escape(value) +
+//     (days == null ? '' : '; path=/' + '; expires=' + exdate.toUTCString());
+//   document.cookie = cookie_name + '=' + cookie_value;
+// }
+
+function setCookie(cookie_name, value, miuntes) {
+  const exdate = new Date();
+  exdate.setMinutes(exdate.getMinutes() + miuntes);
+  const cookie_value =
     escape(value) +
-    (days == null ? '' : '; path=/' + '; expires=' + exdate.toUTCString());
+    (miuntes == null ? '' : '; expires=' + exdate.toUTCString());
   document.cookie = cookie_name + '=' + cookie_value;
 }
 
+console.log('document.cookie =======', document.cookie);
 function getCookie(cookie_name) {
   var x, y;
   var val = document.cookie.split(';');
@@ -65,8 +75,8 @@ const Home = () => {
       const token = query.search.replace('?X-AUTH-TOKEN=', '');
       const LoginUserId = jwt_decode(token).sub;
       console.log(token);
-      setCookie('LoginUserId', `${LoginUserId}`, '1');
-      setCookie('token', `${token}`, '1');
+      setCookie('LoginUserId', `${LoginUserId}`, 30);
+      setCookie('token', `${token}`, 30);
       if (jwt_decode(token).role === 'TEMP') {
         navigate('/useredit', { replace: true });
       }
@@ -91,6 +101,7 @@ const Home = () => {
     console.log('pageNum', pageNum);
 
     const token = getCookie('token');
+    console.log('token', token);
     axios({
       method: 'get',
       url: 'api/users/search',
@@ -151,7 +162,7 @@ const Home = () => {
             pageStart={0}
             loadMore={getUserList}
             hasMore={hasMore}
-            threshold="250"
+            threshold={250}
             loader={
               <div className="loader" key={0}>
                 Loading ...

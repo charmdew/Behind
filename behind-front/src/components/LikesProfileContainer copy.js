@@ -44,7 +44,7 @@ const ProfileContainer = ({
 
   const { loginUser } = useContext(UsersStateContext);
   const { followingIdList } = useContext(DetectorStateContext);
-  const { getFollowList } = useContext(DetectorDispatchContext);
+  const { getfollowList } = useContext(DetectorDispatchContext);
 
   // 내 프로필 클릭하면 mypage로 보내는 기능
   const goDetail = () => {
@@ -137,10 +137,8 @@ const ProfileContainer = ({
           followUser: String(id),
           user: parseInt(LoginUserId),
         },
-      }).then(res => {
-        setLikeCount(res.data.newLikeCnt);
-        setLikeToggle(false);
-        getFollowList();
+      }).then(() => {
+        getfollowList();
       });
     }
     // 좋아요 추가
@@ -153,10 +151,8 @@ const ProfileContainer = ({
           followUser: parseInt(id),
           user: parseInt(LoginUserId),
         },
-      }).then(res => {
-        setLikeCount(res.data.newLikeCnt);
-        setLikeToggle(true);
-        getFollowList();
+      }).then(() => {
+        getfollowList();
       });
     }
   };

@@ -15,6 +15,17 @@ import Login from './pages/Login';
 export const UsersStateContext = React.createContext();
 export const UsersDispatchContext = React.createContext();
 
+function removeCookie(cookie_name, value, days) {
+  var exdate = new Date();
+  exdate.setDate(exdate.getDate() - days);
+  // 설정 일수만큼 현재시간에 만료값으로 지정
+
+  var cookie_value =
+    escape(value) +
+    (days == null ? '' : '; path=/' + '; expires=' + exdate.toUTCString());
+  document.cookie = cookie_name + '=' + cookie_value;
+}
+
 function getCookie(cookie_name) {
   var x, y;
   var val = document.cookie.split(';');
@@ -29,7 +40,14 @@ function getCookie(cookie_name) {
   }
 }
 
+removeCookie('LoginUserId', '', -1);
+removeCookie('token', '', -1);
+
 const App = () => {
+  window.addEventListener('unload', () => {
+    removeCookie('LoginUserId', '', -1);
+    removeCookie('token', '', -1);
+  });
   console.log('APP 렌더');
   // 로그인한 유저id 저장
   const [loginUser, setLoginUser] = useState({});

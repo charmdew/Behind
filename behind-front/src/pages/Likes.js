@@ -56,32 +56,51 @@ const Likes = ({}) => {
   const [followingIdList, setfollowingIdList] = useState(null);
   const [followingList, setFollowingList] = useState(null);
   const [followerList, setFollowerList] = useState(null);
-  const getfollowList = async () => {
-    const followingtempList = [];
-    const followertempList = [];
+  const getFirstfollowList = async () => {
     const response = await axios.get(`api/users/${id}`, {
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     });
-    const followingUsers = response.data.followingUsers;
-    setfollowingIdList(followingUsers);
-    const followedUsers = response.data.followedUsers;
-    for (const ID of followingUsers) {
-      const userInfo = await axios.get(`api/users/${ID}`, {
-        headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
-      });
-      followingtempList.push(userInfo.data);
-    }
-    for (const ID of followedUsers) {
-      const userInfo = await axios.get(`api/users/${ID}`, {
-        headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
-      });
-      followertempList.push(userInfo.data);
-    }
-    setFollowingList(followingtempList);
-    setFollowerList(followertempList);
+    setfollowingIdList(response.data.followingUsers);
   };
+  const getFollowList = () => {
+    axios({
+      method: 'get',
+      url: 'api/users/following',
+      params: {
+        id: id,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-AUTH-TOKEN': token,
+      },
+    })
+      .then(res => {
+        setFollowingList(res.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    axios({
+      method: 'get',
+      url: 'api/users/followed',
+      params: {
+        id: id,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-AUTH-TOKEN': token,
+      },
+    })
+      .then(res => {
+        setFollowerList(res.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   const DetectorDispatches = useMemo(() => {
-    return { getfollowList };
+    return { getFollowList };
   }, []);
   const DetectorState = useMemo(
     () => ({
@@ -94,7 +113,8 @@ const Likes = ({}) => {
   console.log('followerList', followerList);
 
   useEffect(() => {
-    getfollowList();
+    getFirstfollowList();
+    getFollowList();
   }, []);
 
   if (followingList && followerList && followingIdList) {
@@ -138,5 +158,4 @@ const Likes = ({}) => {
     return <></>;
   }
 };
-
 export default Likes;
