@@ -1,9 +1,9 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
-import { useLocation, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useMemo } from 'react';
-
+import { useLocation, useNavigate } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroller';
 import { Box } from '@chakra-ui/react';
 
 import ProfileList from '../components/ProfileList';
@@ -44,15 +44,15 @@ const Home = () => {
   const query = useLocation();
   useEffect(() => {
     const token = getCookie('token');
-    console.log('getCookie(token)', getCookie(token));
-    console.log('document.cookie', document.cookie);
-    console.log('document.cookie.length', document.cookie.length);
-    console.log('document.cookie.token', document.cookie.token);
-    console.log('typeof(document.cookie.token)', typeof document.cookie.token);
-    console.log('document.cookie.token', !!document.cookie.token);
-    console.log('token', token);
-    console.log('typeof(token)', typeof token);
-    console.log('token', !!token);
+    // console.log('getCookie(token)', getCookie(token));
+    // console.log('document.cookie', document.cookie);
+    // console.log('document.cookie.length', document.cookie.length);
+    // console.log('document.cookie.token', document.cookie.token);
+    // console.log('typeof(document.cookie.token)', typeof document.cookie.token);
+    // console.log('document.cookie.token', !!document.cookie.token);
+    // console.log('token', token);
+    // console.log('typeof(token)', typeof token);
+    // console.log('token', !!token);
 
     if ((document.cookie.length === 0 || !token) && query.search.length === 0) {
       console.log('로그인 페이지로');
@@ -85,8 +85,11 @@ const Home = () => {
   const [users, setUsers] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState(0);
   const [selectedTrack, setSelectedTrack] = useState(0);
+  const [pageNum, setPageNum] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const getUserList = () => {
+    console.log('pageNum', pageNum);
 
-  useEffect(() => {
     const token = getCookie('token');
     axios({
       method: 'get',
@@ -94,14 +97,27 @@ const Home = () => {
       params: {
         position: parseInt(selectedPosition),
         track: parseInt(selectedTrack),
+        page: pageNum,
+        volume: 4,
       },
       headers: {
         'Content-Type': 'application/json',
         'X-AUTH-TOKEN': token,
       },
     }).then(res => {
-      setUsers(res.data);
+      setPageNum(() => pageNum + 1);
+      console.log(res.data);
+      if (res.data.length === 0) {
+        console.log('빈 리스트 받음');
+        console.log('hasMore', hasMore);
+        setHasMore(false);
+      }
+      setUsers([...users, ...res.data]);
     });
+  };
+
+  useEffect(() => {
+    getUserList();
   }, [selectedPosition, selectedTrack]);
 
   const memoizedFilterDispatches = useMemo(() => {
@@ -131,7 +147,20 @@ const Home = () => {
               <TrackRadio />
             </Box>
           </Box>
-          <ProfileList userList={users} />
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={getUserList}
+            hasMore={hasMore}
+            threshold="250"
+            loader={
+              <div className="loader" key={0}>
+                Loading ...
+              </div>
+            }
+            useWindow={true}
+          >
+            <ProfileList userList={users} />
+          </InfiniteScroll>
         </Box>
       </FilteredUsersDispatchContext.Provider>
     </div>

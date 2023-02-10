@@ -56,6 +56,7 @@ const Comment = ({ profileUserId }) => {
       profileUser: parseInt(profileUserId),
       content: e.target[0].value,
     };
+    console.log(newComment);
     axios({
       url: 'api/comment',
       method: 'post',

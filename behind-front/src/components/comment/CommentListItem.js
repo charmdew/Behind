@@ -58,6 +58,7 @@ const CommentListItem = it => {
       data: {
         commentId: parseInt(it.commentId),
         content: thisComment,
+        writerUser: parseInt(LoginUserId),
       },
     })
       .then(() => {
@@ -75,6 +76,7 @@ const CommentListItem = it => {
       url: 'api/comment',
       params: {
         id: it.commentId,
+        writerUser: parseInt(LoginUserId),
       },
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     }).then(() => {

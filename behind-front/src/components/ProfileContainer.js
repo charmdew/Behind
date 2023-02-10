@@ -49,7 +49,6 @@ const ProfileContainer = ({
   const navigate = useNavigate();
 
   const [followingIdList, setfollowingIdList] = useState([]);
-  console.log(followingIdList);
 
   const updateFollowingIdList = () => {
     axios({
@@ -134,12 +133,10 @@ const ProfileContainer = ({
 
   // 댓글창 on/off
   const [commentToggle, setCommentToggle] = useState(false);
-  console.log('컨테이너 코멘트 토글', commentToggle);
 
   // 좋아요 아이콘 토글
   const defaultLikeIcon = followingIdList.includes(id);
   const [likeToggle, setLikeToggle] = useState(defaultLikeIcon);
-  console.log('컨테이너 토글', id, likeToggle);
   useEffect(() => {
     const TF = followingIdList.includes(id);
     setLikeToggle(TF);
@@ -161,7 +158,6 @@ const ProfileContainer = ({
           user: parseInt(LoginUserId),
         },
       }).then(res => {
-        console.log(res);
         setLikeCount(res.data.newLikeCnt);
         setLikeToggle(false);
       });
@@ -177,7 +173,6 @@ const ProfileContainer = ({
           user: parseInt(LoginUserId),
         },
       }).then(res => {
-        console.log(res);
         setLikeToggle(true);
         setLikeCount(res.data.newLikeCnt);
       });

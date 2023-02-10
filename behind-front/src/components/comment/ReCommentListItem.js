@@ -54,6 +54,7 @@ const ReCommentListItem = it => {
       data: {
         replyId: parseInt(it.replyId),
         content: thisReply,
+        writerUser: parseInt(LoginUserId),
       },
     })
       .then(() => {
@@ -71,6 +72,7 @@ const ReCommentListItem = it => {
       url: 'api/reply',
       params: {
         id: it.replyId,
+        writerUser: parseInt(LoginUserId),
       },
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     }).then(() => {
