@@ -25,9 +25,11 @@ public class SearchRepository {
             jpql+= " where u.userId != 'deletedUser'";
             jpql += " order by u.id desc";
             System.out.println(jpql);
+            System.out.println(z);
+            System.out.println(z+w);
             TypedQuery<User> query = em.createQuery(jpql, User.class);
 
-            return query.setFirstResult(z).setMaxResults((z+w)).getResultList();
+            return query.setFirstResult(z).setMaxResults(w).getResultList();
         }
         switch (x) {
             case 0:
@@ -72,6 +74,6 @@ public class SearchRepository {
         System.out.println(jpql);
         TypedQuery<User> query = em.createQuery(jpql, User.class);
 
-        return query.setFirstResult(z).setMaxResults((z+w)).getResultList();
+        return query.setFirstResult(z).setMaxResults(w).getResultList();
     }
 }
