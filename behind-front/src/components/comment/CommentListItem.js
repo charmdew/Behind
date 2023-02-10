@@ -40,7 +40,6 @@ function getCookie(cookie_name) {
 }
 
 const CommentListItem = it => {
-  console.log(it);
   const token = getCookie('token');
   const LoginUserId = jwt_decode(token).sub;
   const { getCommentList } = useContext(CommentDispatchContext);

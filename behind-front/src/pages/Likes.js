@@ -37,17 +37,15 @@ function getCookie(cookie_name) {
 
 const Likes = ({}) => {
   const { id } = useParams();
-  // const { loginUser } = useContext(UsersStateContext);
-  // const LoginUserId = loginUser.id;
   const token = getCookie('token');
   const LoginUserId = jwt_decode(token).sub;
-  console.log(id);
   const navigate = useNavigate();
 
   const Back_Word = () => {
     if (parseInt(id) === parseInt(LoginUserId)) {
       return 'My Likes';
     } else {
+      // 타인의 Likes를 보는 기능을 추가하면
       // 이 id에 해당하는 사람의 이름으로 수정해야 함
       return `${id}'s Likes`;
     }
@@ -56,7 +54,7 @@ const Likes = ({}) => {
   const [followingIdList, setfollowingIdList] = useState(null);
   const [followingList, setFollowingList] = useState(null);
   const [followerList, setFollowerList] = useState(null);
-  const getFirstfollowList = async () => {
+  const getFollowIdList = async () => {
     const response = await axios.get(`api/users/${id}`, {
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     });
@@ -100,7 +98,7 @@ const Likes = ({}) => {
   };
 
   const DetectorDispatches = useMemo(() => {
-    return { getFollowList };
+    return { getFollowList, getFollowIdList };
   }, []);
   const DetectorState = useMemo(
     () => ({
@@ -109,11 +107,8 @@ const Likes = ({}) => {
     [followingIdList]
   );
 
-  console.log('followingList', followingList);
-  console.log('followerList', followerList);
-
   useEffect(() => {
-    getFirstfollowList();
+    getFollowIdList();
     getFollowList();
   }, []);
 

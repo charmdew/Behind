@@ -1,7 +1,6 @@
 import { Box, Button, VStack } from '@chakra-ui/react';
 
 const Login = () => {
-  console.log('로그인으로 옴');
   return (
     <Box>
       <VStack>

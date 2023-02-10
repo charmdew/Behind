@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 
 const ProfileCard = ({ phoneNum, tag, email, name }) => {
   // 포토 카드 실물 사이즈 : ( 54*86 )mm
-  console.log('ProfileCard 렌더링');
 
   const [colorToggle, setColorToggle] = useState(false);
   const tags = () => {

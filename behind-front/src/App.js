@@ -30,7 +30,6 @@ function getCookie(cookie_name) {
 }
 
 const App = () => {
-  console.log('APP 렌더');
   // 로그인한 유저id 저장
   const [loginUser, setLoginUser] = useState({});
   // const token = getCookie('token');

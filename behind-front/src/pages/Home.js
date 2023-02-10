@@ -33,7 +33,6 @@ function setCookie(cookie_name, value, miuntes) {
   document.cookie = cookie_name + '=' + cookie_value;
 }
 
-console.log('document.cookie =======', document.cookie);
 function getCookie(cookie_name) {
   var x, y;
   var val = document.cookie.split(';');
@@ -49,7 +48,6 @@ function getCookie(cookie_name) {
 }
 
 const Home = () => {
-  console.log('home 렌더링');
   const navigate = useNavigate();
   const query = useLocation();
   useEffect(() => {
@@ -65,16 +63,13 @@ const Home = () => {
     // console.log('token', !!token);
 
     if ((document.cookie.length === 0 || !token) && query.search.length === 0) {
-      console.log('로그인 페이지로');
       navigate('/login');
     } else if (
       query.search.length !== 0 &&
       (document.cookie.length === 0 || !document.cookie.token || !token)
     ) {
-      console.log('토큰 설정 후 홈 렌더링');
       const token = query.search.replace('?X-AUTH-TOKEN=', '');
       const LoginUserId = jwt_decode(token).sub;
-      console.log(token);
       setCookie('LoginUserId', `${LoginUserId}`, 30);
       setCookie('token', `${token}`, 30);
       if (jwt_decode(token).role === 'TEMP') {
@@ -96,12 +91,15 @@ const Home = () => {
   const [selectedPosition, setSelectedPosition] = useState(0);
   const [selectedTrack, setSelectedTrack] = useState(0);
   const [pageNum, setPageNum] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  // const [hasMore, setHasMore] = useState(false);
   const getUserList = () => {
+    console.log('users', users);
+    console.log('selectedPosition', selectedPosition);
+    console.log('selectedTrack', selectedTrack);
     console.log('pageNum', pageNum);
+    // console.log('hasMore', hasMore);
 
     const token = getCookie('token');
-    console.log('token', token);
     axios({
       method: 'get',
       url: 'api/users/search',
@@ -120,14 +118,17 @@ const Home = () => {
       console.log(res.data);
       if (res.data.length === 0) {
         console.log('빈 리스트 받음');
-        console.log('hasMore', hasMore);
-        setHasMore(false);
+        // // console.log('hasMore', hasMore);
+        // setHasMore(false);
       }
       setUsers([...users, ...res.data]);
     });
   };
 
   useEffect(() => {
+    setUsers(() => []);
+    setPageNum(() => 0);
+    // setHasMore(!hasMore);
     getUserList();
   }, [selectedPosition, selectedTrack]);
 
@@ -161,7 +162,7 @@ const Home = () => {
           <InfiniteScroll
             pageStart={0}
             loadMore={getUserList}
-            hasMore={hasMore}
+            hasMore={true}
             threshold={250}
             loader={
               <div className="loader" key={0}>

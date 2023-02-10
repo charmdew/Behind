@@ -52,7 +52,6 @@ const UserInfo = ({ loginUser }) => {
   const token = getCookie('token');
   const LoginUserId = jwt_decode(token).sub;
   const isTemp = jwt_decode(token).role;
-  console.log(isTemp);
   // 로그인 상태 ? 회원정보수정 : 회원정보입력
   const headWord = () => (isTemp === 'USER' ? '회원정보수정' : '회원정보입력');
   const navigate = useNavigate();
@@ -103,11 +102,9 @@ const UserInfo = ({ loginUser }) => {
   // 선호포지션 수정
   useEffect(() => {
     setEditedUser({ ...editedUser, position: position });
-    console.log('수정', editedUser);
   }, [position]);
 
   const positionFrontendHandleChange = e => {
-    console.log(e.target.checked);
     setPosition(prePosition => {
       return { ...prePosition, frontend: e.target.checked };
     });

@@ -85,8 +85,6 @@ const MyPage = () => {
     getLoginUser();
   }, []);
 
-  console.log(loginUser);
-
   // 회원탈퇴 모달
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancleRef = React.useRef();
@@ -126,7 +124,6 @@ const MyPage = () => {
       },
     })
       .then(res => {
-        console.log(res);
         getLoginUser();
       })
       .catch(function (error) {

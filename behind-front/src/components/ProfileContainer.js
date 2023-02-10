@@ -44,7 +44,6 @@ const ProfileContainer = ({
   name,
   track,
 }) => {
-  console.log('ProfileContainer 렌더링');
   const token = getCookie('token');
   const LoginUserId = jwt_decode(token).sub;
   const navigate = useNavigate();

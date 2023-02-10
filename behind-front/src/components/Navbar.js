@@ -54,10 +54,20 @@ const NavBar = () => {
 
   // Likes으로 가라
   const GoMyLikes = () => {
+    const token = getCookie('token');
+    if (!token) {
+      alert('로그인이 필요합니다');
+      return navigate('/login');
+    }
     return navigate(`/likes/${LoginUserId}`);
   };
   // MyPage으로 가라
   const GoMyPage = () => {
+    const token = getCookie('token');
+    if (!token) {
+      alert('로그인이 필요합니다');
+      return navigate('/login');
+    }
     return navigate('/mypage');
   };
 
@@ -176,7 +186,14 @@ const NavBar = () => {
                 onMouseOver={QRButtonOnHover}
                 onMouseOut={QRButtonOffHover}
                 fontSize="xl"
-                onClick={onOpen}
+                onClick={() => {
+                  const token = getCookie('token');
+                  if (!token) {
+                    alert('로그인이 필요합니다');
+                  } else {
+                    return onOpen();
+                  }
+                }}
                 variant="ghost"
               >
                 QR
