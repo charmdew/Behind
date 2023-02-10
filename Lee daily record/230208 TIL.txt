@@ -1,0 +1,109 @@
+jupyter notebook 
+
+sudo apt update
+sudo apt install python3-pip
+sudo pip3 install notebook
+
+python3
+
+from notebook.auth import passwd
+passwd()
+비밀번호 설정
+
+비밀번호 해시값 저장 argon2:$argon2id$v=19$m=10240,t=10,p=8$ixX7o0SIxnseeO3bZIHIiA$WICmlbRtyjAQeIlZGYuRgCstqz3zXo/jfSZn2y6LGqg
+exit()
+
+주피터 환경 설정 파일을 만들어 비밀번호 접속을 활성화한다.
+
+jupyter notebook --generate-config
+
+	 // 에러 발생 : ImportError: cannot import name 'soft_unicode' from 'markupsafe' (/usr/local/lib/python3.8/dist-packages/markupsafe/__init__.py)
+
+	MarkupSafe버젼 이슈라고 한다. 
+	pip3 install markupsafe==2.0.1 로 버젼을 낮춰주자.
+
+sudo vi (생성된 파일 주소)
+
+c = get_config()
+c.NotebookApp.password = u'비밀번호 해시값'
+c.NotebookApp.ip = '현재 ec2의 로컬 ip'
+c.NotebookApp.notebook_dir = '/'
+
+
+sudo jupyter-notebook --allow-root  //루트권한으로 jupyter notebook 실행
+
+ctrl+z 
+bg      를 통해 백그라운드로 jupyter notebook을 돌려주고
+(혹은 실행시 & 붙여서 실행)
+disown -h으로 소유권을 포기하여 ssh연결이 끊겨도 계속 유지되도록 설정
+
+시스템 서비스로 등록하기(ec2인스턴스가 재부팅 되었을 때 자동 실행)
+	which jupyter-notebook 으로 실행파일 위치 확인
+	sudo vi /etc/systemd/system/jupyter.service  서비스 파일 작성
+
+	[Unit]
+	Description = Jupyter Notebook Server
+
+	[Service]
+	Type=simple
+	User=ubuntu
+	ExecStart=/usr/bin/sudo (확인된 실행파일 위치) --allow-root --config=(설정 파일 위치)
+
+	[Install]
+	WantedBy=multi-user.target
+
+
+작성 완료 후
+
+	sudo systemctl daemon-reload
+	sudo systemctl enable jupyter
+	sudo systemctl start jupyter
+
+---------------------------------------------------------------------------
+도커 설치
+
+	sudo apt update
+	sudo apt install apt-transport-https
+	sudo apt install ca-certificates
+	sudo apt install curl
+	sudo apt install software-properties-common
+
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -	
+	sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+	sudo apt install docker-ce
+
+	//작동 확인
+	sudo docker pull hello-world
+	sudo docker images
+	sudo docker run hello-world
+
+	//작동 후 컨테이너와 이미지를 삭제해주자
+	sudo docker ps -a // 컨테이너 확인
+	sudo docker rm (컨테이너ID)
+	sudo docker images // 이미지 확인
+	sudo docker rmi (이미지ID)
+
+Dockerfile 생성 후 스프링 부트 파일 배포
+	
+- 도커 파일 만들기
+ cd ./home/ubuntu
+ mkdir SpringDocker
+ cd SpringDocker
+ sudo vi Dockerfile
+
+```
+FROM openjdk:8-jdk
+
+# JAR_FILE 변수 정의 -> 기본적으로 jar file이 2개이기 때문에 이름을 특정해야함
+ARG JAR_FILE=./home/ubuntu/behind-0.0.1-SNAPSHOT.jar
+
+# JAR 파일 메인 디렉토리에 복사
+COPY ${JAR_FILE} app.jar
+
+# 시스템 진입점 정의
+ENTRYPOINT ["java","-jar","/app.jar"]
+
+```
+
+	
