@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Center, Flex } from '@chakra-ui/react'
-import { HiArrowCircleUp } from 'react-icons/hi'
+import { FaArrowsAltV, FaArrowLeft } from 'react-icons/fa'
 import { GiButtonFinger } from 'react-icons/gi'
 
 import Container from '../components/Container'
@@ -40,7 +40,8 @@ const MenuPage = () => {
           <ButtonLg isSelected={selection === 'right'}>카드 출력</ButtonLg>
         </Flex>
         <Flex direction="row" justify="end" gap="2vw">
-          <IconWithLabel icon={HiArrowCircleUp} label="첫 화면" />
+          <IconWithLabel icon={FaArrowLeft} label="첫 화면" />
+          <IconWithLabel icon={FaArrowsAltV} label="이동" />
           <IconWithLabel icon={GiButtonFinger} label="선택" />
         </Flex>
       </Container>

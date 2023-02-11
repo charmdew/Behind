@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Center, Flex, Image } from '@chakra-ui/react'
-import { HiArrowCircleLeft } from 'react-icons/hi'
+import { FaArrowLeft, FaArrowsAltH } from 'react-icons/fa'
 import { GiButtonFinger } from 'react-icons/gi'
 
 import Container from '../components/Container'
@@ -59,7 +59,8 @@ const AfterShootPage = () => {
           />
         </Flex>
         <Flex direction="row" justify="end" gap="2vw">
-          <IconWithLabel icon={HiArrowCircleLeft} label="첫 화면" />
+          <IconWithLabel icon={FaArrowLeft} label="첫 화면" />
+          <IconWithLabel icon={FaArrowsAltH} label="이동" />
           <IconWithLabel icon={GiButtonFinger} label="선택" />
         </Flex>
       </Container>

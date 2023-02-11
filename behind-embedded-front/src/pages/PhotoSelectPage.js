@@ -6,9 +6,8 @@ import React, { useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Splide, SplideSlide } from '@splidejs/react-splide'
 import '@splidejs/react-splide/css'
-import { Center, Box, Flex, Image } from '@chakra-ui/react'
-import { GoArrowBoth } from 'react-icons/go'
-import { HiArrowCircleUp } from 'react-icons/hi'
+import { Center, Flex, Image } from '@chakra-ui/react'
+import { FaArrowsAltV, FaArrowUp } from 'react-icons/fa'
 import { GiButtonFinger } from 'react-icons/gi'
 
 import '../assets/splide-style.css'
@@ -77,8 +76,8 @@ const PhotoSelectPage = () => {
           {/* Temp end */}
         </Splide>
         <Flex direction="row" justify="end" gap="2vw">
-          <IconWithLabel icon={HiArrowCircleUp} label="첫 화면" />
-          <IconWithLabel icon={GoArrowBoth} label="좌우 이동" />
+          <IconWithLabel icon={FaArrowUp} label="첫 화면" />
+          <IconWithLabel icon={FaArrowsAltV} label="이동" />
           <IconWithLabel icon={GiButtonFinger} label="선택" />
         </Flex>
       </Container>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Center, Flex, Box } from '@chakra-ui/react'
-import { HiArrowCircleLeft } from 'react-icons/hi'
+import { FaArrowLeft } from 'react-icons/fa'
 import { GiButtonFinger } from 'react-icons/gi'
 
 import Container from '../components/Container'
@@ -35,7 +35,7 @@ const LoginResponsePage = () => {
           <ButtonSm>확인</ButtonSm>
         </Flex>
         <Flex direction="row" justify="end" gap="2vw">
-          <IconWithLabel icon={HiArrowCircleLeft} label="첫 화면" />
+          <IconWithLabel icon={FaArrowLeft} label="첫 화면" />
           <IconWithLabel icon={GiButtonFinger} label="선택" />
         </Flex>
       </Container>
