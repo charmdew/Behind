@@ -11,7 +11,8 @@ import { Center } from '@chakra-ui/react'
 
 import stopStreamedVideos from '../utils/stopStreamedVideos'
 
-const PhotoShootPage = () => {
+const PhotoShootPage = ({ socketClient }) => {
+  socketClient.send('camera')
   const { state } = useLocation()
   const navigate = useNavigate()
   const webcamRef = useRef(null)
@@ -23,14 +24,17 @@ const PhotoShootPage = () => {
     if (e.key === 'Enter') {
       const captureDataURL = capture()
       stopStreamedVideos()
+      socketClient.send('remote')
       navigate('/after-shoot', {
         state: { captureDataURL: captureDataURL, ...state }
       })
     }
-    if (e.key === 'ArrowLeft')
+    if (e.key === 'ArrowLeft') {
+      socketClient.send('remote')
       navigate('/reset', {
         state: { prevPage: '/photo-shoot', ...state }
       })
+    }
   }
 
   useEffect(() => {

@@ -16,6 +16,7 @@ import PhotoTransformPage from './pages/PhotoTransformPage'
 import PrintPage from './pages/PrintPage'
 import ResetPage from './pages/ResetPage'
 import StartPage from './pages/StartPage'
+import SocketClient from './features/SocketClient'
 
 function App() {
   const theme = extendTheme({
@@ -28,6 +29,8 @@ function App() {
     }
   })
 
+  const socketClient = new SocketClient('12345', '127.0.0.1')
+
   return (
     <ChakraProvider theme={theme}>
       <HashRouter>
@@ -38,7 +41,10 @@ function App() {
           <Route path="/login-response" element={<LoginResponsePage />} />
           <Route path="/menu" element={<MenuPage />} />
           <Route path="/photo-shoot-guide" element={<PhotoShootGuidePage />} />
-          <Route path="/photo-shoot" element={<PhotoShootPage />} />
+          <Route
+            path="/photo-shoot"
+            element={<PhotoShootPage socketClient={socketClient} />}
+          />
           <Route path="/after-shoot" element={<AfterShootPage />} />
           <Route path="/photo-transform" element={<PhotoTransformPage />} />
           <Route path="/photo-select" element={<PhotoSelectPage />} />
@@ -46,7 +52,10 @@ function App() {
             path="/photo-select-from-server"
             element={<PhotoSelectFromServerPage />}
           />
-          <Route path="/print" element={<PrintPage />} />
+          <Route
+            path="/print"
+            element={<PrintPage socketClient={socketClient} />}
+          />
           <Route path="/end" element={<EndPage />} />
           <Route path="/reset" element={<ResetPage />} />
         </Routes>
