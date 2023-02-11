@@ -1,3 +1,7 @@
+// Temp start
+// Upload profile image
+// Temp end
+
 import React, { useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Splide, SplideSlide } from '@splidejs/react-splide'

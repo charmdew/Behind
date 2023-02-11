@@ -1,7 +1,6 @@
 // Temp start
 // Should inform about buttons
 // Need frame
-// Need socket
 // Temp end
 
 import React, { useEffect, useRef, useCallback } from 'react'

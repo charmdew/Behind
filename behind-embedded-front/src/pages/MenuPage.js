@@ -9,7 +9,7 @@ import Header from '../components/Header'
 import ButtonLg from '../components/ButtonLg'
 import IconWithLabel from '../components/IconWithLabel'
 
-const MenuSelectPage = () => {
+const MenuPage = () => {
   const { state } = useLocation()
   const navigate = useNavigate()
   const [selection, setSelection] = useState('left')
@@ -48,4 +48,4 @@ const MenuSelectPage = () => {
   )
 }
 
-export default MenuSelectPage
+export default MenuPage
