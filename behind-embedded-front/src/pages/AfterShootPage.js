@@ -8,7 +8,7 @@ import Container from '../components/Container'
 import Header from '../components/Header'
 import ButtonLg from '../components/ButtonLg'
 import IconWithLabel from '../components/IconWithLabel'
-import cropImageToFitProfileCard from '../utils/cropImageToFitProfileCard'
+import cropImageToFitProfileCard from '../features/cropImageToFitProfileCard'
 
 const AfterShootPage = () => {
   const { state } = useLocation()
