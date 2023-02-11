@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Splide, SplideSlide } from '@splidejs/react-splide'
 import '@splidejs/react-splide/css'
 import { Center, Flex, Image } from '@chakra-ui/react'
-import { FaArrowsAltV, FaArrowUp } from 'react-icons/fa'
+import { FaArrowsAltH, FaArrowUp } from 'react-icons/fa'
 import { GiButtonFinger } from 'react-icons/gi'
 
 import '../assets/splide-style.css'
@@ -26,11 +26,14 @@ const PhotoSelectPage = () => {
     if (e.key === 'ArrowLeft') splideRef.current.splide.go('<')
     if (e.key === 'ArrowRight') splideRef.current.splide.go('>')
     if (e.key === 'Enter') {
-      const profileImgDataURL = document
+      const profileImageDataURL = document
         .querySelector('li.is-active > img')
         .getAttribute('src')
       navigate('/print', {
-        state: { profileImgDataURL: profileImgDataURL, ...state }
+        state: {
+          profileImageDataURL: profileImageDataURL,
+          ...state
+        }
       })
     }
   }
@@ -55,12 +58,12 @@ const PhotoSelectPage = () => {
             arrows: false,
             pagination: false
           }}>
-          {/* Temp start */}
-          {/* {state.imageSet.map((image, index) => (
+          {state.imageBase64Set.map((image, index) => (
             <SplideSlide key={index}>
               <Image w="100%" src={'data:image/jpeg;base64,' + image} />
             </SplideSlide>
-          ))} */}
+          ))}
+          {/* Temp start
           <SplideSlide>
             <Image w="90%" src="https://picsum.photos/324/400" />
           </SplideSlide>
@@ -73,11 +76,11 @@ const PhotoSelectPage = () => {
           <SplideSlide>
             <Image w="90%" src="https://picsum.photos/324/400" />
           </SplideSlide>
-          {/* Temp end */}
+          Temp end */}
         </Splide>
         <Flex direction="row" justify="end" gap="2vw">
           <IconWithLabel icon={FaArrowUp} label="첫 화면" />
-          <IconWithLabel icon={FaArrowsAltV} label="이동" />
+          <IconWithLabel icon={FaArrowsAltH} label="이동" />
           <IconWithLabel icon={GiButtonFinger} label="선택" />
         </Flex>
       </Container>
