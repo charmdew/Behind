@@ -1,6 +1,10 @@
+// Temp start
+// Style change needed
+// Temp end
+
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Box, Text, Flex } from '@chakra-ui/react'
+import { Center, Box, Flex } from '@chakra-ui/react'
 
 const StartPage = () => {
   const navigate = useNavigate()
@@ -15,16 +19,16 @@ const StartPage = () => {
   }, [])
 
   return (
-    <Box w="100vw" h="100vh" p="5%" bgColor="teal">
-      <Flex w="100%" h="100%" direction="column" justify="center">
-        <Text textAlign="center" fontSize="9xl" color="white">
+    <Center w="100vw" h="100vh">
+      <Flex direction="column">
+        <Box fontSize="20vw" color="white">
           Behind
-        </Text>
-        <Text textAlign="center" fontSize="6xl" color="white">
-          버튼을 클릭해주세요
-        </Text>
+        </Box>
+        <Box fontSize="5vw" color="white">
+          가운데 버튼을 클릭해주세요
+        </Box>
       </Flex>
-    </Box>
+    </Center>
   )
 }
 
