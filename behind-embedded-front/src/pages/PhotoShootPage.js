@@ -1,13 +1,18 @@
-import React, { useEffect, useRef, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Webcam from 'react-webcam'
-import { Box } from '@chakra-ui/react'
-
 // Temp start
-// frame needed
-// Temp
+// Should inform about buttons
+// Need frame
+// Need socket
+// Temp end
 
-const PhotoShootPage = ({ setImageSrc }) => {
+import React, { useEffect, useRef, useCallback } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import Webcam from 'react-webcam'
+import { Center } from '@chakra-ui/react'
+
+import stopStreamedVideos from '../utils/stopStreamedVideos'
+
+const PhotoShootPage = () => {
+  const { state } = useLocation()
   const navigate = useNavigate()
   const webcamRef = useRef(null)
   const capture = useCallback(() => {
@@ -16,9 +21,16 @@ const PhotoShootPage = ({ setImageSrc }) => {
 
   const keyDownHandler = (e) => {
     if (e.key === 'Enter') {
-      setImageSrc(capture())
-      navigate('/after-shoot')
+      const captureDataURL = capture()
+      stopStreamedVideos()
+      navigate('/after-shoot', {
+        state: { captureDataURL: captureDataURL, ...state }
+      })
     }
+    if (e.key === 'ArrowLeft')
+      navigate('/reset', {
+        state: { prevPage: '/photo-shoot', ...state }
+      })
   }
 
   useEffect(() => {
@@ -31,17 +43,18 @@ const PhotoShootPage = ({ setImageSrc }) => {
     height: { min: 400, ideal: 1080 },
     aspectRatio: { ideal: 1.7777777778 }
   }
+
   return (
-    <Box bgColor="black">
+    <Center w="100vw" h="100vh" bgColor="black">
       <Webcam
         ref={webcamRef}
-        style={{ height: '100vh' }}
+        style={{ height: '100%' }}
         width={1920}
         height={1080}
         screenshotFormat="image/jpeg"
         videoConstraints={videoConstraints}
       />
-    </Box>
+    </Center>
   )
 }
 
