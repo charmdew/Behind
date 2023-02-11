@@ -1,34 +1,46 @@
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useIsAuthenticated } from 'react-auth-kit'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { Center, Flex, Box } from '@chakra-ui/react'
+import { HiArrowCircleLeft } from 'react-icons/hi'
+import { GiButtonFinger } from 'react-icons/gi'
 
-import Layout from '../components/Layout'
+import Container from '../components/Container'
+import Header from '../components/Header'
+import ButtonSm from '../components/ButtonSm'
+import IconWithLabel from '../components/IconWithLabel'
 
 const LoginResponsePage = () => {
+  const { state } = useLocation()
   const navigate = useNavigate()
-  const isAuthenticated = useIsAuthenticated()
 
   const keyDownHandler = (e) => {
-    // temp start
-    if (e.key === 'ArrowLeft') navigate('/login-qr-scan')
-    // temp end
-    if (e.key === 'Enter' && isAuthenticated()) navigate('/menu')
-    if (e.key === 'Enter' && !isAuthenticated()) navigate('/login-qr-scan')
+    if (e.key === 'Enter') navigate('/menu', { state: state })
+    if (e.key === 'ArrowLeft')
+      navigate('/reset', { state: { prevPage: '/login-response', ...state } })
   }
 
   useEffect(() => {
     window.addEventListener('keydown', keyDownHandler)
-
-    return () => {
-      window.removeEventListener('keydown', keyDownHandler)
-    }
+    return () => window.removeEventListener('keydown', keyDownHandler)
   }, [])
 
-  const body = isAuthenticated()
-    ? '로그인에 성공했습니다!'
-    : '다시 시도해주세요.'
-
-  return <Layout heading="로그인" body={body} isButton={true} />
+  return (
+    <Center w="100vw" h="100vh">
+      <Container>
+        <Header>로그인</Header>
+        <Flex direction="column" align="center" gap="3vw">
+          <Box fontSize="3vw" textAlign="center">
+            로그인에 성공하였습니다.
+          </Box>
+          <ButtonSm>확인</ButtonSm>
+        </Flex>
+        <Flex direction="row" justify="end" gap="2vw">
+          <IconWithLabel icon={HiArrowCircleLeft} label="첫 화면" />
+          <IconWithLabel icon={GiButtonFinger} label="선택" />
+        </Flex>
+      </Container>
+    </Center>
+  )
 }
 
 export default LoginResponsePage
