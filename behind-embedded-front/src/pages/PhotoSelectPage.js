@@ -1,5 +1,5 @@
 // Temp start
-// Upload profile image
+// How can I upload profile image?
 // Temp end
 
 import React, { useEffect, useRef } from 'react'
@@ -29,6 +29,9 @@ const PhotoSelectPage = () => {
       const profileImageDataURL = document
         .querySelector('li.is-active > img')
         .getAttribute('src')
+      // Temp start
+      // uploadProfileImage(profileImageDataURL)
+      // Temp end
       navigate('/print', {
         state: {
           profileImageDataURL: profileImageDataURL,
@@ -63,20 +66,6 @@ const PhotoSelectPage = () => {
               <Image w="100%" src={'data:image/jpeg;base64,' + image} />
             </SplideSlide>
           ))}
-          {/* Temp start
-          <SplideSlide>
-            <Image w="90%" src="https://picsum.photos/324/400" />
-          </SplideSlide>
-          <SplideSlide>
-            <Image w="90%" src="https://picsum.photos/324/400" />
-          </SplideSlide>
-          <SplideSlide>
-            <Image w="90%" src="https://picsum.photos/324/400" />
-          </SplideSlide>
-          <SplideSlide>
-            <Image w="90%" src="https://picsum.photos/324/400" />
-          </SplideSlide>
-          Temp end */}
         </Splide>
         <Flex direction="row" justify="end" gap="2vw">
           <IconWithLabel icon={FaArrowUp} label="첫 화면" />
@@ -87,5 +76,24 @@ const PhotoSelectPage = () => {
     </Center>
   )
 }
+
+// Temp start
+const uploadProfileImage = async (profileImageDataURL) => {
+  const profileImageFormData = new FormData()
+  profileImageFormData.append(
+    'multipartFile',
+    dataURLtoFile(profileImageDataURL, 'multipartFile')
+  )
+  const profileImageUploadURL =
+    'http://ec2-13-209-17-196.ap-northeast-2.compute.amazonaws.com:8080/users/images'
+  fetch(imageUploadURL, {
+    method: 'POST',
+    body: profileImageFormData,
+    headers: {
+      'X-AUTH-TOKEN': state['X-AUTH-TOKEN']
+    }
+  })
+}
+// Temp end
 
 export default PhotoSelectPage
