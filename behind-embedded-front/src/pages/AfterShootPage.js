@@ -54,6 +54,7 @@ const AfterShootPage = () => {
           <Image
             w="40vw"
             objectFit="contain"
+            borderRadius="2xl"
             src={croppedCaptureDataURL}
             alt="Cropped capture"
           />
