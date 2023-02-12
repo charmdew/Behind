@@ -8,7 +8,10 @@ const createWindow = () => {
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       contextIsolation: false,
-      nodeIntegration: true
+      nodeIntegration: true,
+      // Temp start
+      webSecurity: false
+      // Temp end
     }
   })
 
