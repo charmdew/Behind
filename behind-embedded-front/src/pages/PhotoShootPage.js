@@ -1,13 +1,11 @@
-// Temp start
-// Should inform about buttons
-// Need frame
-// Temp end
-
 import React, { useEffect, useRef, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Webcam from 'react-webcam'
-import { Center } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
+import { FaArrowLeft } from 'react-icons/fa'
+import { GiButtonFinger } from 'react-icons/gi'
 
+import IconWithLabel from '../components/IconWithLabel'
 import stopStreamedVideos from '../utils/stopStreamedVideos'
 
 const PhotoShootPage = ({ socketClient }) => {
@@ -48,7 +46,15 @@ const PhotoShootPage = ({ socketClient }) => {
   }
 
   return (
-    <Center w="100vw" h="100vh" bgColor="black">
+    <Box w="100vw" h="100vh" bgColor="black">
+      <Box
+        position="absolute"
+        top="50%"
+        w="calc(100vw * 523 / 1920)"
+        h="calc(100vw * 1080 / 1920)"
+        bgColor="rgb(66 153 225 / .3)"
+        style={{ transform: 'translate(0, -50%)' }}
+      />
       <Webcam
         ref={webcamRef}
         style={{ height: '100%' }}
@@ -57,7 +63,30 @@ const PhotoShootPage = ({ socketClient }) => {
         screenshotFormat="image/jpeg"
         videoConstraints={videoConstraints}
       />
-    </Center>
+      <Box
+        position="absolute"
+        top="50%"
+        right="0%"
+        w="calc(100vw * 523 / 1920)"
+        h="calc(100vw * 1080 / 1920)"
+        bgColor="rgb(66 153 225 / .3)"
+        style={{ transform: 'translate(0, -50%)' }}>
+        <Flex
+          position="absolute"
+          top="50%"
+          left="50%"
+          direction="column"
+          gap="2vw"
+          w="80%"
+          p="2vw"
+          bgColor="white"
+          borderRadius="2xl"
+          style={{ transform: 'translate(-50%, -50%)' }}>
+          <IconWithLabel icon={FaArrowLeft} label="첫 화면" />
+          <IconWithLabel icon={GiButtonFinger} label="촬영" />
+        </Flex>
+      </Box>
+    </Box>
   )
 }
 
