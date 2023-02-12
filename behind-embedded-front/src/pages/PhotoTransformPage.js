@@ -1,49 +1,69 @@
 // Temp start
-// Add spinner
-// Change requestURL
-// Upload images to server
+// Change imageTransformServerURL
+// Change behindServerURL
+// How can I upload image set?
 // Temp end
 
 import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Center, Flex, Box } from '@chakra-ui/react'
+import { Center, Flex, Box, Spinner } from '@chakra-ui/react'
 
 import Container from '../components/Container'
 import Header from '../components/Header'
 import dataURLtoFile from '../utils/dataURLToFile'
 
 const PhotoTransformPage = () => {
-  const requestURL = 'https://d481-221-138-65-42.jp.ngrok.io/nst'
-
   const { state } = useLocation()
   const navigate = useNavigate()
 
+  // Temp start
   useEffect(() => {
-    const formData = new FormData()
-    formData.append(
-      'photo',
-      dataURLtoFile(state.croppedCaptureDataURL, 'croppedCaptureFile')
-    )
-    fetch(requestURL, {
-      method: 'POST',
-      body: formData
-    })
-      .then((res) => {
-        if (res.status === 400) {
-          throw Error('Status code 400')
-        }
-        if (res.status === 500) {
-          throw Error('Status code 500')
-        }
-        return res.json()
+    const imageTransformServerURL =
+      'https://2c91-221-138-65-42.jp.ngrok.io/images/style-transfer'
+    const imageUploadURL =
+      'http://ec2-13-209-17-196.ap-northeast-2.compute.amazonaws.com:8080/images'
+
+    async function handleData() {
+      const croppedCaptureFormData = new FormData()
+      croppedCaptureFormData.append(
+        'photo',
+        dataURLtoFile(state.croppedCaptureDataURL, 'croppedCaptureFile')
+      )
+
+      const res = await fetch(imageTransformServerURL, {
+        method: 'POST',
+        body: croppedCaptureFormData
       })
-      .then((data) => {
-        const { croppedCaptureDataURL, ...newState } = state
-        newState.imageSet = data.images
-        navigate('/photo-select', { state: newState })
-      })
-      .catch((error) => console.error(error))
+      const resObj = await res.json()
+      const imageBase64Set = resObj.images
+
+      // let promises = []
+      // for (let imageBase64 of imageBase64Set) {
+      //   const transformedPhotoFormData = new FormData()
+      //   transformedPhotoFormData.append(
+      //     'multipartFile',
+      //     dataURLtoFile('data:image/jpeg;base64,' + imageBase64, 'multipartFile')
+      //   )
+      //   promises.push(
+      //     fetch(imageUploadURL, {
+      //       method: 'POST',
+      //       body: transformedPhotoFormData,
+      //       headers: {
+      //         'X-AUTH-TOKEN': state['X-AUTH-TOKEN']
+      //       }
+      //     })
+      //   )
+      // }
+      // Promise.all(promises).then('upload complete  ')
+
+      const { croppedCaptureDataURL, ...newState } = state
+      newState.imageBase64Set = imageBase64Set
+      navigate('/photo-select', { state: newState })
+    }
+
+    handleData()
   }, [])
+  // Temp end
 
   return (
     <Center w="100vw" h="100vh">
@@ -54,6 +74,7 @@ const PhotoTransformPage = () => {
             이미지를 처리하고 있습니다. <br />
             잠시만 기다려주세요.
           </Box>
+          <Spinner size="xl" />
         </Flex>
       </Container>
     </Center>
