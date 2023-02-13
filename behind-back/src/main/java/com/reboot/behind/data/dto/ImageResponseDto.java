@@ -4,14 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
-public class ChangeCommentDto {
+public class ImageResponseDto {
 
-    private int writerUser;
-
-    private int commentId;
-
-    private String content;
+    private String image;
 }

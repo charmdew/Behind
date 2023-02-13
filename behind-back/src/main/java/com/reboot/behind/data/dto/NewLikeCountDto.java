@@ -7,11 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ChangeCommentDto {
+public class NewLikeCountDto {
 
-    private int writerUser;
-
-    private int commentId;
-
-    private String content;
+    private int newLikeCnt;
 }

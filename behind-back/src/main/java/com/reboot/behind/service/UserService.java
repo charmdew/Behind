@@ -7,17 +7,30 @@ import java.util.List;
 
 public interface UserService {
 
-    UserResponseDto saveUser(UserDto userDto);
+//    UserResponseDto saveUser(UserDto userDto);
     List<UserResponseDto> getUserList();
+
+    List<UserResponseDto> getSearchUserList(int position,int track,int page,int volume);
 
     UserResponseDto changeUser(UserResponseDto userResponseDto);
 
     UserResponseDto userDetail(Integer id);
 
-    FollowerResponseDto saveFollower(FollowerDto followerDto);
+    Integer saveFollower(FollowerDto followerDto);
 
-    void deleteFollower(FollowerDto followerDto) throws Exception;
+    Integer deleteFollower(FollowerDto followerDto) throws Exception;
 
     UserResponseDto ChangeDetail(Integer id, String detail ) throws Exception;
 
+    void deleteUser(Integer id) throws Exception;
+
+    List<String> getUserImage(Integer id);
+
+    void saveProfile(Integer id, String image);
+
+    void saveImage(Integer id, String image);
+
+    List<UserResponseDto> getFollowingUser(int id);
+
+    List<UserResponseDto> getFollowedUser(int id);
 }
