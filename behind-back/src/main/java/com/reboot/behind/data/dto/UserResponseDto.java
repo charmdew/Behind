@@ -38,7 +38,7 @@ public class UserResponseDto {
 
     private String detail;
 
-    private String images;
+    private List<String> images;
 
     private String profile;
 
