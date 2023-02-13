@@ -26,48 +26,58 @@ public class UserServiceImpl implements UserService {
 
 
     public List<UserResponseDto> getUserList() {
-        List<User> userlist = userRepository.findAll();
-        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
-        for (int i = 0; i < userlist.size(); i++) {
-            if(userlist.get(i).getUserId().equals("deletedUser")){
-                System.out.println("hoho");
-                continue;
-            }
-
-            System.out.println(userlist.get(i).getUserId());
-            UserResponseDto userResponseDto = new UserResponseDto();
-            UserResponseDto.Position position = new UserResponseDto.Position();
-            UserResponseDto.Track track = new UserResponseDto.Track();
-
-            position.setFrontend(userlist.get(i).isFront());
-            position.setBackend(userlist.get(i).isBack());
-            position.setEmbedded(userlist.get(i).isEmbedded());
-
-
-            track.setAi(userlist.get(i).isAi());
-            track.setIot(userlist.get(i).isIot());
-            track.setBigdata(userlist.get(i).isBigData());
-            track.setBlockchain(userlist.get(i).isBlockChain());
-            track.setMetabus(userlist.get(i).isMetaBus());
-
-            userResponseDto.setId(userlist.get(i).getId());
-            userResponseDto.setUserId(userlist.get(i).getUserId());
-            userResponseDto.setDetail(userlist.get(i).getDetail());
-            userResponseDto.setTag(userlist.get(i).getTag());
-            userResponseDto.setEmail(userlist.get(i).getEmail());
-            userResponseDto.setName(userlist.get(i).getName());
-            userResponseDto.setPhoneNum(userlist.get(i).getPhoneNum());
-            userResponseDto.setShowPhoneNum(userlist.get(i).isShowPhoneNum());
-            userResponseDto.setFollowingUsers(userlist.get(i).getFollowingUsers());
-            userResponseDto.setFollowedUsers(userlist.get(i).getFollowedUsers());
-            userResponseDto.setImages(userlist.get(i).getImages());
-            userResponseDto.setProfile(userlist.get(i).getProfile());
-            userResponseDto.setLikeCnt(userlist.get(i).getLikeCnt());
-            userResponseDto.setPosition(position);
-            userResponseDto.setTrack(track);
-            userResponseDtoList.add(userResponseDto);
-        }
-        return userResponseDtoList;
+//        List<User> userlist = userRepository.findAll();
+//        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+//        for (int i = 0; i < userlist.size(); i++) {
+//            if(userlist.get(i).getUserId().equals("deletedUser")){
+//                System.out.println("hoho");
+//                continue;
+//            }
+//
+//            System.out.println(userlist.get(i).getUserId());
+//            UserResponseDto userResponseDto = new UserResponseDto();
+//            UserResponseDto.Position position = new UserResponseDto.Position();
+//            UserResponseDto.Track track = new UserResponseDto.Track();
+//
+//            position.setFrontend(userlist.get(i).isFront());
+//            position.setBackend(userlist.get(i).isBack());
+//            position.setEmbedded(userlist.get(i).isEmbedded());
+//
+//
+//            track.setAi(userlist.get(i).isAi());
+//            track.setIot(userlist.get(i).isIot());
+//            track.setBigdata(userlist.get(i).isBigData());
+//            track.setBlockchain(userlist.get(i).isBlockChain());
+//            track.setMetabus(userlist.get(i).isMetaBus());
+//
+//            userResponseDto.setId(userlist.get(i).getId());
+//            userResponseDto.setUserId(userlist.get(i).getUserId());
+//            userResponseDto.setDetail(userlist.get(i).getDetail());
+//            userResponseDto.setTag(userlist.get(i).getTag());
+//            userResponseDto.setEmail(userlist.get(i).getEmail());
+//            userResponseDto.setName(userlist.get(i).getName());
+//            userResponseDto.setPhoneNum(userlist.get(i).getPhoneNum());
+//            userResponseDto.setShowPhoneNum(userlist.get(i).isShowPhoneNum());
+//            userResponseDto.setFollowingUsers(userlist.get(i).getFollowingUsers());
+//            userResponseDto.setFollowedUsers(userlist.get(i).getFollowedUsers());
+//            if (userlist.getImages()==null){
+//                userResponseDto.setImages(userImageList);
+//            }
+//            else {
+//                String[] array = changedUser.getImages().split(",");
+//                for (int m = 0; m < array.length; m++) {
+//                    userImageList.add(array[m]);
+//                }
+//                userResponseDto.setImages(userImageList);
+////            }
+//            userResponseDto.setProfile(userlist.get(i).getProfile());
+//            userResponseDto.setLikeCnt(userlist.get(i).getLikeCnt());
+//            userResponseDto.setPosition(position);
+//            userResponseDto.setTrack(track);
+//            userResponseDtoList.add(userResponseDto);
+//        }
+//        return userResponseDtoList;
+        return null;
     }
 
     public UserResponseDto userDetail(Integer id) {
@@ -76,6 +86,7 @@ public class UserServiceImpl implements UserService {
         UserResponseDto userDetailResponseDto = new UserResponseDto();
         UserResponseDto.Position position = new UserResponseDto.Position();
         UserResponseDto.Track track = new UserResponseDto.Track();
+        List<String> userImageList = new ArrayList<>();
 
         position.setFrontend(user.isFront());
         position.setBackend(user.isBack());
@@ -94,7 +105,16 @@ public class UserServiceImpl implements UserService {
         userDetailResponseDto.setEmail(user.getEmail());
         userDetailResponseDto.setTag(user.getTag());
         userDetailResponseDto.setDetail(user.getDetail());
-        userDetailResponseDto.setImages(user.getImages());
+        if (user.getImages()==null){
+            userDetailResponseDto.setImages(userImageList);
+        }
+        else {
+            String[] array = user.getImages().split(",");
+            for (int m = 0; m < array.length; m++) {
+                userImageList.add(array[m]);
+            }
+            userDetailResponseDto.setImages(userImageList);
+        }
         userDetailResponseDto.setProfile(user.getProfile());
         userDetailResponseDto.setPhoneNum(user.getPhoneNum());
         userDetailResponseDto.setShowPhoneNum(user.isShowPhoneNum());
@@ -129,7 +149,7 @@ public class UserServiceImpl implements UserService {
         UserResponseDto userResponseDto2 = new UserResponseDto();
         UserResponseDto.Position position = new UserResponseDto.Position();
         UserResponseDto.Track track = new UserResponseDto.Track();
-
+        List<String> userImageList = new ArrayList<>();
 
         position.setFrontend(changedUser.isFront());
         position.setBackend(changedUser.isBack());
@@ -148,7 +168,16 @@ public class UserServiceImpl implements UserService {
         userResponseDto2.setEmail(changedUser.getEmail());
         userResponseDto2.setTag(changedUser.getTag());
         userResponseDto2.setDetail(changedUser.getDetail());
-        userResponseDto2.setImages(changedUser.getImages());
+        if (changedUser.getImages()==null){
+            userResponseDto2.setImages(userImageList);
+        }
+        else {
+            String[] array = changedUser.getImages().split(",");
+            for (int m = 0; m < array.length; m++) {
+                userImageList.add(array[m]);
+            }
+            userResponseDto2.setImages(userImageList);
+        }
         userResponseDto2.setProfile(changedUser.getProfile());
         userResponseDto2.setPhoneNum(changedUser.getPhoneNum());
         userResponseDto2.setShowPhoneNum(changedUser.isShowPhoneNum());
@@ -170,6 +199,7 @@ public class UserServiceImpl implements UserService {
         UserResponseDto userResponseDto = new UserResponseDto();
         UserResponseDto.Position position = new UserResponseDto.Position();
         UserResponseDto.Track track = new UserResponseDto.Track();
+        List<String> userImageList = new ArrayList<>();
 
         position.setFrontend(changedUser.isFront());
         position.setBackend(changedUser.isBack());
@@ -188,7 +218,16 @@ public class UserServiceImpl implements UserService {
         userResponseDto.setEmail(changedUser.getEmail());
         userResponseDto.setTag(changedUser.getTag());
         userResponseDto.setDetail(changedUser.getDetail());
-        userResponseDto.setImages(changedUser.getImages());
+        if (changedUser.getImages()==null){
+            userResponseDto.setImages(userImageList);
+        }
+        else {
+            String[] array = changedUser.getImages().split(",");
+            for (int m = 0; m < array.length; m++) {
+                userImageList.add(array[m]);
+            }
+            userResponseDto.setImages(userImageList);
+        }
         userResponseDto.setProfile(changedUser.getProfile());
         userResponseDto.setPhoneNum(changedUser.getPhoneNum());
         userResponseDto.setShowPhoneNum(changedUser.isShowPhoneNum());
@@ -243,6 +282,8 @@ public class UserServiceImpl implements UserService {
             UserResponseDto userResponseDto = new UserResponseDto();
             UserResponseDto.Position position = new UserResponseDto.Position();
             UserResponseDto.Track track = new UserResponseDto.Track();
+            List<String> userImageList = new ArrayList<>();
+
 
             position.setFrontend(userlist.get(i).isFront());
             position.setBackend(userlist.get(i).isBack());
@@ -255,6 +296,8 @@ public class UserServiceImpl implements UserService {
             track.setBlockchain(userlist.get(i).isBlockChain());
             track.setMetabus(userlist.get(i).isMetaBus());
 
+
+
             userResponseDto.setId(userlist.get(i).getId());
             userResponseDto.setUserId(userlist.get(i).getUserId());
             userResponseDto.setDetail(userlist.get(i).getDetail());
@@ -265,7 +308,16 @@ public class UserServiceImpl implements UserService {
             userResponseDto.setShowPhoneNum(userlist.get(i).isShowPhoneNum());
             userResponseDto.setFollowingUsers(userlist.get(i).getFollowingUsers());
             userResponseDto.setFollowedUsers(userlist.get(i).getFollowedUsers());
-            userResponseDto.setImages(userlist.get(i).getImages());
+            if (userlist.get(i).getImages()==null){
+                userResponseDto.setImages(userImageList);
+            }
+            else {
+                String[] array = userlist.get(i).getImages().split(",");
+                for (int m = 0; m < array.length; m++) {
+                    userImageList.add(array[m]);
+                }
+                userResponseDto.setImages(userImageList);
+            }
             userResponseDto.setProfile(userlist.get(i).getProfile());
             userResponseDto.setLikeCnt(userlist.get(i).getLikeCnt());
             userResponseDto.setPosition(position);
@@ -349,6 +401,7 @@ public class UserServiceImpl implements UserService {
             UserResponseDto userResponseDto = new UserResponseDto();
             UserResponseDto.Position position = new UserResponseDto.Position();
             UserResponseDto.Track track = new UserResponseDto.Track();
+            List<String> userImageList = new ArrayList<>();
 
             position.setFrontend(foundFollwingUser.isFront());
             position.setBackend(foundFollwingUser.isBack());
@@ -371,7 +424,16 @@ public class UserServiceImpl implements UserService {
             userResponseDto.setShowPhoneNum(foundFollwingUser.isShowPhoneNum());
             userResponseDto.setFollowingUsers(foundFollwingUser.getFollowingUsers());
             userResponseDto.setFollowedUsers(foundFollwingUser.getFollowedUsers());
-            userResponseDto.setImages(foundFollwingUser.getImages());
+            if (foundFollwingUser.getImages()==null){
+                userResponseDto.setImages(userImageList);
+            }
+            else {
+                String[] array = foundFollwingUser.getImages().split(",");
+                for (int m = 0; m < array.length; m++) {
+                    userImageList.add(array[m]);
+                }
+                userResponseDto.setImages(userImageList);
+            }
             userResponseDto.setProfile(foundFollwingUser.getProfile());
             userResponseDto.setLikeCnt(foundFollwingUser.getLikeCnt());
             userResponseDto.setPosition(position);
@@ -398,6 +460,7 @@ public class UserServiceImpl implements UserService {
             UserResponseDto userResponseDto = new UserResponseDto();
             UserResponseDto.Position position = new UserResponseDto.Position();
             UserResponseDto.Track track = new UserResponseDto.Track();
+            List<String> userImageList = new ArrayList<>();
 
             position.setFrontend(foundFollwingUser.isFront());
             position.setBackend(foundFollwingUser.isBack());
@@ -420,7 +483,16 @@ public class UserServiceImpl implements UserService {
             userResponseDto.setShowPhoneNum(foundFollwingUser.isShowPhoneNum());
             userResponseDto.setFollowingUsers(foundFollwingUser.getFollowingUsers());
             userResponseDto.setFollowedUsers(foundFollwingUser.getFollowedUsers());
-            userResponseDto.setImages(foundFollwingUser.getImages());
+            if (foundFollwingUser.getImages()==null){
+                userResponseDto.setImages(userImageList);
+            }
+            else {
+                String[] array = foundFollwingUser.getImages().split(",");
+                for (int m = 0; m < array.length; m++) {
+                    userImageList.add(array[m]);
+                }
+                userResponseDto.setImages(userImageList);
+            }
             userResponseDto.setProfile(foundFollwingUser.getProfile());
             userResponseDto.setLikeCnt(foundFollwingUser.getLikeCnt());
             userResponseDto.setPosition(position);
