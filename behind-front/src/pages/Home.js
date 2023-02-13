@@ -93,10 +93,10 @@ const Home = () => {
   const [pageNum, setPageNum] = useState(0);
   // const [hasMore, setHasMore] = useState(false);
   const getUserList = () => {
-    console.log('users', users);
-    console.log('selectedPosition', selectedPosition);
-    console.log('selectedTrack', selectedTrack);
-    console.log('pageNum', pageNum);
+    // console.log('users', users);
+    // console.log('selectedPosition', selectedPosition);
+    // console.log('selectedTrack', selectedTrack);
+    // console.log('pageNum', pageNum);
     // console.log('hasMore', hasMore);
 
     const token = getCookie('token');
@@ -115,9 +115,9 @@ const Home = () => {
       },
     }).then(res => {
       setPageNum(() => pageNum + 1);
-      console.log(res.data);
+      // console.log(res.data);
       if (res.data.length === 0) {
-        console.log('빈 리스트 받음');
+        // console.log('빈 리스트 받음');
         // // console.log('hasMore', hasMore);
         // setHasMore(false);
       }

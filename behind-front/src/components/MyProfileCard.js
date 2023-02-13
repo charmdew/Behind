@@ -3,10 +3,11 @@ import { BsPhone } from 'react-icons/bs';
 import { FiAtSign } from 'react-icons/fi';
 import React, { useState } from 'react';
 
-const ProfileCard = ({ phoneNum, tag, email, name, images, profile }) => {
+const MyProfileCard = ({ phoneNum, tag, email, name, images, profile }) => {
   // 포토 카드 실물 사이즈 : ( 54*86 )mm
 
   const profileSrc = `https://behind-pic.s3.ap-northeast-2.amazonaws.com/${profile}`;
+  console.log('profileSrc', profileSrc);
 
   const [colorToggle, setColorToggle] = useState(false);
   const tags = () => {
@@ -194,4 +195,4 @@ const ProfileCard = ({ phoneNum, tag, email, name, images, profile }) => {
   }
 };
 
-export default React.memo(ProfileCard);
+export default React.memo(MyProfileCard);

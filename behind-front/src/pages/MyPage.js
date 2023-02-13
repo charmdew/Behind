@@ -5,7 +5,7 @@ import jwt_decode from 'jwt-decode';
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ProfileContainer from './../components/ProfileContainer';
+import MyProfileContainer from './../components/MyProfileContainer';
 
 import {
   Editable,
@@ -192,7 +192,7 @@ const MyPage = () => {
         <Box>
           {/* 컨테이너 */}
           {Object.keys(loginUser).length !== 0 ? (
-            <ProfileContainer {...loginUser} />
+            <MyProfileContainer {...loginUser} />
           ) : (
             <></>
           )}
@@ -272,9 +272,9 @@ const MyPage = () => {
               borderRadius="md"
               borderWidth="1px"
               backgroundColor="white"
-              borderColor="black"
-              _hover={{ bg: 'blue.100' }}
-              _expanded={{ bg: 'blue.300' }}
+              borderColor="#4E6C50"
+              _hover={{ bg: 'green.200' }}
+              _expanded={{ bg: 'green.200' }}
               _focus={{ boxShadow: 'outline' }}
             >
               <MdSettings />

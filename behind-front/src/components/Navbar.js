@@ -178,9 +178,12 @@ const NavBar = () => {
               mr={1}
               color="brand.500"
               display={{
-                base: 'none',
-                md: 'inline-flex',
+                base: 'inline-flex',
               }}
+              // display={{
+              //   base: 'none',
+              //   md: 'inline-flex',
+              // }}
             >
               <Button
                 onMouseOver={QRButtonOnHover}
@@ -218,7 +221,7 @@ const NavBar = () => {
               </Button>
             </HStack>
 
-            <Box
+            {/* <Box
               display={{
                 base: 'inline-flex',
                 md: 'none',
@@ -297,7 +300,7 @@ const NavBar = () => {
                   MyPage
                 </Button>
               </VStack>
-            </Box>
+            </Box> */}
           </HStack>
         </Flex>
       </chakra.header>
