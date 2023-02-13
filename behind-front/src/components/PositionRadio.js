@@ -4,7 +4,9 @@ import { useContext } from 'react';
 import { FilteredUsersDispatchContext } from '../pages/Home';
 
 const PositionRadio = () => {
-  const { setSelectedPosition } = useContext(FilteredUsersDispatchContext);
+  const { setSelectedPosition, setHasMore, setPageNum, setUsers } = useContext(
+    FilteredUsersDispatchContext
+  );
 
   function RadioCard(props) {
     const { getInputProps, getCheckboxProps } = useRadio(props);
@@ -43,6 +45,9 @@ const PositionRadio = () => {
   }
 
   const getUsers = e => {
+    setUsers([]);
+    setHasMore(true);
+    setPageNum(0);
     setSelectedPosition(positionOptions.indexOf(e));
   };
 
@@ -52,6 +57,7 @@ const PositionRadio = () => {
     name: 'position',
     defaultValue: 'ALL',
     onChange: getUsers,
+    // onChange: setHasMore(true),
   });
 
   const positionGroup = getRootProps();

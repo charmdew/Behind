@@ -13,6 +13,17 @@ import TrackRadio from '../components/TrackRadio';
 import { UsersStateContext, UsersDispatchContext } from '../App';
 export const FilteredUsersDispatchContext = React.createContext();
 
+// function setCookie(cookie_name, value, days) {
+//   var exdate = new Date();
+//   exdate.setDate(exdate.getDate() + days);
+//   // 설정 일수만큼 현재시간에 만료값으로 지정
+
+//   var cookie_value =
+//     escape(value) +
+//     (days == null ? '' : '; path=/' + '; expires=' + exdate.toUTCString());
+//   document.cookie = cookie_name + '=' + cookie_value;
+// }
+
 function setCookie(cookie_name, value, miuntes) {
   const exdate = new Date();
   exdate.setMinutes(exdate.getMinutes() + miuntes);
@@ -37,11 +48,19 @@ function getCookie(cookie_name) {
 }
 
 const Home = () => {
-  console.log('home 렌더링');
   const navigate = useNavigate();
   const query = useLocation();
   useEffect(() => {
     const token = getCookie('token');
+    // console.log('getCookie(token)', getCookie(token));
+    // console.log('document.cookie', document.cookie);
+    // console.log('document.cookie.length', document.cookie.length);
+    // console.log('document.cookie.token', document.cookie.token);
+    // console.log('typeof(document.cookie.token)', typeof document.cookie.token);
+    // console.log('document.cookie.token', !!document.cookie.token);
+    // console.log('token', token);
+    // console.log('typeof(token)', typeof token);
+    // console.log('token', !!token);
 
     if ((document.cookie.length === 0 || !token) && query.search.length === 0) {
       navigate('/login');
@@ -74,6 +93,7 @@ const Home = () => {
   const [pageNum, setPageNum] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
+  console.log('hasMore', hasMore);
   const getUserList = () => {
     const token = getCookie('token');
     axios({
@@ -91,11 +111,17 @@ const Home = () => {
       },
     }).then(res => {
       setPageNum(() => pageNum + 1);
+      // console.log(res.data);
+      console.log('users', users);
       if (res.data.length === 0) {
+        console.log('빈 리스트 받음');
         setHasMore(pre => false);
         setUsers(pre => []);
+        // console.log('hasMore', hasMore);
+        console.log('users', users);
       }
       setUsers(pre => [...users, ...res.data]);
+      // console.log('hasMore', hasMore);
       console.log('users', users);
       console.log('selectedPosition', selectedPosition);
       console.log('selectedTrack', selectedTrack);
@@ -104,17 +130,24 @@ const Home = () => {
   };
 
   useEffect(() => {
+    setUsers(pre => []);
+    setPageNum(pre => 0);
+    setHasMore(pre => true);
     getUserList();
+    console.log('FAEFAEFAEFAEGAERGAERVGAGF');
+    // console.log('hasMore', hasMore);
+    console.log('users', users);
+    console.log('selectedPosition', selectedPosition);
+    console.log('selectedTrack', selectedTrack);
+    console.log('pageNum', pageNum);
   }, [selectedPosition, selectedTrack]);
 
+  // useEffect(() => {
+  //   if
+  // }, [hasMore]);
+
   const memoizedFilterDispatches = useMemo(() => {
-    return {
-      setSelectedPosition,
-      setSelectedTrack,
-      setPageNum,
-      setUsers,
-      setHasMore,
-    };
+    return { setSelectedPosition, setSelectedTrack };
   }, []);
   return (
     <div>
