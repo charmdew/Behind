@@ -4,6 +4,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 
 import AfterShootPage from './pages/AfterShootPage'
 import EndPage from './pages/EndPage'
+import ErrorPage from './pages/ErrorPage'
 import LoginGuidePage from './pages/LoginGuidePage'
 import LoginQRScanPage from './pages/LoginQRScanPage'
 import LoginResponsePage from './pages/LoginResponsePage'
@@ -63,6 +64,7 @@ function App() {
           />
           <Route path="/end" element={<EndPage />} />
           <Route path="/reset" element={<ResetPage />} />
+          <Route path="/error" element={<ErrorPage />} />
         </Routes>
       </HashRouter>
     </ChakraProvider>

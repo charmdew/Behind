@@ -33,6 +33,15 @@ const PhotoTransformPage = () => {
       const res = await fetch(imageTransformServerURL, {
         method: 'POST',
         body: croppedCaptureFormData
+      }).catch(() => {
+        const { croppedCaptureDataURL, ...newState } = state
+        navigate('/error', {
+          state: {
+            redirectPage: '/photo-shoot-guide',
+            msg: '얼굴이 잘 나오게 찍어주세요',
+            ...newState
+          }
+        })
       })
       const resObj = await res.json()
       const imageBase64Set = resObj.images
