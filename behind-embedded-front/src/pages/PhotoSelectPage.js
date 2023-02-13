@@ -1,5 +1,5 @@
 // Temp start
-// How can I upload profile image?
+// Change profileImageUploadURL
 // Temp end
 
 import React, { useEffect, useRef } from 'react'
@@ -14,6 +14,7 @@ import '../assets/splide-style.css'
 import Container from '../components/Container'
 import Header from '../components/Header'
 import IconWithLabel from '../components/IconWithLabel'
+import dataURLtoFile from '../utils/dataURLToFile'
 
 const PhotoSelectPage = () => {
   const { state } = useLocation()
@@ -29,14 +30,29 @@ const PhotoSelectPage = () => {
       const profileImageDataURL = document
         .querySelector('li.is-active > img')
         .getAttribute('src')
-      // Temp start
-      // uploadProfileImage(profileImageDataURL)
-      // Temp end
-      navigate('/print', {
-        state: {
-          profileImageDataURL: profileImageDataURL,
-          ...state
+
+      const profileImageFormData = new FormData()
+      profileImageFormData.append(
+        'multipartFile',
+        dataURLtoFile(profileImageDataURL, 'multipartFile')
+      )
+
+      const profileImageUploadURL =
+        'http://ec2-13-209-17-196.ap-northeast-2.compute.amazonaws.com:8080/images'
+
+      fetch(profileImageUploadURL, {
+        method: 'POST',
+        body: profileImageFormData,
+        headers: {
+          'X-AUTH-TOKEN': state['X-AUTH-TOKEN']
         }
+      }).then(() => {
+        navigate('/print', {
+          state: {
+            profileImageDataURL: profileImageDataURL,
+            ...state
+          }
+        })
       })
     }
   }
@@ -54,8 +70,8 @@ const PhotoSelectPage = () => {
           ref={splideRef}
           options={{
             type: 'loop',
-            fixedWidth: '30vw',
-            fixedHeight: '40vw',
+            fixedWidth: '20vw',
+            fixedHeight: '30vw',
             gap: '3vw',
             focus: 'center',
             arrows: false,
@@ -76,24 +92,5 @@ const PhotoSelectPage = () => {
     </Center>
   )
 }
-
-// Temp start
-const uploadProfileImage = async (profileImageDataURL) => {
-  const profileImageFormData = new FormData()
-  profileImageFormData.append(
-    'multipartFile',
-    dataURLtoFile(profileImageDataURL, 'multipartFile')
-  )
-  const profileImageUploadURL =
-    'http://ec2-13-209-17-196.ap-northeast-2.compute.amazonaws.com:8080/users/images'
-  fetch(imageUploadURL, {
-    method: 'POST',
-    body: profileImageFormData,
-    headers: {
-      'X-AUTH-TOKEN': state['X-AUTH-TOKEN']
-    }
-  })
-}
-// Temp end
 
 export default PhotoSelectPage

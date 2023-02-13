@@ -35,9 +35,10 @@ const PrintPage = ({ socketClient }) => {
     if (e.key === 'Enter') {
       if (selection === 1) {
         const downloadPath = os.homedir() + '/image.jpg'
-        saveElToImage('profile-card', downloadPath)
-        socketClient.send('print')
-        navigate('/end')
+        saveElToImage('profile-card', downloadPath, () => {
+          socketClient.send('print')
+          navigate('/end')
+        })
       }
       if (selection === 2) {
         const { profileImageDataURL, ...newState } = state
@@ -79,7 +80,7 @@ const PrintPage = ({ socketClient }) => {
       <Container>
         <Header>출력</Header>
         <Flex as="main" direction="row" justify="center" gap="5vw">
-          <Flex direction="column" justify="center" gap="3vw">
+          <Flex direction="column" justify="center" gap="2vw">
             <ButtonLg isSelected={selection === 1}>출력하기</ButtonLg>
             <ButtonLg isSelected={selection === 2}>다시 고르기</ButtonLg>
             <ButtonLg isSelected={selection === 3}>정보 갱신</ButtonLg>
