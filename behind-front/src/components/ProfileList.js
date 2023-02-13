@@ -6,11 +6,15 @@ import ProfileContainer from './ProfileContainer';
 const ProfileList = ({ userList }) => {
   return (
     <SimpleGrid bg="white" minChildWidth="500px" spacing="40px">
-      {userList.map(it => (
-        <GridItem key={it.id.toString()}>
-          <ProfileContainer {...it} />
-        </GridItem>
-      ))}
+      {userList.map(it =>
+        it.id ? (
+          <GridItem key={it.id.toString()}>
+            <ProfileContainer {...it} />
+          </GridItem>
+        ) : (
+          <></>
+        )
+      )}
     </SimpleGrid>
   );
 };

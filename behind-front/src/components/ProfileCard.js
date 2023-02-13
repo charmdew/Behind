@@ -3,8 +3,11 @@ import { BsPhone } from 'react-icons/bs';
 import { FiAtSign } from 'react-icons/fi';
 import React, { useState } from 'react';
 
-const ProfileCard = ({ phoneNum, tag, email, name }) => {
+const ProfileCard = ({ phoneNum, tag, email, name, images, profile }) => {
   // 포토 카드 실물 사이즈 : ( 54*86 )mm
+
+  const profileSrc = `https://behind-pic.s3.ap-northeast-2.amazonaws.com/${profile}`;
+  console.log('profileSrc', profileSrc);
 
   const [colorToggle, setColorToggle] = useState(false);
   const tags = () => {
@@ -115,7 +118,7 @@ const ProfileCard = ({ phoneNum, tag, email, name }) => {
             objectPosition="center"
             // 프로필 카드 이미지 자리
             // src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-            src="https://behind-pic.s3.ap-northeast-2.amazonaws.com/string5/multipartFile2023-02-08T09%3A52%3A41.157317100"
+            src={profileSrc}
             alt="avatar"
           />
           <Box

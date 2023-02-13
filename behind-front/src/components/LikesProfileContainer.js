@@ -37,6 +37,8 @@ const ProfileContainer = ({
   email,
   name,
   track,
+  images,
+  profile,
 }) => {
   const token = getCookie('token');
   const LoginUserId = jwt_decode(token).sub;
@@ -238,6 +240,8 @@ const ProfileContainer = ({
                   tag={tag}
                   email={email}
                   name={name}
+                  images={images}
+                  profile={profile}
                 />
               </Box>
             )}
