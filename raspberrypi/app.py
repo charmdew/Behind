@@ -1,10 +1,10 @@
 import threading
 import socket
+import pigpio
 import cups
 import os
 from bluetooth import *
 from pynput.keyboard import Key, Controller
-import RPi.GPIO as GPIO
 from time import sleep
 
 HOST = "localhost"
@@ -57,22 +57,13 @@ print(printer_using, "connected!")
 keyboard = Controller()
 
 # servo motor setup
-GPIO.setmode(GPIO.BCM)
+pi = pigpio.pi()
 
-horizontal_servo_pin = 10  # horizontal servo (left-right)
-vertical_servo_pin = 9  # vertical servo (up-down)
+horizontal_servo_pin = 10  # range 1200 ~ 1700, mid = 1450
+vertical_servo_pin = 9  # range 600 ~ 900, top = 600
 
-GPIO.setup(horizontal_servo_pin, GPIO.OUT)
-GPIO.setup(vertical_servo_pin, GPIO.OUT)
-
-horizontal_servo = GPIO.PWM(horizontal_servo_pin, 50)  # frequency : 50Hz
-vertical_servo = GPIO.PWM(vertical_servo_pin, 50)
-
-horizontal_servo.start(0)
-vertical_servo.start(0)
-
-horizontal_servo_duty = 6.75  # range : 5.5 ~ 8.0
-vertical_servo_duty = 2.7  # range : 2.7 ~ 5.4
+horizontal_servo_angle = 1450
+vertical_servo_angle = 600
 
 # joystick mode (0 : remote control, 1 : camera tilting)
 mode = 0
@@ -87,27 +78,27 @@ def remote_control(input):
 
 
 def camera_tilt(input):
-    global horizontal_servo_duty, vertical_servo_duty
+    global horizontal_servo_angle, vertical_servo_angle
     if input == "L":
-        horizontal_servo_duty -= 0.05
-        if horizontal_servo_duty < 5.5:
-            horizontal_servo_duty = 5.5
-        horizontal_servo.ChangeDutyCycle(horizontal_servo_duty)
+        horizontal_servo_angle -= 5
+        if horizontal_servo_angle < 1200:
+            horizontal_servo_angle = 1200
+        pi.set_servo_pulsewidth(horizontal_servo_pin, horizontal_servo_angle)
     elif input == "R":
-        horizontal_servo_duty += 0.05
-        if horizontal_servo_duty > 8.0:
-            horizontal_servo_duty = 8.0
-        horizontal_servo.ChangeDutyCycle(horizontal_servo_duty)
+        horizontal_servo_angle += 5
+        if horizontal_servo_angle > 1700:
+            horizontal_servo_angle = 1700
+        pi.set_servo_pulsewidth(horizontal_servo_pin, horizontal_servo_angle)
     elif input == "U":
-        vertical_servo_duty -= 0.05
-        if vertical_servo_duty < 2.7:
-            vertical_servo_duty = 2.7
-        vertical_servo.ChangeDutyCycle(vertical_servo_duty)
+        vertical_servo_angle -= 5
+        if vertical_servo_angle < 600:
+            vertical_servo_angle = 600
+        pi.set_servo_pulsewidth(vertical_servo_pin, vertical_servo_angle)
     elif input == "D":
-        vertical_servo_duty += 0.05
-        if vertical_servo_duty > 5.4:
-            vertical_servo_duty = 5.4
-        vertical_servo.ChangeDutyCycle(vertical_servo_duty)
+        vertical_servo_angle += 5
+        if vertical_servo_angle > 900:
+            vertical_servo_angle = 900
+        pi.set_servo_pulsewidth(vertical_servo_pin, vertical_servo_angle)
     elif input == "C":
         keyboard.press(Key.enter)
         keyboard.release(Key.enter)
@@ -118,21 +109,28 @@ def toggle_mode():
         # socket communication
         data = conn.recv(1024)
         data_str = data.decode()
+        print(data_str)
 
         global mode
+        print(mode)
         if data_str == "remote":
             mode = 0
             # stop servo
-            horizontal_servo.ChangeDutyCycle(0)
-            vertical_servo.ChangeDutyCycle(0)
+            pi.set_servo_pulsewidth(horizontal_servo_pin, 0)
+            pi.set_servo_pulsewidth(vertical_servo_pin, 0)
         elif data_str == "camera":
             mode = 1
             # start servo
-            horizontal_servo.ChangeDutyCycle(horizontal_servo_duty)
-            vertical_servo.ChangeDutyCycle(vertical_servo_duty)
+            pi.set_servo_pulsewidth(
+                horizontal_servo_pin, horizontal_servo_angle)
+            pi.set_servo_pulsewidth(vertical_servo_pin, vertical_servo_angle)
         elif data_str == "print":
             printer_conn.printFile(printer_using, "./image.jpg", "title", {})  # print image
+            sleep(5)  # delay for printing
+            print("print done")
             os.remove("./image.jpg")  # delete printed image
+        elif data_str == "reset":
+            os.system("sudo ./usbreset /dev/bus/usb/001/003")
 
 
 # daemon thread for socket communication
@@ -151,11 +149,6 @@ while True:
 
 
 print("Finished")
-
-horizontal_servo.stop()
-vertical_servo.stop()
-GPIO.cleanup()
-
 # t.join()  # wait till thread finishes
 bluetooth_socket.close()
 conn.close()
