@@ -4,11 +4,11 @@ import { Box } from '@chakra-ui/react'
 const ButtonLg = ({ children, isSelected }) => {
   return (
     <Box
-      px="5vw"
-      py="3vw"
+      px="4vw"
+      py="2.5vw"
       color={isSelected ? 'white' : 'black'}
       bgColor={isSelected ? 'teal' : 'gray'}
-      fontSize="3.5vw"
+      fontSize="2.5vw"
       borderRadius="lg"
       textAlign="center">
       {children}

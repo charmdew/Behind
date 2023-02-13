@@ -21,7 +21,7 @@ const StartPage = () => {
   return (
     <Center w="100vw" h="100vh">
       <Flex direction="column">
-        <Box fontSize="20vw" color="white">
+        <Box fontSize="15vw" color="white" textAlign="center">
           Behind
         </Box>
         <Box fontSize="5vw" color="white">

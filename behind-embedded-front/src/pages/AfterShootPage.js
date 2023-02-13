@@ -52,7 +52,7 @@ const AfterShootPage = () => {
             <ButtonLg isSelected={selection === 'down'}>다시 찍기</ButtonLg>
           </Flex>
           <Image
-            w="40vw"
+            h="60vh"
             objectFit="contain"
             borderRadius="2xl"
             src={croppedCaptureDataURL}
