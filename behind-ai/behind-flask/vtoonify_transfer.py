@@ -16,6 +16,8 @@ from VToonify.model.bisenet.model import BiSeNet
 from VToonify.model.encoder.align_all_parallel import align_face
 from VToonify.util import save_image, load_image, visualize, load_psp_standalone, get_video_crop_parameter, tensor2cv2
 
+from common.errors import CustomException
+
 os.environ['CUDA_VISIBLE_DEVICES'] = "0"
 
 CODE_DIR = 'VToonify'
@@ -58,17 +60,22 @@ illustration136
 #              'pixar052',
 #              'caricature039','caricature068',
 #              'comic028',
-#              'illustration050','illustration136'  ]
+#              'illustration004', 'illustration009', 'illustration043', 'illustration050','illustration054','illustration057','illustration086','illustration136']
 # style_types = ['cartoon026',
 #              'arcane000',
 #              'pixar052',
 #              'caricature039',
 #              'comic028',
 #              'illustration050']
-style_types = ['cartoon026',
-             'arcane000',
-             'caricature039',
-             'illustration050']
+groups = [
+            ['arcane000', 'arcane077', 'caricature039', 'caricature068'],
+            ['cartoon026', 'cartoon299', 'comic028', 'pixar052'],
+            ['illustration004', 'illustration009', 'illustration043', 'illustration050'],
+            ['illustration054','illustration057','illustration086','illustration136'],
+            ['cartoon026','caricature068','illustration004','illustration054']
+        ]
+
+style_types = groups[-1]
 
 
 ##### 'VToonify/checkpoint/' 폴더에 필요한 파일 목록 #####
@@ -163,7 +170,7 @@ def resize(image, size):
     return resized_image
 
 
-def main(input_image, input_image_fname):
+def main(input_image, input_image_fname, ouput_fname):
     # 변환할 이미지 파일
     content_image = input_image
     input_file_name = input_image_fname
@@ -191,6 +198,7 @@ def main(input_image, input_image_fname):
         x = transform(frame).unsqueeze(dim=0).to(device)
     else:
         print('no face detected!')
+        raise CustomException("No face detected!")
 
     ##### 이미지 변환 #####
     start = time.time()  # 시작
@@ -236,7 +244,8 @@ def main(input_image, input_image_fname):
         result_img[i] = resize(result_img[i], target_size)
 
         # '파일이름_스타일타입.jpg' 형식으로 저장
-        cv2.imwrite(os.path.join(OUT_DIR, input_file_name[:-4] + '_' + style_types[i] + '.jpg'), result_img[i])
+        cv2.imwrite(os.path.join(OUT_DIR, ouput_fname + '_' + style_types[i] + '.jpg'), result_img[i])
+        # cv2.imwrite(os.path.join(OUT_DIR, input_file_name[:-4] + '_' + style_types[i] + '.jpg'), result_img[i])
 
         # 색상 표현 방식 변경
         styled_image = cv2.cvtColor(result_img[i], cv2.COLOR_BGR2RGB)

@@ -4,7 +4,7 @@ from PIL import Image
 import numpy as np
 import os, time, io, base64, cv2
 
-# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # WARNING 로그 필터링
 os.environ['TFHUB_MODEL_LOAD_FORMAT'] = 'COMPRESSED'
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
@@ -109,7 +109,7 @@ def main(input_image, input_image_fname):
     return round(end - start, 1)    # 변환하는데 걸린 시간 (임시)
 
 
-def main_multiple_styles(input_image, input_image_fname):
+def main_multiple_styles(input_image, input_image_fname, output_fname):
     ##### 모델 로드 #####
     base_model = hub.load('https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/2')
 
@@ -151,7 +151,8 @@ def main_multiple_styles(input_image, input_image_fname):
     STYLE_IMG_FOLDER = os.path.join('static', 'images', 'style')
     # 스타일 이미지 파일명
     # style_image_files = ['picasso.jpg', 'dalmado.jpg', 'seurat.jpg', 'klimpt.jpg']
-    style_image_files = ['starry_night.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg']
+    style_image_files = ['picasso.jpg', 'leehwang.jpg', 'gogh.jpg', 'candinsky.jpg']
+    # style_image_files = ['starry_night.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg']
     # style_image_files = ['candinsky.jpg', 'monarisa.jpg', 'rain_princess.jpg', 'scream.jpg']
     # style_image_files = ['candinsky.jpg', 'dalmado.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg', 'monarisa.jpg',
     #                      'picasso.jpg', 'rain_princess.jpg', 'scream.jpg', 'starry_night.jpg', 'tiger.jpg',
@@ -184,7 +185,7 @@ def main_multiple_styles(input_image, input_image_fname):
 
         ## 이미지 데이터 JSON으로 응답
         bytesIO = io.BytesIO()
-        styled_image.save(bytesIO, "PNG" if input_image_fname.split('.')[1]=='png' else 'JPEG')
+        styled_image.save(bytesIO, "JPEG")
         b64encoded = base64.b64encode(bytesIO.getvalue())
         # base64로 인코딩된 이미지 리스트에 저장
         b64encoded_images.append(b64encoded)
@@ -193,7 +194,8 @@ def main_multiple_styles(input_image, input_image_fname):
 
         ## 결과 이미지 지정한 경로에 저장
         # 결과 이미지 파일명 : 파일이름_스타일이름.확장자
-        styled_image_fname = input_image_fname.split('.')[0] + "_" + style_image_file
+        styled_image_fname = output_fname + "_" + style_image_file
+        # styled_image_fname = input_image_fname.split('.')[0] + "_" + style_image_file
         # styled_image_fname = content_image_file.split('.')[0] + "_" + style_image_file
         # 결과 이미지 저장 경로
         styled_path = os.path.join('static', 'images', 'output', styled_image_fname)
