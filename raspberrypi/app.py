@@ -130,6 +130,7 @@ def toggle_mode():
             print("print done")
             os.remove("./image.jpg")  # delete printed image
         elif data_str == "reset":
+            # reset usb for webcam reuse
             os.system("sudo ./usbreset /dev/bus/usb/001/003")
 
 
