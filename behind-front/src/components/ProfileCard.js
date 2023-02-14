@@ -10,9 +10,10 @@ const ProfileCard = ({ phoneNum, tag, email, name, images, profile }) => {
 
   const [colorToggle, setColorToggle] = useState(false);
   const tags = () => {
-    let temp = '#';
-    temp = temp + tag.join(' #');
-    return temp;
+    // let temp = '';
+    // temp = temp + tag.join(' ');
+    // return temp;
+    return tag.join(' ');
   };
 
   if (colorToggle) {
@@ -30,16 +31,16 @@ const ProfileCard = ({ phoneNum, tag, email, name, images, profile }) => {
           h={516}
           overflow="hidden"
         >
-          {/* <Image
+          <Image
             w="full"
             h={400}
             fit="cover"
             objectPosition="center"
             // 프로필 카드 이미지 자리
             // src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-            src="https://picsum.photos/200/300"
+            src={profileSrc}
             alt="avatar"
-          /> */}
+          />
           <Box pb={2} pl={4} display="flex" flexDirection="column" flex="1">
             <Box display="flex" flexGrow="3">
               <Box

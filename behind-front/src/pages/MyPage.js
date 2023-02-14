@@ -109,7 +109,6 @@ const MyPage = () => {
 
   // 상세 정보 수정
   const [detailInfo, setDetailInfo] = useState(loginUser.detail);
-  // useEffect(() => {}, []);
   const detailContentHandleChange = e => {
     setDetailInfo(e);
   };
