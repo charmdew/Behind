@@ -1,4 +1,4 @@
-package com.reboot.behind.data.dto;
+package com.reboot.behind.data.dto.User;
 
 import lombok.Getter;
 import lombok.Setter;

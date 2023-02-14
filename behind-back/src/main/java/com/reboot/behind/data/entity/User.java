@@ -3,7 +3,9 @@ package com.reboot.behind.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.reboot.behind.data.dto.User.UserUpdateDto;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,8 +26,9 @@ import java.util.stream.Collectors;
 @Builder
 @Table
 @Entity
+@DynamicUpdate
 //implements UserDetails
-public class User{
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -50,7 +53,7 @@ public class User{
     private boolean embedded;
 
     @ElementCollection
-    private List<String> tag ;
+    private List<String> tag;
 
     private String phoneNum;
 
@@ -79,4 +82,19 @@ public class User{
     @ElementCollection
     private List<Integer> followedUsers;
 
+    public void updateUser(UserUpdateDto userUpdateDto){
+        this.name = userUpdateDto.getName();
+        this.email=userUpdateDto.getEmail();
+        this.phoneNum=userUpdateDto.getPhoneNum();
+        this.showPhoneNum=userUpdateDto.getShowPhoneNum();
+        this.front=userUpdateDto.getPosition().isFrontend();
+        this.back=userUpdateDto.getPosition().isBackend();
+        this.embedded=userUpdateDto.getPosition().isEmbedded();
+        this.ai=userUpdateDto.getTrack().isAi();
+        this.iot=userUpdateDto.getTrack().isIot();
+        this.bigData=userUpdateDto.getTrack().isBigdata();
+        this.blockChain=userUpdateDto.getTrack().isBlockchain();
+        this.metaBus=userUpdateDto.getTrack().isMetabus();
+        this.tag=userUpdateDto.getTag();
+    }
 }

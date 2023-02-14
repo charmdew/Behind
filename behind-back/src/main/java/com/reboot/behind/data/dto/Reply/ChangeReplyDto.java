@@ -1,4 +1,4 @@
-package com.reboot.behind.data.dto;
+package com.reboot.behind.data.dto.Reply;
 
 import com.reboot.behind.data.entity.Comment;
 import com.reboot.behind.data.entity.User;
