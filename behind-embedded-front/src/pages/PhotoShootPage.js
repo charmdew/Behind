@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Webcam from 'react-webcam'
 import { Box, Flex } from '@chakra-ui/react'
-import { FaArrowLeft } from 'react-icons/fa'
+import { FaArrowLeft, FaArrowsAlt } from 'react-icons/fa'
 import { GiButtonFinger } from 'react-icons/gi'
 
 import IconWithLabel from '../components/IconWithLabel'
@@ -86,6 +86,7 @@ const PhotoShootPage = ({ socketClient }) => {
           borderRadius="2xl"
           style={{ transform: 'translate(-50%, -50%)' }}>
           <IconWithLabel icon={FaArrowLeft} label="첫 화면" />
+          <IconWithLabel icon={FaArrowsAlt} label="카메라 이동" />
           <IconWithLabel icon={GiButtonFinger} label="촬영" />
         </Flex>
       </Box>

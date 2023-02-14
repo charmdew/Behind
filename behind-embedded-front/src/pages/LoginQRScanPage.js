@@ -38,7 +38,7 @@ const LoginQRScanPage = ({ socketClient }) => {
 
   return (
     <Center w="100vw" h="100vh" bgColor="black">
-      <Box w="calc((100% - 100vh) / 2)"></Box>
+      <Box w="calc((100% - 100vh) / 2)" />
       <Box w="100vh">
         <QrScanner
           onDecode={(result) => {
