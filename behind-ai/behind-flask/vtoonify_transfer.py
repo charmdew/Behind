@@ -1,7 +1,5 @@
 import os
-import sys
 import time
-import argparse
 import numpy as np
 import cv2
 import dlib
@@ -14,7 +12,7 @@ import io, base64
 from VToonify.model.vtoonify import VToonify
 from VToonify.model.bisenet.model import BiSeNet
 from VToonify.model.encoder.align_all_parallel import align_face
-from VToonify.util import save_image, load_image, visualize, load_psp_standalone, get_video_crop_parameter, tensor2cv2
+from VToonify.util import load_psp_standalone, get_video_crop_parameter, tensor2cv2
 
 from common.errors import CustomException
 
