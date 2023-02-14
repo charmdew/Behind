@@ -1,7 +1,3 @@
-// Temp start
-// Change imageUploadURL
-// Temp end
-
 import React, { useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Splide, SplideSlide } from '@splidejs/react-splide'
@@ -15,6 +11,7 @@ import Container from '../components/Container'
 import Header from '../components/Header'
 import IconWithLabel from '../components/IconWithLabel'
 import dataURLtoFile from '../utils/dataURLToFile'
+import urls from '../data/urls.json'
 
 const PhotoSelectPage = () => {
   const { state } = useLocation()
@@ -27,8 +24,7 @@ const PhotoSelectPage = () => {
     if (e.key === 'ArrowLeft') splideRef.current.splide.go('<')
     if (e.key === 'ArrowRight') splideRef.current.splide.go('>')
     if (e.key === 'Enter') {
-      const imageUploadURL =
-        'http://ec2-13-209-17-196.ap-northeast-2.compute.amazonaws.com:8080/images'
+      const imageUploadURL = urls.imageUploadURL
 
       const otherImageEls = document.querySelectorAll(
         'li:not(.splide__slide--clone, .is-active) > img'

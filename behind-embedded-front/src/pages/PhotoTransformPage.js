@@ -1,7 +1,3 @@
-// Temp start
-// Change imageTransformServerURL
-// Temp end
-
 import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Center, Flex, Box, Spinner } from '@chakra-ui/react'
@@ -9,14 +5,14 @@ import { Center, Flex, Box, Spinner } from '@chakra-ui/react'
 import Container from '../components/Container'
 import Header from '../components/Header'
 import dataURLtoFile from '../utils/dataURLToFile'
+import urls from '../data/urls.json'
 
 const PhotoTransformPage = () => {
   const { state } = useLocation()
   const navigate = useNavigate()
 
   useEffect(() => {
-    const imageTransformServerURL =
-      'https://2c91-221-138-65-42.jp.ngrok.io/images/style-transfer'
+    const imageTransformServerURL = urls.imageTransformServerURL
 
     async function handleData() {
       const croppedCaptureFormData = new FormData()

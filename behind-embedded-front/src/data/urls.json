@@ -1,0 +1,5 @@
+{
+  "imageTransformServerURL": "https://2c91-221-138-65-42.jp.ngrok.io/images/style-transfers",
+  "imageUploadURL": "http://ec2-13-209-17-196.ap-northeast-2.compute.amazonaws.com:8080/images",
+  "userInfoURL": "http://ec2-13-209-17-196.ap-northeast-2.compute.amazonaws.com:8080/users"
+}

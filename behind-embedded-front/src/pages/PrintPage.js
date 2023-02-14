@@ -1,7 +1,3 @@
-// Temp start
-// Change userInfoURL
-// Temp end
-
 const os = require('node:os')
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -15,7 +11,8 @@ import Header from '../components/Header'
 import ButtonLg from '../components/ButtonLg'
 import IconWithLabel from '../components/IconWithLabel'
 import ProfileCard from '../components/ProfileCard'
-import saveElToImage from '../features/saveElToImage.js'
+import saveElToImage from '../utils/saveElToImage.js'
+import urls from '../data/urls.json'
 
 const PrintPage = ({ socketClient }) => {
   const { state } = useLocation()
@@ -52,7 +49,7 @@ const PrintPage = ({ socketClient }) => {
 
   const getUserInfo = async () => {
     const id = jwt_decode(state['X-AUTH-TOKEN']).sub
-    const userInfoURL = `http://ec2-13-209-17-196.ap-northeast-2.compute.amazonaws.com:8080/users/${id}`
+    const userInfoURL = urls.userInfoURL + '/' + id
     const res = await fetch(userInfoURL, {
       method: 'GET',
       headers: {
