@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @Api(description = "댓글 조회 생성 수정 삭제 ")
 @RequestMapping("/comment")
