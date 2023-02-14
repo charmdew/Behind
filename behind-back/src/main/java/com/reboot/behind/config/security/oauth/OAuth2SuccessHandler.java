@@ -26,7 +26,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        String url = "http://localhost:3000/";
+        String url = "http://i8a404.p.ssafy.io/";
         LOGGER.info("[onAuthenticationSuccess] url 생성 : {}", url);
 
         User user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
