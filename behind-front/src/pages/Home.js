@@ -122,17 +122,32 @@ const Home = () => {
         <Box>
           {/* 포지션,트랙 라디오 */}
           <Box
-            pt="10"
-            pb="10"
+            pt={{
+              base: '2',
+              lg: '10',
+            }}
+            pb={{
+              base: '2',
+              lg: '10',
+            }}
             display="flex"
             flexDirection="column"
             alignItems="center"
             bg="white"
-            borderBottom="solid 40px"
-            borderBottomColor="#4E6C50"
+            // borderBottom="solid 40px"
+
+            borderBottom={{
+              base: 'solid 20px #4E6C50',
+              lg: 'solid 40px #4E6C50',
+            }}
           >
             {/* 포지션 */}
-            <Box mb="5">
+            <Box
+              mb={{
+                base: '3',
+                lg: '5',
+              }}
+            >
               <PositionRadio />
             </Box>
             {/* 트랙 */}
