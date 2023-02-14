@@ -1,5 +1,5 @@
 // Temp start
-// Change profileImageUploadURL
+// Change imageUploadURL
 // Temp end
 
 import React, { useEffect, useRef } from 'react'
@@ -27,31 +27,59 @@ const PhotoSelectPage = () => {
     if (e.key === 'ArrowLeft') splideRef.current.splide.go('<')
     if (e.key === 'ArrowRight') splideRef.current.splide.go('>')
     if (e.key === 'Enter') {
-      const profileImageDataURL = document
-        .querySelector('li.is-active > img')
-        .getAttribute('src')
-
-      const profileImageFormData = new FormData()
-      profileImageFormData.append(
-        'multipartFile',
-        dataURLtoFile(profileImageDataURL, 'multipartFile')
-      )
-
-      const profileImageUploadURL =
+      const imageUploadURL =
         'http://ec2-13-209-17-196.ap-northeast-2.compute.amazonaws.com:8080/images'
 
-      fetch(profileImageUploadURL, {
-        method: 'POST',
-        body: profileImageFormData,
-        headers: {
-          'X-AUTH-TOKEN': state['X-AUTH-TOKEN']
-        }
-      }).then(() => {
-        navigate('/print', {
-          state: {
-            profileImageDataURL: profileImageDataURL,
-            ...state
+      const otherImageEls = document.querySelectorAll(
+        'li:not(.splide__slide--clone, .is-active) > img'
+      )
+
+      const otherImageDataURLs = []
+      for (let imageEl of otherImageEls) {
+        otherImageDataURLs.push(imageEl.getAttribute('src'))
+      }
+
+      let promises = []
+      for (let otherImageDataURL of otherImageDataURLs) {
+        const otherImageFormData = new FormData()
+        otherImageFormData.append(
+          'multipartFile',
+          dataURLtoFile(otherImageDataURL, 'multipartFile')
+        )
+        promises.push(
+          fetch(imageUploadURL, {
+            method: 'POST',
+            body: otherImageFormData,
+            headers: {
+              'X-AUTH-TOKEN': state['X-AUTH-TOKEN']
+            }
+          })
+        )
+      }
+
+      Promise.all(promises).then(() => {
+        const profileImageDataURL = document
+          .querySelector('li.is-active > img')
+          .getAttribute('src')
+        const profileImageFormData = new FormData()
+        profileImageFormData.append(
+          'multipartFile',
+          dataURLtoFile(profileImageDataURL, 'multipartFile')
+        )
+
+        fetch(imageUploadURL, {
+          method: 'POST',
+          body: profileImageFormData,
+          headers: {
+            'X-AUTH-TOKEN': state['X-AUTH-TOKEN']
           }
+        }).then(() => {
+          navigate('/print', {
+            state: {
+              profileImageDataURL: profileImageDataURL,
+              ...state
+            }
+          })
         })
       })
     }

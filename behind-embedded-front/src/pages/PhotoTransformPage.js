@@ -1,7 +1,5 @@
 // Temp start
 // Change imageTransformServerURL
-// Change behindServerURL
-// How can I upload image set?
 // Temp end
 
 import React, { useEffect } from 'react'
@@ -16,12 +14,9 @@ const PhotoTransformPage = () => {
   const { state } = useLocation()
   const navigate = useNavigate()
 
-  // Temp start
   useEffect(() => {
     const imageTransformServerURL =
       'https://2c91-221-138-65-42.jp.ngrok.io/images/style-transfer'
-    const imageUploadURL =
-      'http://ec2-13-209-17-196.ap-northeast-2.compute.amazonaws.com:8080/images'
 
     async function handleData() {
       const croppedCaptureFormData = new FormData()
@@ -33,37 +28,26 @@ const PhotoTransformPage = () => {
       const res = await fetch(imageTransformServerURL, {
         method: 'POST',
         body: croppedCaptureFormData
-      }).catch(() => {
-        const { croppedCaptureDataURL, ...newState } = state
-        navigate('/error', {
-          state: {
-            redirectPage: '/photo-shoot-guide',
-            msg: '얼굴이 잘 나오게 찍어주세요',
-            ...newState
-          }
-        })
       })
+        .then((res) => {
+          if (res.status >= 400 && res.status < 600) {
+            throw new Error('Bad response from server')
+          }
+          return res
+        })
+        .catch(() => {
+          const { croppedCaptureDataURL, ...newState } = state
+          navigate('/error', {
+            state: {
+              redirectPage: '/photo-shoot-guide',
+              msg: '얼굴이 잘 나오게 찍어주세요',
+              ...newState
+            }
+          })
+        })
+
       const resObj = await res.json()
       const imageBase64Set = resObj.images
-
-      // let promises = []
-      // for (let imageBase64 of imageBase64Set) {
-      //   const transformedPhotoFormData = new FormData()
-      //   transformedPhotoFormData.append(
-      //     'multipartFile',
-      //     dataURLtoFile('data:image/jpeg;base64,' + imageBase64, 'multipartFile')
-      //   )
-      //   promises.push(
-      //     fetch(imageUploadURL, {
-      //       method: 'POST',
-      //       body: transformedPhotoFormData,
-      //       headers: {
-      //         'X-AUTH-TOKEN': state['X-AUTH-TOKEN']
-      //       }
-      //     })
-      //   )
-      // }
-      // Promise.all(promises).then('upload complete  ')
 
       const { croppedCaptureDataURL, ...newState } = state
       newState.imageBase64Set = imageBase64Set
@@ -72,7 +56,6 @@ const PhotoTransformPage = () => {
 
     handleData()
   }, [])
-  // Temp end
 
   return (
     <Center w="100vw" h="100vh">
