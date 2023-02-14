@@ -44,7 +44,7 @@ const App = () => {
   // const token = getCookie('token');
   const getUser = () => {
     const token = getCookie('token');
-    if (token.length || token) {
+    if (token) {
       const LoginUserId = jwt_decode(token).sub;
       axios({
         url: `/api/users/${LoginUserId}`,
