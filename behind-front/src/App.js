@@ -47,7 +47,7 @@ const App = () => {
     if (token) {
       const LoginUserId = jwt_decode(token).sub;
       axios({
-        url: `http://i8a404.p.ssafy.io/users/${LoginUserId}`,
+        url: `http://i8a404.p.ssafy.io/api/users/${LoginUserId}`,
         method: 'get',
         headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       })
@@ -70,7 +70,7 @@ const App = () => {
   const refreshLoginUserInfo = LoginUserId => {
     const token = getCookie('token');
     axios({
-      url: `http://i8a404.p.ssafy.io/users/${LoginUserId}`,
+      url: `http://i8a404.p.ssafy.io/api/users/${LoginUserId}`,
       method: 'get',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     })

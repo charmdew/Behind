@@ -69,7 +69,7 @@ const MyPage = () => {
   const [loginUser, setLoginUser] = useState({});
   const getLoginUser = () => {
     axios({
-      url: `http://i8a404.p.ssafy.io/users/${LoginUserId}`,
+      url: `http://i8a404.p.ssafy.io/api/users/${LoginUserId}`,
       method: 'get',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     })
