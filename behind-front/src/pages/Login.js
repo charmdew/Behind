@@ -5,7 +5,9 @@ const Login = () => {
       <VStack>
         <a
           mt="10"
-          href="http://i8a404.p.ssafy.io/api/oauth2/authorization/kakao"
+          // href="api/oauth2/authorization/kakao"
+          href="	
+          http://ec2-13-209-17-196.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/kakao"
         >
           <Image
             w="70vw"
@@ -15,10 +17,7 @@ const Login = () => {
             shadow="md"
           ></Image>
         </a>
-        <a
-          mt="10"
-          href="http://i8a404.p.ssafy.io/api/oauth2/authorization/google"
-        >
+        <a mt="10" href="api/oauth2/authorization/google">
           <Image
             w="72vw"
             mt="2"

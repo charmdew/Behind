@@ -69,7 +69,7 @@ const ProfileContainer = ({
 
   const updateFollowingIdList = () => {
     axios({
-      url: `http://i8a404.p.ssafy.io/api/users/${LoginUserId}`,
+      url: `api/users/${LoginUserId}`,
       method: 'get',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     })
