@@ -1,5 +1,5 @@
-import { ColorModeScript } from '@chakra-ui/react';
-import React, { StrictMode } from 'react';
+import { ColorModeScript, Box } from '@chakra-ui/react';
+import React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -9,10 +9,12 @@ const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
 root.render(
-  <StrictMode>
+  <div>
     <ColorModeScript />
-    <App />
-  </StrictMode>
+    <Box>
+      <App />
+    </Box>
+  </div>
 );
 
 // If you want your app to work offline and load faster, you can change
