@@ -63,7 +63,7 @@ const PhotoShootPage = ({ socketClient }) => {
         style={{ height: '100%' }}
         width={1920}
         height={1080}
-        screenshotFormat="image/jpeg"
+        screenshotFormat="image/png"
         videoConstraints={videoConstraints}
       />
       <Box

@@ -107,7 +107,7 @@ const PhotoSelectPage = () => {
           }}>
           {state.imageBase64Set.map((image, index) => (
             <SplideSlide key={index}>
-              <Image w="100%" src={'data:image/jpeg;base64,' + image} />
+              <Image w="100%" src={'data:image/png;base64,' + image} />
             </SplideSlide>
           ))}
         </Splide>

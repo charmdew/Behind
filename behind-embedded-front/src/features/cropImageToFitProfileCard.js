@@ -21,7 +21,7 @@ const cropImageToFitProfileCard = (imageDataURL, setImageDataURL) => {
       const dh = canvas.height
       cnv.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh)
 
-      setImageDataURL(canvas.toDataURL('image/jpeg').toString())
+      setImageDataURL(canvas.toDataURL('image/png').toString())
     }
   } catch (e) {
     console.error(e)
