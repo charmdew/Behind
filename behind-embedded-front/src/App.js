@@ -39,7 +39,10 @@ function App() {
         <Routes>
           <Route path="/" element={<StartPage />} />
           <Route path="/login-guide" element={<LoginGuidePage />} />
-          <Route path="/login-qr-scan" element={<LoginQRScanPage />} />
+          <Route
+            path="/login-qr-scan"
+            element={<LoginQRScanPage socketClient={socketClient} />}
+          />
           <Route path="/login-response" element={<LoginResponsePage />} />
           <Route path="/menu" element={<MenuPage />} />
           <Route path="/photo-shoot-guide" element={<PhotoShootGuidePage />} />

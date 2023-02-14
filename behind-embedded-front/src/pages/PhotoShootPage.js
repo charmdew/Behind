@@ -22,12 +22,15 @@ const PhotoShootPage = ({ socketClient }) => {
       const captureDataURL = capture()
       stopStreamedVideos()
       socketClient.send('remote')
+      socketClient.send('camreset')
       navigate('/after-shoot', {
         state: { captureDataURL: captureDataURL, ...state }
       })
     }
     if (e.key === 'ArrowLeft') {
       socketClient.send('remote')
+      socketClient.send('camreset')
+
       navigate('/reset', {
         state: { prevPage: '/photo-shoot', ...state }
       })

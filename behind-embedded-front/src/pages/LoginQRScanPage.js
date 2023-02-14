@@ -8,21 +8,23 @@ import { FaArrowLeft } from 'react-icons/fa'
 import IconWithLabel from '../components/IconWithLabel'
 import stopStreamedVideos from '../utils/stopStreamedVideos'
 
-const LoginQRScanPage = () => {
+const LoginQRScanPage = ({ socketClient }) => {
   const navigate = useNavigate()
 
   const keyDownHandler = (e) => {
     if (e.key === 'ArrowLeft') {
       stopStreamedVideos()
+      socketClient.send('camreset')
       navigate('/reset', { state: { prevPage: '/login-qr-scan' } })
     }
     // Temp start
     if (e.key === 'Enter') {
       stopStreamedVideos()
+      socketClient.send('camreset')
       navigate('/login-response', {
         state: {
           'X-AUTH-TOKEN':
-            'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNjc2MjEyNzE3LCJleHAiOjE2NzYyMTQ1MTd9.swbj5z1dfqYD9O6tena4_3d5-NFvjrXyxlHv5NUl8ro'
+            'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNjc2MjUwMzcyLCJleHAiOjE2NzYyNTIxNzJ9.qH8TWR-luafWxiK7lS-hSjvcholIBIMFhQsFHKqwl2E'
         }
       })
     }
@@ -56,9 +58,9 @@ const LoginQRScanPage = () => {
       <Box w="calc((100% - 100vh) / 2)">
         <Flex
           direction="column"
-          gap="2vw"
-          m="2vw"
-          p="1vw"
+          w="80%"
+          p="2vw"
+          m="auto"
           bgColor="white"
           borderRadius="2xl">
           <IconWithLabel icon={FaArrowLeft} label="첫 화면" />
