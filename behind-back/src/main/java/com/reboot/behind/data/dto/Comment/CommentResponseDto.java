@@ -1,13 +1,10 @@
-package com.reboot.behind.data.dto;
+package com.reboot.behind.data.dto.Comment;
 
-import com.reboot.behind.data.entity.Reply;
-import com.reboot.behind.data.entity.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -44,5 +41,19 @@ public class CommentResponseDto {
         private int WriterId;
 
         private String writerName;
+    }
+
+    public CommentResponseDto(){
+
+    }
+    @Builder
+    public CommentResponseDto(int id, int writerId,String writerName,String content ,String createTime,String updateTime,List<replytmp> replys){
+        this.commentId=id;
+        this.WriterId=writerId;
+        this.writerName=writerName;
+        this.content=content;
+        this.createTime=createTime;
+        this.updateTime=updateTime;
+        this.replys=replys;
     }
 }

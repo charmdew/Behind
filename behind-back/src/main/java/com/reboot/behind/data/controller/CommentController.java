@@ -1,7 +1,8 @@
 package com.reboot.behind.data.controller;
 
 import com.reboot.behind.config.security.auth.PrincipalDetails;
-import com.reboot.behind.data.dto.*;
+import com.reboot.behind.data.dto.Comment.*;
+import com.reboot.behind.data.dto.User.*;
 import com.reboot.behind.data.entity.Comment;
 import com.reboot.behind.data.entity.User;
 import com.reboot.behind.service.CommentService;

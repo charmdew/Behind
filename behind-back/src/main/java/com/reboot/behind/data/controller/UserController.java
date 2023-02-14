@@ -1,21 +1,16 @@
 package com.reboot.behind.data.controller;
 
 import com.reboot.behind.config.security.auth.PrincipalDetails;
-import com.reboot.behind.data.dto.*;
-import com.reboot.behind.data.entity.User;
+import com.reboot.behind.data.dto.User.*;
 import com.reboot.behind.service.UserService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import sun.security.util.Length;
 
-import javax.persistence.Id;
 import java.util.List;
 
 @RestController
@@ -29,19 +24,32 @@ public class UserController {
     public UserController(UserService userService){
         this.userService = userService;
     }
+
     @ApiOperation(
-        value = "모든 사용자 정보 조회(메인화면)"
-        , notes = "모든 사용자의 정보를 가져온다")
-    @GetMapping()
-    public ResponseEntity<?> getUserList(){
+            value = "유저 검색"
+            , notes = "position" +
+            "0:선택안함" +
+            "1:FRONTEND" +
+            "2:BACKEND" +
+            "3:EMBEDED" +
+            "track" +
+            "0:선택안함" +
+            "1:AI" +
+            "2:IOT" +
+            "3:BIGDATA" +
+            "4:BLOCKCHAIN")
+
+    @GetMapping("/search")
+    public ResponseEntity<?> getSearchUserList(@RequestParam int position, @RequestParam int track,@RequestParam int page,@RequestParam int volume){
         try {
-            List<UserResponseDto> userlist = userService.getUserList();
+            List<UserResponseDto> userlist = userService.getSearchUserList(position, track,page,volume);
             return ResponseEntity.status(HttpStatus.OK).body(userlist);
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
         }
     }
+
     @ApiOperation(
             value = "Id(pk)를 이용한 마이페이지 회원정보 조회"
             , notes = "Id(pk)를 이용한 1명의 회원정보를 가져온다")
@@ -60,15 +68,15 @@ public class UserController {
             value = "디테일을 제외한 회원정보 수정"
             , notes = "디테일을 제외한 회원정보를 수정한다")
     @PatchMapping()
-    public ResponseEntity<?> changeUser(@RequestBody UserResponseDto userResponseDto){
-        System.out.println(userResponseDto);
+    public ResponseEntity<?> changeUser(@RequestBody UserUpdateDto userUpdateDto){
+        System.out.println(userUpdateDto);
         System.out.println("호호호호호호호");
         try{
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             int tokenId = pd.getUser().getId();
             System.out.println(tokenId);
-            if (tokenId == userResponseDto.getId()) {
-                UserResponseDto userChangeDto = userService.changeUser(userResponseDto);
+            if (tokenId == userUpdateDto.getId()) {
+                UserResponseDto userChangeDto = userService.changeUser(userUpdateDto);
                 return ResponseEntity.status(HttpStatus.OK).body(userChangeDto);
             } else {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
@@ -142,30 +150,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
         }
     }
-    @ApiOperation(
-            value = "유저 검색"
-            , notes = "position" +
-            "0:선택안함" +
-            "1:FRONTEND" +
-            "2:BACKEND" +
-            "3:EMBEDED" +
-            "track" +
-            "0:선택안함" +
-            "1:AI" +
-            "2:IOT" +
-            "3:BIGDATA" +
-            "4:BLOCKCHAIN")
-
-    @GetMapping("/search")
-    public ResponseEntity<?> getSearchUserList(@RequestParam int position, @RequestParam int track,@RequestParam int page,@RequestParam int volume){
-        try {
-            List<UserResponseDto> userlist = userService.getSearchUserList(position, track,page,volume);
-            return ResponseEntity.status(HttpStatus.OK).body(userlist);
-        }
-        catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
-        }
-    }
 
     @ApiOperation(
             value = "유저 삭제"
@@ -184,21 +168,6 @@ public class UserController {
             }
         }
         catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
-        }
-    }
-
-    @ApiOperation(
-            value = "유저 이미지 조회"
-            , notes = "유저의 이미지 목록을 조회한다")
-
-    @GetMapping("/images")
-    public ResponseEntity<?> getUserImages(Integer id){
-        try {
-            List<String> userImages = userService.getUserImage(id);
-            return ResponseEntity.status(HttpStatus.OK).body(userImages);
-        }
-        catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
         }
     }
@@ -253,7 +222,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
         }
     }
-
 }
 
 

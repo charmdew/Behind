@@ -1,8 +1,7 @@
 package com.reboot.behind.data.controller;
 
 import com.reboot.behind.config.security.auth.PrincipalDetails;
-import com.reboot.behind.data.dto.ChangeReplyDto;
-import com.reboot.behind.data.dto.ReplyDto;
+import com.reboot.behind.data.dto.Reply.*;
 import com.reboot.behind.service.ReplyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
