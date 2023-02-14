@@ -229,19 +229,54 @@ const UserInfo = ({ loginUser }) => {
   };
   return (
     <div>
-      <Box alignItems="center" display="flex" w="100%" bg="gray.100">
+      <Box
+        alignItems="center"
+        display="flex"
+        w="100%"
+        bg="gray.100"
+        height={{
+          base: 7,
+          lg: 12,
+        }}
+      >
         <IconButton
           onClick={() => {
             navigate(-1);
           }}
-          size="lg"
+          size={{
+            base: 'xs',
+            lg: 'lg',
+          }}
+          color="black"
           icon={<FiArrowLeft />}
         />
-        <Text as="b">{`${headWord()}`}</Text>
+        <Text
+          fontWeight={{
+            base: 'bold',
+            lg: 'bold',
+          }}
+          fontSize={{
+            base: '12',
+            lg: '20',
+          }}
+        >{`${headWord()}`}</Text>
         {/* <Text as="b">회원정보수정</Text> */}
       </Box>
 
-      <Box display="flex" justifyContent="center" bg="#4E6C50" p="10" pb="20">
+      {/* <Box display="flex" justifyContent="center" bg="#4E6C50" p="10" pb="20"> */}
+      <Box
+        display="flex"
+        justifyContent="center"
+        // bg="#4E6C50"
+        // bg={{
+        //   base: '#4E6C50',
+        //   lg: 'white',
+        // }}
+        p={{
+          base: '2',
+          lg: '10',
+        }}
+      >
         <SimpleGrid
           display={{
             base: 'initial',
@@ -253,9 +288,10 @@ const UserInfo = ({ loginUser }) => {
           spacing={{
             md: 6,
           }}
+          border="solid 2px"
+          borderColor="#4E6C50"
         >
           <GridItem
-            mt={[5, null, 0]}
             colSpan={{
               md: 2,
             }}
@@ -268,9 +304,18 @@ const UserInfo = ({ loginUser }) => {
               }}
             >
               <Stack
-                px={4}
-                py={5}
-                p={[null, 6]}
+                w={{
+                  base: '95vw',
+                  lg: '50vw',
+                }}
+                px={{
+                  base: '4%',
+                  lg: '2%',
+                }}
+                py={{
+                  base: '3%',
+                  lg: '5',
+                }}
                 bg="white"
                 _dark={{
                   bg: '#141517',
@@ -295,7 +340,10 @@ const UserInfo = ({ loginUser }) => {
                       type="text"
                       name="name"
                       id="name"
-                      mt={1}
+                      mt={{
+                        base: '0',
+                        lg: '1',
+                      }}
                       focusBorderColor="brand.400"
                       shadow="sm"
                       size="sm"
@@ -322,7 +370,10 @@ const UserInfo = ({ loginUser }) => {
                       type="text"
                       name="email_address"
                       id="email_address"
-                      mt={1}
+                      mt={{
+                        base: '0',
+                        lg: '1',
+                      }}
                       focusBorderColor="brand.400"
                       shadow="sm"
                       size="sm"
@@ -349,7 +400,10 @@ const UserInfo = ({ loginUser }) => {
                       type="text"
                       name="phone"
                       id="phone"
-                      mt={1}
+                      mt={{
+                        base: '0',
+                        lg: '1',
+                      }}
                       focusBorderColor="brand.400"
                       shadow="sm"
                       size="sm"
@@ -476,19 +530,35 @@ const UserInfo = ({ loginUser }) => {
                     >
                       태그를 입력해 주세요
                     </FormLabel>
-                    <Stack spacing={[1, 5]} direction={['column', 'row']}>
+                    <Stack spacing={[1, 5]} direction="row">
                       <Input
+                        size={{
+                          base: 'sm',
+                          sm: 'md',
+                        }}
                         placeholder="ex) FrontEnd"
                         value={tagWord}
                         onChange={tagInputHandleChange}
                       />
-                      <Button onClick={tagAdd}>Add</Button>
+                      <Button
+                        size={{
+                          base: 'sm',
+                          sm: 'md',
+                        }}
+                        onClick={tagAdd}
+                      >
+                        Add
+                      </Button>
                     </Stack>
 
-                    <HStack spacing={4}>
+                    <HStack spacing={4} pt="2">
                       {tag.map(word => (
                         <Tag
-                          size="lg"
+                          py="3px"
+                          size={{
+                            base: 'sm',
+                            sm: 'md',
+                          }}
                           key={word}
                           borderRadius="full"
                           variant="solid"
@@ -511,7 +581,10 @@ const UserInfo = ({ loginUser }) => {
                   base: 4,
                   sm: 6,
                 }}
-                py={3}
+                py={{
+                  base: 2,
+                  sm: 3,
+                }}
                 bg="gray.50"
                 _dark={{
                   bg: '#121212',
@@ -519,12 +592,17 @@ const UserInfo = ({ loginUser }) => {
                 textAlign="right"
               >
                 <Button
+                  size={{
+                    base: 'sm',
+                    lg: 'md',
+                  }}
                   type="submit"
                   _focus={{
                     shadow: '',
                   }}
-                  fontWeight="md"
+                  fontWeight="bold"
                   onClick={userSave}
+                  bg="gray.200"
                 >
                   Save
                 </Button>

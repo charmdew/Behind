@@ -176,15 +176,39 @@ const MyPage = () => {
     <Box>
       <Box ref={editareaRef} height="revert">
         {/* 뒤로가기 */}
-        <Box alignItems="center" display="flex" w="100%" bg="gray.100">
+        <Box
+          alignItems="center"
+          display="flex"
+          w="100%"
+          bg="gray.100"
+          height={{
+            base: 7,
+            lg: 12,
+          }}
+        >
           <IconButton
             onClick={() => {
               navigate(-1);
             }}
-            size="lg"
+            size={{
+              base: 'xs',
+              lg: 'lg',
+            }}
+            color="black"
             icon={<FiArrowLeft />}
           />
-          <Text as="b">My Page</Text>
+          <Text
+            fontWeight={{
+              base: 'bold',
+              lg: 'bold',
+            }}
+            fontSize={{
+              base: '12',
+              lg: '20',
+            }}
+          >
+            My Page
+          </Text>
         </Box>
 
         {/* 컨테이너, 상세정보 */}
