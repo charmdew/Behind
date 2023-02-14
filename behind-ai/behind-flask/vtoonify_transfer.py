@@ -227,7 +227,7 @@ def main(input_image, input_image_fname, ouput_fname):
 
     ##### 결과 처리 #####
     # 결과 이미지 사이즈 고정
-    target_size = (324, 400)
+    target_size = (640 , 760)
 
     # 변환된 이미지 저장
     result_img = []
@@ -242,7 +242,7 @@ def main(input_image, input_image_fname, ouput_fname):
         result_img[i] = resize(result_img[i], target_size)
 
         # '파일이름_스타일타입.jpg' 형식으로 저장
-        cv2.imwrite(os.path.join(OUT_DIR, ouput_fname + '_' + style_types[i] + '.jpg'), result_img[i])
+        cv2.imwrite(os.path.join(OUT_DIR, ouput_fname + '_' + style_types[i] + '.png'), result_img[i])
         # cv2.imwrite(os.path.join(OUT_DIR, input_file_name[:-4] + '_' + style_types[i] + '.jpg'), result_img[i])
 
         # 색상 표현 방식 변경
@@ -251,7 +251,7 @@ def main(input_image, input_image_fname, ouput_fname):
         ## 이미지 데이터 JSON으로 응답
         styled_image = Image.fromarray(styled_image)
         bytesIO = io.BytesIO()
-        styled_image.save(bytesIO, "JPEG")
+        styled_image.save(bytesIO, "PNG")
         b64encoded = base64.b64encode(bytesIO.getvalue())
         # base64로 인코딩된 이미지 리스트에 저장
         b64encoded_images.append(b64encoded)

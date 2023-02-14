@@ -9,6 +9,7 @@ from common.errors import CustomException
 import neural_style_transfer
 import vtoonify_transfer
 
+import numpy as np
 
 app = Flask(__name__)
 CORS(app)
@@ -116,6 +117,7 @@ def style_transfer():
 
     # 변환할 이미지
     content_image = Image.open(content_file.stream)
+    content_image = content_image.convert("RGB")
 
     # 결과 이미지 파일명 (처리 시간)
     output_fname = time.strftime("%Y%m%d-%H%M%S")

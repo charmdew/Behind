@@ -53,10 +53,10 @@ def main_multiple_styles(input_image, input_image_fname, output_fname):
     # content_image = Image.open(os.path.join('static', 'images', 'data', content_image_file))
 
     # 이미지 사이즈 고정
-    target_size = (324, 400)
+    target_size = (640, 760)
 
     content_image = np.array(content_image)
-    # content_image = resize(content_image, target_size) # 리사이즈 처리
+    content_image = resize(content_image, target_size) # 리사이즈 처리
     x_test = np.array([content_image])
     x_test = x_test / 255
     content_image = x_test
@@ -66,7 +66,7 @@ def main_multiple_styles(input_image, input_image_fname, output_fname):
     STYLE_IMG_FOLDER = os.path.join('static', 'images', 'style')
     # 스타일 이미지 파일명
     # style_image_files = ['picasso.jpg', 'dalmado.jpg', 'seurat.jpg', 'klimpt.jpg']
-    style_image_files = ['picasso.jpg', 'leehwang.jpg', 'gogh.jpg', 'candinsky.jpg']
+    style_image_files = ['picasso.jpg', 'starry_night.jpg', 'scream.jpg', 'candinsky.jpg']
     # style_image_files = ['starry_night.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg']
     # style_image_files = ['candinsky.jpg', 'monarisa.jpg', 'rain_princess.jpg', 'scream.jpg']
     # style_image_files = ['candinsky.jpg', 'dalmado.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg', 'monarisa.jpg',
@@ -100,7 +100,7 @@ def main_multiple_styles(input_image, input_image_fname, output_fname):
 
         ## 이미지 데이터 JSON으로 응답
         bytesIO = io.BytesIO()
-        styled_image.save(bytesIO, "JPEG")
+        styled_image.save(bytesIO, "PNG")
         b64encoded = base64.b64encode(bytesIO.getvalue())
         # base64로 인코딩된 이미지 리스트에 저장
         b64encoded_images.append(b64encoded)
@@ -109,14 +109,14 @@ def main_multiple_styles(input_image, input_image_fname, output_fname):
 
         ## 결과 이미지 지정한 경로에 저장
         # 결과 이미지 파일명 : 파일이름_스타일이름.확장자
-        styled_image_fname = output_fname + "_" + style_image_file
+        styled_image_fname = output_fname + "_" + style_image_file.split('.')[0]+".png"
         # styled_image_fname = input_image_fname.split('.')[0] + "_" + style_image_file
         # styled_image_fname = content_image_file.split('.')[0] + "_" + style_image_file
         # 결과 이미지 저장 경로
         styled_path = os.path.join('static', 'images', 'output', styled_image_fname)
         print(styled_path)
         # 결과 이미지 저장
-        styled_image.save(styled_path, 'JPEG')
+        styled_image.save(styled_path, 'PNG')
 
     print("Number of Styles: ", len(b64encoded_images))
 
