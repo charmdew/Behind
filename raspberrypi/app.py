@@ -7,26 +7,6 @@ from bluetooth import *
 from pynput.keyboard import Key, Controller
 from time import sleep
 
-HOST = "localhost"
-PORT = 12345
-
-# socket connection w/ app
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-print("Socket created")
-
-while True:
-    try:
-        s.bind((HOST, PORT))
-        break
-    except OSError:
-        print("Bind failed")
-        sleep(1)
-
-s.listen(5)
-print("Socket waiting for connection")
-conn, addr = s.accept()
-print("Socket connected!")
-
 # bluetooth socket
 bluetooth_socket = BluetoothSocket(RFCOMM)
 while True:
@@ -47,17 +27,42 @@ while True:
         print("Printer connection failed")
         sleep(1)
 
-# dictionary containing info about all available printers
-printers = printer_conn.getPrinters()
+printers = printer_conn.getPrinters()  # dict containing info about all available printers
 available_printers = list(printers.keys())
 printer_using = available_printers[0]
 print(printer_using, "connected!")
+
+# socket connection w/ FE app
+HOST = "localhost"
+PORT = 12345
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # tells kernel to reuse socket in TIME_WAIT state, without waiting for natural timeout expire
+print("Socket created")
+
+while True:
+    try:
+        s.bind((HOST, PORT))
+        break
+    except OSError:
+        print("Bind failed")
+        sleep(1)
+
+s.listen(5)
+print("Socket waiting for connection")
+conn, addr = s.accept()
+print("Socket connected!")
 
 # keyboard control
 keyboard = Controller()
 
 # servo motor setup
-pi = pigpio.pi()
+os.system("sudo killall pigpiod")  # kill pigpio daemon
+sleep(1)
+os.system("sudo pigpiod")  # start pigpio daemon
+sleep(1)
+
+pi = pigpio.pi()  # grant access to GPIO
 
 horizontal_servo_pin = 10  # range 1200 ~ 1700, mid = 1450
 vertical_servo_pin = 9  # range 600 ~ 900, top = 600
@@ -70,11 +75,9 @@ mode = 0
 
 
 def remote_control(input):
-    key_lst = {"L": Key.left, "R": Key.right,
-               "U": Key.up, "D": Key.down, "C": Key.enter}
-    if input in key_lst:  # to solve initial input issue
-        keyboard.press(key_lst[input])
-        keyboard.release(key_lst[input])
+    key_lst = {"L": Key.left, "R": Key.right, "U": Key.up, "D": Key.down, "C": Key.enter}
+    keyboard.press(key_lst[input])
+    keyboard.release(key_lst[input])
 
 
 def camera_tilt(input):
@@ -102,6 +105,7 @@ def camera_tilt(input):
     elif input == "C":
         keyboard.press(Key.enter)
         keyboard.release(Key.enter)
+        sleep(1)  # delay to prevent multiple input
 
 
 def toggle_mode():
@@ -112,7 +116,6 @@ def toggle_mode():
         print(data_str)
 
         global mode
-        print(mode)
         if data_str == "remote":
             mode = 0
             # stop servo
@@ -121,17 +124,19 @@ def toggle_mode():
         elif data_str == "camera":
             mode = 1
             # start servo
-            pi.set_servo_pulsewidth(
-                horizontal_servo_pin, horizontal_servo_angle)
+            pi.set_servo_pulsewidth(horizontal_servo_pin, horizontal_servo_angle)
             pi.set_servo_pulsewidth(vertical_servo_pin, vertical_servo_angle)
         elif data_str == "print":
-            printer_conn.printFile(printer_using, "./image.jpg", "title", {})  # print image
-            sleep(5)  # delay for printing
+            pid = printer_conn.printFile(printer_using, "./image.png", "Profile card", {})  # print image
+            print(pid)
+            while printer_conn.getJobs().get(pid, None) is not None:
+                sleep(1)
             print("print done")
-            os.remove("./image.jpg")  # delete printed image
-        elif data_str == "reset":
-            # reset usb for webcam reuse
+            os.remove("./image.png")  # delete printed image
+        elif data_str == "camreset":
+            # reset webcam usb for reuse
             os.system("sudo ./usbreset /dev/bus/usb/001/003")
+        print("current mode : ", mode)
 
 
 # daemon thread for socket communication
@@ -140,16 +145,20 @@ t.start()
 
 while True:
     # receiving via bluetooth
-    byte = bluetooth_socket.recv(1024)
+    input = bluetooth_socket.recv(1024)  # data type : bytes
     # print("received message : {}".format(byte))
 
-    if mode == 0:
-        remote_control(byte.decode())
-    else:
-        camera_tilt(byte.decode())
-
+    inp_lst = [b'L', b'R', b'U', b'D', b'C']
+    if input in inp_lst:  # to solve multiple input issue
+        if mode == 0:
+            remote_control(input.decode())
+            print(input.decode())
+            sleep(0.5)  # delay for slower user input
+        else:
+            camera_tilt(input.decode())
 
 print("Finished")
 # t.join()  # wait till thread finishes
-bluetooth_socket.close()
 conn.close()
+bluetooth_socket.close()
+pi.stop()
