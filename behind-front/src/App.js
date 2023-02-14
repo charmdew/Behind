@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
-import { ChakraProvider, theme } from '@chakra-ui/react';
+import { ChakraProvider, theme, extendTheme } from '@chakra-ui/react';
 import jwt_decode from 'jwt-decode';
 
 import Navbar from './components/Navbar';
@@ -30,13 +30,21 @@ function getCookie(cookie_name) {
 }
 
 const App = () => {
+  const breakpoints = {
+    lg: '1024px',
+  };
+
+  const theme = extendTheme({
+    breakpoints,
+  });
+
   console.log('app 렌더링');
   // 로그인한 유저id 저장
   const [loginUser, setLoginUser] = useState({});
   // const token = getCookie('token');
   const getUser = () => {
     const token = getCookie('token');
-    if (token.length) {
+    if (token.length || token) {
       const LoginUserId = jwt_decode(token).sub;
       axios({
         url: `/api/users/${LoginUserId}`,

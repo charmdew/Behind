@@ -4,7 +4,9 @@ import { useContext } from 'react';
 import { FilteredUsersDispatchContext } from '../pages/Home';
 
 const TrackRadio = () => {
-  const { setSelectedTrack } = useContext(FilteredUsersDispatchContext);
+  const { setSelectedTrack, setHasMore, setPageNum, setUsers } = useContext(
+    FilteredUsersDispatchContext
+  );
   function RadioCard(props) {
     const { getInputProps, getCheckboxProps } = useRadio(props);
 
@@ -41,6 +43,9 @@ const TrackRadio = () => {
   }
 
   const getUsers = e => {
+    setUsers([]);
+    setHasMore(true);
+    setPageNum(0);
     setSelectedTrack(trackOptions.indexOf(e));
   };
 

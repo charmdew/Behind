@@ -143,13 +143,17 @@ const NavBar = () => {
       </Modal>
       <chakra.header
         bg={bg}
-        w="full"
+        // w="full"
         px={{
           base: 2,
-          sm: 4,
+          lg: 4,
         }}
-        py={4}
+        py={{
+          base: 2,
+          lg: 4,
+        }}
         color="white"
+        w="auto"
       >
         <Flex alignItems="center" justifyContent="space-between" mx="auto">
           <Flex>
@@ -163,7 +167,10 @@ const NavBar = () => {
             </chakra.a>
             <chakra.h1
               color="#B99B6B"
-              fontSize="2xl"
+              fontSize={{
+                base: 'xl',
+                lg: '2xl',
+              }}
               fontWeight="extrabold"
               ml="2"
             >
@@ -186,9 +193,15 @@ const NavBar = () => {
               // }}
             >
               <Button
+                // w={{
+                //   base: '1',
+                // }}
                 onMouseOver={QRButtonOnHover}
                 onMouseOut={QRButtonOffHover}
-                fontSize="xl"
+                fontSize={{
+                  base: 'md',
+                  lg: 'xl',
+                }}
                 onClick={() => {
                   const token = getCookie('token');
                   if (!token) {
@@ -202,18 +215,30 @@ const NavBar = () => {
                 QR
               </Button>
               <Button
+                // w={{
+                //   base: '1',
+                // }}
                 onMouseOver={LikesButtonOnHover}
                 onMouseOut={LikesButtonOffHover}
-                fontSize="xl"
+                fontSize={{
+                  base: 'md',
+                  lg: 'xl',
+                }}
                 onClick={GoMyLikes}
                 variant="ghost"
               >
                 Likes
               </Button>
               <Button
+                // w={{
+                //   base: '100',
+                // }}
                 onMouseOver={MypageButtonOnHover}
                 onMouseOut={MypageButtonOffHover}
-                fontSize="xl"
+                fontSize={{
+                  base: 'md',
+                  lg: 'xl',
+                }}
                 onClick={GoMyPage}
                 variant="ghost"
               >
