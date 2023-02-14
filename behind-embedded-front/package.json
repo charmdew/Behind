@@ -1,7 +1,7 @@
 {
   "name": "behind-embedded-front",
   "productName": "behind-embedded-front",
-  "version": "0.2.0",
+  "version": "0.5.0",
   "description": "Frontend app for the Behind",
   "main": ".webpack/main",
   "scripts": {
