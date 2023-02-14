@@ -1,4 +1,4 @@
-package com.reboot.behind.data.controller;
+package com.reboot.behind.controller;
 
 import com.reboot.behind.config.security.auth.PrincipalDetails;
 import com.reboot.behind.data.dto.Reply.*;
