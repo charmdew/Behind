@@ -97,31 +97,31 @@ const NavBar = () => {
     e.target.style.backgroundColor = '#4E6C50';
     e.target.style.color = 'white';
   };
-  const HamQRButtonOnHover = e => {
-    e.target.style.backgroundColor = 'white';
-    e.target.style.color = '#4E6C50';
-  };
-  const HamLikesButtonOnHover = e => {
-    e.target.style.backgroundColor = 'white';
-    e.target.style.color = '#4E6C50';
-  };
-  const HamMypageButtonOnHover = e => {
-    e.target.style.backgroundColor = 'white';
-    e.target.style.color = '#4E6C50';
-  };
-  const HamQRButtonOffHover = e => {
-    e.target.style.backgroundColor = '#4E6C50';
-    e.target.style.color = 'white';
-  };
-  const HamLikesButtonOffHover = e => {
-    e.target.style.backgroundColor = '#4E6C50';
-    e.target.style.color = 'white';
-  };
+  // const HamQRButtonOnHover = e => {
+  //   e.target.style.backgroundColor = 'white';
+  //   e.target.style.color = '#4E6C50';
+  // };
+  // const HamLikesButtonOnHover = e => {
+  //   e.target.style.backgroundColor = 'white';
+  //   e.target.style.color = '#4E6C50';
+  // };
+  // const HamMypageButtonOnHover = e => {
+  //   e.target.style.backgroundColor = 'white';
+  //   e.target.style.color = '#4E6C50';
+  // };
+  // const HamQRButtonOffHover = e => {
+  //   e.target.style.backgroundColor = '#4E6C50';
+  //   e.target.style.color = 'white';
+  // };
+  // const HamLikesButtonOffHover = e => {
+  //   e.target.style.backgroundColor = '#4E6C50';
+  //   e.target.style.color = 'white';
+  // };
 
-  const HamMypageButtonOffHover = e => {
-    e.target.style.backgroundColor = '#4E6C50';
-    e.target.style.color = 'white';
-  };
+  // const HamMypageButtonOffHover = e => {
+  //   e.target.style.backgroundColor = '#4E6C50';
+  //   e.target.style.color = 'white';
+  // };
 
   return (
     <React.Fragment>

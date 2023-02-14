@@ -168,7 +168,7 @@ const UserInfo = ({ loginUser }) => {
 
   const tagAdd = () => {
     if (tagWord.length !== 0) {
-      const newTagList = [...tag, tagWord];
+      const newTagList = [...tag, '#' + tagWord];
       setTagWord('');
       setTag(newTagList);
     } else {
