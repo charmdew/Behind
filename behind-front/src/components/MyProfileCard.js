@@ -118,7 +118,7 @@ const MyProfileCard = ({ phoneNum, tag, email, name, images, profile }) => {
             fit="cover"
             objectPosition="center"
             src={profileSrc}
-            fallbackSrc="altSrc"
+            fallbackSrc={altSrc}
           />
           <Box
             backgroundColor="black"

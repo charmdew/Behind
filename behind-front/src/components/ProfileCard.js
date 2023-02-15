@@ -49,7 +49,7 @@ const ProfileCard = ({
             // 프로필 카드 이미지 자리
             // src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
             src={profileSrc}
-            fallbackSrc="altSrc"
+            fallbackSrc={altSrc}
           />
           <Box pb={2} pl={4} display="flex" flexDirection="column" flex="1">
             <Box display="flex" flexGrow="3">
@@ -129,7 +129,7 @@ const ProfileCard = ({
             // 프로필 카드 이미지 자리
             // src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
             src={profileSrc}
-            fallbackSrc="altSrc"
+            fallbackSrc={altSrc}
           />
           <Box
             backgroundColor="black"
