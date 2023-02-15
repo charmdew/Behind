@@ -51,12 +51,12 @@ const Likes = ({}) => {
     }
   };
 
-  const [followingIdList, setfollowingIdList] = useState([]);
-  const [followingList, setFollowingList] = useState([]);
-  const [followerList, setFollowerList] = useState([]);
+  const [followingIdList, setfollowingIdList] = useState(null);
+  const [followingList, setFollowingList] = useState(null);
+  const [followerList, setFollowerList] = useState(null);
   const getFollowIdList = async () => {
     const response = await axios.get(
-      `api/uhttps://i8a404.p.ssafy.io/users/${id}`,
+      `https://i8a404.p.ssafy.io/api/users/${id}`,
       {
         headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       }
