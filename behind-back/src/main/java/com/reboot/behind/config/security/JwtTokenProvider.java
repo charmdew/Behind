@@ -1,7 +1,6 @@
 package com.reboot.behind.config.security;
 
-import com.reboot.behind.data.entity.User;
-import com.reboot.behind.data.repository.UserRepository;
+import com.reboot.behind.data.dto.User.UserResponseDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -30,7 +29,7 @@ public class JwtTokenProvider {
 
     private final UserDetailsService userDetailsService;
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Value("${springboot.jwt.secret}")
     /*
@@ -39,7 +38,7 @@ public class JwtTokenProvider {
     */
     private String secretKey = "secretKey";
 
-    //토큰 유효기간. 일주일 유효
+    //토큰 유효기간
     private final long tokenValidMillisecond = 1000L*30;
 
     @PostConstruct
@@ -124,11 +123,15 @@ public class JwtTokenProvider {
 
     public boolean validateRefreshToken(String refreshToken){
         if(validateToken(refreshToken) != 1) return false;
-        String id = getId(refreshToken);
-        User user = userRepository.findById(Integer.parseInt(id)).get();
-        if(user.getRefreshToken().equals(refreshToken)){
+        String id = jwtTokenProvider.getId(refreshToken);
+        String userRefreshToken = userService.getUserRefreshToken(Integer.parseInt(id));
+        if(userRefreshToken.equals(refreshToken)){
             return true;
         }
         return false;
+    }
+
+    public void saveRefreshToken(int id, String refreshToken){
+        userService.saveRefreshToken(id, refreshToken);
     }
 }

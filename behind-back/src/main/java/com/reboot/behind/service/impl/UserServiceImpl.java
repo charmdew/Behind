@@ -395,6 +395,11 @@ public class UserServiceImpl implements UserService {
         foundUser.setRefreshToken(refreshToken);
         userRepository.save(foundUser);
     }
+
+    public String getUserRefreshToken(int id){
+        User foundUser = userRepository.findById(id).get();
+        return foundUser.getRefreshToken();
+    }
 }
 
 

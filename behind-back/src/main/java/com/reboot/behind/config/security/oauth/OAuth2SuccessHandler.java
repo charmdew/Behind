@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import com.reboot.behind.service.UserService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +20,6 @@ import java.io.IOException;
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtTokenProvider jwtTokenProvider;
     private final Logger LOGGER = LoggerFactory.getLogger(OAuth2SuccessHandler.class);
-    private final UserService userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -35,7 +33,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
-        userService.saveRefreshToken(user.getId(), refreshToken);
+        jwtTokenProvider.saveRefreshToken(user.getId(), refreshToken);
         response.addCookie(cookie);
         LOGGER.info("[onAuthenticationSuccess] redirect 실행");
         getRedirectStrategy().sendRedirect(request, response, url);

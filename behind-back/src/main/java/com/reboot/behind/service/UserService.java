@@ -30,4 +30,6 @@ public interface UserService {
     List<UserResponseDto> getFollowedUser(int id);
 
     void saveRefreshToken(Integer id, String refreshToken);
+
+    String getUserRefreshToken(int id);
 }
