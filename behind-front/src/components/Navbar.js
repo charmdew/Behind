@@ -191,7 +191,8 @@ const NavBar = () => {
                   lg: 'md',
                 }}
                 px={{
-                  base: '1',
+                  base: 1,
+                  lg: 3,
                 }}
                 onMouseOver={QRButtonOnHover}
                 onMouseOut={QRButtonOffHover}
@@ -217,7 +218,8 @@ const NavBar = () => {
                   lg: 'md',
                 }}
                 px={{
-                  base: '1',
+                  base: 1,
+                  lg: 3,
                 }}
                 onMouseOver={LikesButtonOnHover}
                 onMouseOut={LikesButtonOffHover}
@@ -236,7 +238,8 @@ const NavBar = () => {
                   lg: 'md',
                 }}
                 px={{
-                  base: '1',
+                  base: 1,
+                  lg: 3,
                 }}
                 onMouseOver={MypageButtonOnHover}
                 onMouseOut={MypageButtonOffHover}
