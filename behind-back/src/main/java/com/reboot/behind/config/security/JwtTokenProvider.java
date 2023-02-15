@@ -124,7 +124,7 @@ public class JwtTokenProvider {
 
     public boolean validateRefreshToken(String refreshToken){
         if(validateToken(refreshToken) != 1) return false;
-        String id = jwtTokenProvider.getId(refreshToken);
+        String id = getId(refreshToken);
         String userRefreshToken = userService.getUserRefreshToken(Integer.parseInt(id));
         if(userRefreshToken.equals(refreshToken)){
             return true;
