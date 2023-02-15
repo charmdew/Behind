@@ -154,9 +154,9 @@ const UserInfo = ({ loginUser }) => {
   //     return { ...preTrack, bigdata: e.target.checked };
   //   });
   // };
-  // const trackMetabusHandleChange = e => {
+  // const trackmetaverseHandleChange = e => {
   //   setTrack(preTrack => {
-  //     return { ...preTrack, metabus: e.target.checked };
+  //     return { ...preTrack, metaverse: e.target.checked };
   //   });
   // };
 
@@ -229,7 +229,7 @@ const UserInfo = ({ loginUser }) => {
       };
 
       axios({
-        url: 'api/users',
+        url: 'https://i8a404.p.ssafy.io/api/users',
         method: 'patch',
         headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
         data: {
@@ -545,10 +545,10 @@ const UserInfo = ({ loginUser }) => {
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={loginUser.track.metabus}
-                        onChange={trackMetabusHandleChange}
+                        defaultChecked={loginUser.track.metaverse}
+                        onChange={trackmetaverseHandleChange}
                       >
-                        Metabus
+                        metaverse
                       </Checkbox> */}
                     </Stack>
                   </FormControl>

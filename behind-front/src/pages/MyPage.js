@@ -69,7 +69,7 @@ const MyPage = () => {
   const [loginUser, setLoginUser] = useState({});
   const getLoginUser = () => {
     axios({
-      url: `api/users/${LoginUserId}`,
+      url: `https://i8a404.p.ssafy.io/api/users/${LoginUserId}`,
       method: 'get',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     })
@@ -96,7 +96,7 @@ const MyPage = () => {
   const userUnregister = () => {
     axios({
       method: 'delete',
-      url: 'api/users/',
+      url: 'https://i8a404.p.ssafy.io/api/users/',
       params: {
         id: parseInt(LoginUserId),
       },
@@ -114,7 +114,7 @@ const MyPage = () => {
   };
   const userSave = () => {
     axios({
-      url: 'api/users/detail',
+      url: 'https://i8a404.p.ssafy.io/api/users/detail',
       method: 'patch',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       data: {

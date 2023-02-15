@@ -41,7 +41,7 @@ const Detail = () => {
 
   const getDetailUser = () => {
     axios({
-      url: `api/users/${id}`,
+      url: `https://i8a404.p.ssafy.io/api/users/${id}`,
       method: 'get',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     })

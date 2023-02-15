@@ -69,7 +69,7 @@ const ProfileContainer = ({
 
   const updateFollowingIdList = () => {
     axios({
-      url: `api/users/${LoginUserId}`,
+      url: `https://i8a404.p.ssafy.io/api/users/${LoginUserId}`,
       method: 'get',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     })
@@ -121,7 +121,7 @@ const ProfileContainer = ({
 
   const changeProfileImg = imgUrl => {
     axios({
-      url: 'api/users/images',
+      url: 'https://i8a404.p.ssafy.io/api/users/images',
       method: 'patch',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       params: {
@@ -156,8 +156,8 @@ const ProfileContainer = ({
           // case 'blockchain':
           //   temp.push('BlockChain');
           //   break;
-          // case 'metabus':
-          //   temp.push('Metabus');
+          // case 'metaverse':
+          //   temp.push('metaverse');
           //   break;
           default:
             console.log('트랙에서 특정못함');
@@ -187,7 +187,7 @@ const ProfileContainer = ({
     if (likeToggle) {
       axios({
         method: 'delete',
-        url: 'api/users/like',
+        url: 'https://i8a404.p.ssafy.io/api/users/like',
         headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
         data: {
           followUser: String(id),
@@ -202,7 +202,7 @@ const ProfileContainer = ({
     else {
       axios({
         method: 'post',
-        url: 'api/users/like',
+        url: 'https://i8a404.p.ssafy.io/api/users/like',
         headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
         data: {
           followUser: parseInt(id),

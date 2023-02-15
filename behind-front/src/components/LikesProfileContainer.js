@@ -101,8 +101,8 @@ const ProfileContainer = ({
           // case 'blockchain':
           //   temp.push('BlockChain');
           //   break;
-          // case 'metabus':
-          //   temp.push('Metabus');
+          // case 'metaverse':
+          //   temp.push('metaverse');
           //   break;
           default:
             console.log('트랙에서 특정못함');
@@ -135,7 +135,7 @@ const ProfileContainer = ({
     if (likeToggle) {
       axios({
         method: 'delete',
-        url: 'api/users/like',
+        url: 'https://i8a404.p.ssafy.io/api/users/like',
         headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
         data: {
           followUser: String(id),
@@ -152,7 +152,7 @@ const ProfileContainer = ({
     else {
       axios({
         method: 'post',
-        url: 'api/users/like',
+        url: 'https://i8a404.p.ssafy.io/api/users/like',
         headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
         data: {
           followUser: parseInt(id),

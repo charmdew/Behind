@@ -63,7 +63,7 @@ const Likes = ({}) => {
   const getFollowList = () => {
     axios({
       method: 'get',
-      url: 'api/users/following',
+      url: 'https://i8a404.p.ssafy.io/api/users/following',
       params: {
         id: id,
       },
@@ -80,7 +80,7 @@ const Likes = ({}) => {
       });
     axios({
       method: 'get',
-      url: 'api/users/followed',
+      url: 'https://i8a404.p.ssafy.io/api/users/followed',
       params: {
         id: id,
       },

@@ -38,7 +38,7 @@ const Comment = ({ profileUserId }) => {
   const getCommentList = async () => {
     await axios({
       method: 'get',
-      url: `api/comment?id=${profileUserId}`,
+      url: `https://i8a404.p.ssafy.io/api/comment?id=${profileUserId}`,
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     }).then(res => {
       setCommentList(res.data);
@@ -57,7 +57,7 @@ const Comment = ({ profileUserId }) => {
       content: e.target[0].value,
     };
     axios({
-      url: 'api/comment',
+      url: 'https://i8a404.p.ssafy.io/api/comment',
       method: 'post',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       data: {

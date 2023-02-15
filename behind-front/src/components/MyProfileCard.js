@@ -7,7 +7,6 @@ const MyProfileCard = ({ phoneNum, tag, email, name, images, profile }) => {
   // 포토 카드 실물 사이즈 : ( 54*86 )mm
 
   const profileSrc = `https://d2p3k144i3awma.cloudfront.net//${profile}`;
-  console.log('profileSrc', profileSrc);
 
   const [colorToggle, setColorToggle] = useState(false);
   const tags = () => {

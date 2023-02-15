@@ -78,7 +78,7 @@ const Home = () => {
     const token = getCookie('token');
     axios({
       method: 'get',
-      url: 'api/users/search',
+      url: 'https://i8a404.p.ssafy.io/api/users/search',
       params: {
         position: parseInt(selectedPosition),
         track: parseInt(selectedTrack),
