@@ -40,11 +40,8 @@ public class UserServiceImpl implements UserService {
             position.setEmbedded(userlist.get(i).isEmbedded());
 
 
-            track.setAi(userlist.get(i).isAi());
-            track.setIot(userlist.get(i).isIot());
-            track.setBigdata(userlist.get(i).isBigData());
-            track.setBlockchain(userlist.get(i).isBlockChain());
-            track.setMetabus(userlist.get(i).isMetaBus());
+            track.setMajor(userlist.get(i).isMajor());
+            track.setNonmajor(userlist.get(i).isNonmajor());
 
             if (userlist.get(i).getImages() != null) {
                 String[] array = userlist.get(i).getImages().split(",");
@@ -87,11 +84,8 @@ public class UserServiceImpl implements UserService {
         position.setBackend(user.isBack());
         position.setEmbedded(user.isEmbedded());
 
-        track.setAi(user.isAi());
-        track.setIot(user.isIot());
-        track.setBigdata(user.isBigData());
-        track.setBlockchain(user.isBlockChain());
-        track.setMetabus(user.isMetaBus());
+        track.setMajor(user.isMajor());
+        track.setNonmajor(user.isNonmajor());
 
         if (user.getImages() != null) {
             String[] array = user.getImages().split(",");
@@ -138,11 +132,8 @@ public class UserServiceImpl implements UserService {
         position.setEmbedded(changedUser.isEmbedded());
 
 
-        track.setAi(changedUser.isAi());
-        track.setIot(changedUser.isIot());
-        track.setBigdata(changedUser.isBigData());
-        track.setBlockchain(changedUser.isBlockChain());
-        track.setMetabus(changedUser.isMetaBus());
+        track.setMajor(changedUser.isMajor());
+        track.setNonmajor(changedUser.isNonmajor());
 
         if (changedUser.getImages() != null) {
             String[] array = changedUser.getImages().split(",");
@@ -186,11 +177,9 @@ public class UserServiceImpl implements UserService {
         position.setBackend(changedUser.isBack());
         position.setEmbedded(changedUser.isEmbedded());
 
-        track.setAi(changedUser.isAi());
-        track.setIot(changedUser.isIot());
-        track.setBigdata(changedUser.isBigData());
-        track.setBlockchain(changedUser.isBlockChain());
-        track.setMetabus(changedUser.isMetaBus());
+        track.setMajor(changedUser.isMajor());
+        track.setNonmajor(changedUser.isNonmajor());
+
 
         if (changedUser.getImages() != null) {
             String[] array = changedUser.getImages().split(",");
@@ -319,11 +308,8 @@ public class UserServiceImpl implements UserService {
             position.setEmbedded(foundFollwingUser.isEmbedded());
 
 
-            track.setAi(foundFollwingUser.isAi());
-            track.setIot(foundFollwingUser.isIot());
-            track.setBigdata(foundFollwingUser.isBigData());
-            track.setBlockchain(foundFollwingUser.isBlockChain());
-            track.setMetabus(foundFollwingUser.isMetaBus());
+            track.setMajor(foundFollwingUser.isMajor());
+            track.setNonmajor(foundFollwingUser.isNonmajor());
 
             if (foundFollwingUser.getImages() != null) {
                 String[] array = foundFollwingUser.getImages().split(",");
@@ -372,11 +358,8 @@ public class UserServiceImpl implements UserService {
             position.setEmbedded(foundFollowedUser.isEmbedded());
 
 
-            track.setAi(foundFollowedUser.isAi());
-            track.setIot(foundFollowedUser.isIot());
-            track.setBigdata(foundFollowedUser.isBigData());
-            track.setBlockchain(foundFollowedUser.isBlockChain());
-            track.setMetabus(foundFollowedUser.isMetaBus());
+            track.setMajor(foundFollowedUser.isMajor());
+            track.setNonmajor(foundFollowedUser.isNonmajor());
 
             if (foundFollowedUser.getImages() != null) {
                 String[] array = foundFollowedUser.getImages().split(",");
@@ -407,6 +390,7 @@ public class UserServiceImpl implements UserService {
         }
         return userResponseDtoList;
     }
+
 }
 
 

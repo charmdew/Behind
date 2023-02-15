@@ -43,12 +43,8 @@ public class UserUpdateDto {
     @Setter
     @ToString
     public static class Track{
-        private boolean ai ;
-        private  boolean iot;
-        private  boolean bigdata;
-        private boolean blockchain;
-
-        private boolean metabus;
+        private boolean major ;
+        private boolean nonmajor;
     }
 
     @Builder
