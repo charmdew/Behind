@@ -141,7 +141,7 @@ const UserInfo = ({ loginUser }) => {
   };
   const nonmajorHandleChange = e => {
     setTrack(preTrack => {
-      return { ...preTrack, nonmagor: e.target.checked };
+      return { ...preTrack, nonmajor: e.target.checked };
     });
   };
   // const trackIotHandleChange = e => {
