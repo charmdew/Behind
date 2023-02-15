@@ -158,6 +158,7 @@ public class UserServiceImpl implements UserService {
                 .likeCnt(changedUser.getLikeCnt())
                 .position(position)
                 .track(track)
+                .role(changedUser.getRole())
                 .build();
 
         return changeduserResponseDto;
