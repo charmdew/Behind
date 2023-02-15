@@ -20,6 +20,7 @@ import java.io.IOException;
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtTokenProvider jwtTokenProvider;
     private final Logger LOGGER = LoggerFactory.getLogger(OAuth2SuccessHandler.class);
+    private final UserService userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -28,10 +29,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         User user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
         url += "?X-AUTH-TOKEN="+jwtTokenProvider.createToken(user.getId(), user.getRole(), false);
-        Cookie cookie = new Cookie("behind_RefreshToken", jwtTokenProvider.createToken(user.getId(), user.getRole(),true));
+        String refreshToken = jwtTokenProvider.createToken(user.getId(), user.getRole(),true);
+        Cookie cookie = new Cookie("behind_RefreshToken", refreshToken);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
+        userService.saveRefreshToken(user.getId(), refreshToken);
         response.addCookie(cookie);
         LOGGER.info("[onAuthenticationSuccess] redirect 실행");
         getRedirectStrategy().sendRedirect(request, response, url);
