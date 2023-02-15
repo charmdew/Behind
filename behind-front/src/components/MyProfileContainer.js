@@ -347,9 +347,7 @@ const ProfileContainer = ({
                     onClick={() => {
                       changeProfileImg(it);
                     }}
-                    src={
-                      'https://behind-pic.s3.ap-northeast-2.amazonaws.com/' + it
-                    }
+                    src={'https://d2p3k144i3awma.cloudfront.net/' + it}
                   />
                 </SplideSlide>
               ))}

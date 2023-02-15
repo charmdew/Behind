@@ -10,6 +10,15 @@ import { useContext, useEffect, useState, useMemo } from 'react';
 import { UsersStateContext, UsersDispatchContext } from '../App';
 import jwt_decode from 'jwt-decode';
 import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverAnchor,
   SimpleGrid,
   GridItem,
   chakra,
@@ -404,7 +413,7 @@ const UserInfo = ({ loginUser }) => {
                       rounded="md"
                       onChange={phoneNumHandleChange}
                     />
-                    <FormControl display="flex" alignItems="center">
+                    <FormControl pt="1" display="flex" alignItems="center">
                       <FormLabel htmlFor="email-alerts" mb="0">
                         전화번호 비공개
                       </FormLabel>
@@ -413,6 +422,28 @@ const UserInfo = ({ loginUser }) => {
                         defaultChecked={loginUser.showPhoneNum}
                         onChange={showPhoneNumHandleChange}
                       />
+                      <Popover>
+                        <PopoverTrigger>
+                          <Button
+                            ml="10px"
+                            size={{
+                              base: 'xs',
+                              lg: 'xs',
+                            }}
+                          >
+                            Guide
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent width="240px">
+                          <PopoverArrow />
+                          <PopoverCloseButton />
+                          <PopoverHeader>전화번호 비공개</PopoverHeader>
+                          <PopoverBody>
+                            출력될 카드에는 전화번호가 기재되지만 Web에 게시되는
+                            카드에는 전화번호가 노출되지 않습니다.
+                          </PopoverBody>
+                        </PopoverContent>
+                      </Popover>
                     </FormControl>
                   </FormControl>
 
@@ -521,7 +552,7 @@ const UserInfo = ({ loginUser }) => {
                         color: 'gray.50',
                       }}
                     >
-                      태그를 입력해 주세요
+                      카드에 기재될 태그를 입력해 주세요
                     </FormLabel>
                     <Stack spacing={[1, 5]} direction="row">
                       <Input
