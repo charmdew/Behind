@@ -31,6 +31,5 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         response.setCharacterEncoding("utf-8");
         response.getWriter().write(objectMapper.writeValueAsString(securityErrorResponse));//json 형식의 string으로 객체를 변환하여 전송
 
-        response.sendRedirect("https://i8a404.p.ssafy.io/useredit");
     }
 }
