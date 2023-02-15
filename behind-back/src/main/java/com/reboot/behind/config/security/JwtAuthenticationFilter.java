@@ -1,11 +1,7 @@
 package com.reboot.behind.config.security;
 
-import com.reboot.behind.data.entity.User;
-import com.reboot.behind.data.repository.UserRepository;
-import com.reboot.behind.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -42,23 +38,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 LOGGER.info("[doFilterInternal] token 값 유효성 체크 완료");
             }else if(validationStatus == 2){
                 Cookie[] cookies = request.getCookies();
-                String refreshToken = "";
-                User user = userRepository.getUserByUserId(jwtTokenProvider.getId(token));
+                String refreshToken = null;
+
                 for(Cookie cookie : cookies){
-                    if(cookie.getName() == "behind_RefreshToken"){
+                    if(cookie.getName().equals("behind_RefreshToken")){
                         refreshToken = cookie.getValue();
                         break;
                     }
                 }
-                if(jwtTokenProvider.validateToken(refreshToken) == 1 && user.getRefreshToken()==refreshToken){
-                    Cookie cookie = new Cookie("token", jwtTokenProvider.createToken(user.getId(), user.getRole(),false));
+                if(jwtTokenProvider.validateRefreshToken(refreshToken)){
+                    int id = Integer.parseInt(jwtTokenProvider.getId(token));
+                    String role = jwtTokenProvider.getRole(token);
+                    String newToken = jwtTokenProvider.createToken(id, role, false);
+                    Cookie cookie = new Cookie("token", newToken);
                     response.addCookie(cookie);
                 }
+                System.out.println("새 엑세스 토큰 발급");
+                Authentication authentication = jwtTokenProvider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                LOGGER.info("[doFilterInternal] token 값 유효성 체크 완료");
             }
         }
 
         LOGGER.info("[doFilterInternal] token 값 유효성 체크 끝");
 
         filterChain.doFilter(request, response);
-    }
-}
