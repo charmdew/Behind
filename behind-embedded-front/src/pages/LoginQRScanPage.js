@@ -33,6 +33,7 @@ const LoginQRScanPage = ({ socketClient }) => {
             try {
               jwt_decode(result)
               stopStreamedVideos()
+              socketClient.send('camreset')
               navigate('/login-response', { state: { 'X-AUTH-TOKEN': result } })
             } catch (error) {
               console.error(error)
