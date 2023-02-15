@@ -52,10 +52,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     String newToken = jwtTokenProvider.createToken(id, role, false);
                     Cookie cookie = new Cookie("token", newToken);
                     response.addCookie(cookie);
+                    System.out.println("새 엑세스 토큰 발급");
+                    Authentication authentication = jwtTokenProvider.getAuthentication(newToken);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
-                System.out.println("새 엑세스 토큰 발급");
-                Authentication authentication = jwtTokenProvider.getAuthentication(token);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
                 LOGGER.info("[doFilterInternal] token 값 유효성 체크 완료");
             }
         }

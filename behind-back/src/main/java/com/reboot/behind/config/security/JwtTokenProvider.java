@@ -86,10 +86,17 @@ public class JwtTokenProvider {
     //JWT 토큰에서 회원 구별 정보를 추출한다.
     public String getId(String token){
         LOGGER.info("[getId] 토큰 기반 회원 구별 정보 추출");
-        String info = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-                .getBody().getSubject();
-        LOGGER.info("[getId] 토큰 기반 회원 구별 정보 추출 완료, info : {}", info);
-        return info;
+        String id = (String)Jwts.claims().get("sub");
+        LOGGER.info("[getId] 파싱 방법 변화 : "+id);
+        try {
+            String info = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                    .getBody().getSubject();
+            LOGGER.info("[getId] 토큰 기반 회원 구별 정보 추출 완료, info : {}", info);
+            return info;
+        }catch (Exception e){
+            LOGGER.info("[getId] 예외 발생");
+            return null;
+        }
     }
 
     public String getRole(String token){
