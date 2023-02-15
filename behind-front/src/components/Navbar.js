@@ -143,21 +143,13 @@ const NavBar = () => {
       </Modal>
       <chakra.header
         bg={bg}
-        // w="full"
-        pl={{
+        w="full"
+        px={{
           base: 2,
-          lg: 4,
+          sm: 4,
         }}
-        pr={{
-          base: 0.5,
-          lg: 4,
-        }}
-        py={{
-          base: 1,
-          lg: 4,
-        }}
+        py={4}
         color="white"
-        w="auto"
       >
         <Flex alignItems="center" justifyContent="space-between" mx="auto">
           <Flex>
@@ -171,15 +163,9 @@ const NavBar = () => {
             </chakra.a>
             <chakra.h1
               color="#B99B6B"
-              fontSize={{
-                base: 'md',
-                lg: '2xl',
-              }}
+              fontSize="2xl"
               fontWeight="extrabold"
-              // ml={{
-              //   base: '0.5',
-              //   lg: '2',
-              // }}
+              ml="2"
             >
               <Box cursor="pointer" onClick={() => navigate('/')}>
                 BEHIND
@@ -194,10 +180,14 @@ const NavBar = () => {
               display={{
                 base: 'inline-flex',
               }}
+              // display={{
+              //   base: 'none',
+              //   md: 'inline-flex',
+              // }}
             >
               <Button
                 size={{
-                  base: 'xs',
+                  base: 'sm',
                   lg: 'md',
                 }}
                 width={{
@@ -207,7 +197,7 @@ const NavBar = () => {
                 onMouseOver={QRButtonOnHover}
                 onMouseOut={QRButtonOffHover}
                 fontSize={{
-                  base: 'xs',
+                  base: 'sm',
                   lg: 'xl',
                 }}
                 onClick={() => {
@@ -224,7 +214,7 @@ const NavBar = () => {
               </Button>
               <Button
                 size={{
-                  base: 'xs',
+                  base: 'sm',
                   lg: 'md',
                 }}
                 width={{
@@ -234,7 +224,7 @@ const NavBar = () => {
                 onMouseOver={LikesButtonOnHover}
                 onMouseOut={LikesButtonOffHover}
                 fontSize={{
-                  base: 'xs',
+                  base: 'sm',
                   lg: 'xl',
                 }}
                 onClick={GoMyLikes}
@@ -244,7 +234,7 @@ const NavBar = () => {
               </Button>
               <Button
                 size={{
-                  base: 'xs',
+                  base: 'sm',
                   lg: 'md',
                 }}
                 width={{
@@ -254,7 +244,7 @@ const NavBar = () => {
                 onMouseOver={MypageButtonOnHover}
                 onMouseOut={MypageButtonOffHover}
                 fontSize={{
-                  base: 'xs',
+                  base: 'sm',
                   lg: 'xl',
                 }}
                 onClick={GoMyPage}
