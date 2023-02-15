@@ -212,7 +212,17 @@ const MyPage = () => {
         </Box>
 
         {/* 컨테이너, 상세정보 */}
-        <Box>
+        <Box
+          minChildWidth={{
+            base: '50vw',
+            lg: '500px',
+          }}
+          spacing={{
+            base: '20px',
+            lg: '40px',
+          }}
+          mx="4px"
+        >
           {/* 컨테이너 */}
           {Object.keys(loginUser).length !== 0 ? (
             <MyProfileContainer {...loginUser} />
@@ -221,7 +231,12 @@ const MyPage = () => {
           )}
 
           {/* 상세정보 */}
-          <Box>
+          <Box
+            mt={{
+              base: '35px',
+              lg: 'md',
+            }}
+          >
             <Flex
               flexDirection="column"
               _dark={{ bg: '#3e3e3e' }}
@@ -232,8 +247,10 @@ const MyPage = () => {
               <Box
                 border="solid 2px"
                 borderColor="#4E6C50"
-                w="md"
-                mx="auto"
+                w={{
+                  base: '90vw',
+                  lg: 'md',
+                }}
                 bg="white"
                 _dark={{ bg: 'gray.800' }}
                 shadow="lg"

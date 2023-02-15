@@ -250,8 +250,14 @@ const ProfileContainer = ({
       direction="column"
       bg="white"
       _dark={{ bg: '#3e3e3e' }}
-      p={50}
-      w="full"
+      pt={{
+        base: '5',
+        lg: '50',
+      }}
+      px={{
+        base: '1vw',
+        lg: '5vw',
+      }}
       alignItems="center"
       justifyContent="center"
     >
@@ -326,8 +332,11 @@ const ProfileContainer = ({
         borderColor="#4E6C50"
         ref={container}
         pt={7}
-        w="md"
-        mx="auto"
+        w={{
+          base: '90vw',
+          lg: 'md',
+        }}
+        // mx="auto"
         bg="white"
         _dark={{ bg: 'gray.800' }}
         shadow="lg"
