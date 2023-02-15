@@ -167,15 +167,14 @@ def main(input_image, input_image_fname, ouput_fname):
 
     ##### 이미지 전처리 #####
     frame = np.array(content_image)
-    frame = resize(frame, target_size)  # 리사이즈 처리
+    # frame = resize(frame, target_size)  # 리사이즈 처리
 
     scale = 1
     kernel_1d = np.array([[0.125], [0.375], [0.375], [0.125]])
     # We detect the face in the image, and resize the image so that the eye distance is 64 pixels.
     # Centered on the eyes, we crop the image to almost 400x400 (based on args.padding).
-    paras = get_video_crop_parameter(frame, landmarkpredictor, padding=[200, 200, 200,
-                                                                        200])  # => 이렇게 하면 얼굴에 조금 더 초점을 맞추어 자름, 숫자가 클수록 더 넓은 범위의 사진을 처리함
-    # paras = get_video_crop_parameter(frame, landmarkpredictor, padding=[300, 300, 300, 300])
+    paras = get_video_crop_parameter(frame, landmarkpredictor, padding=[200, 200, 200, 200])  # => 이렇게 하면 얼굴에 조금 더 초점을 맞추어 자름, 숫자가 클수록 더 넓은 범위의 사진을 처리함
+    # paras = get_video_crop_parameter(frame, landmarkpredictor, padding=[250, 250, 250, 250])
     if paras is not None:
         h, w, top, bottom, left, right, scale = paras
         H, W = int(bottom - top), int(right - left)
