@@ -229,7 +229,7 @@ const UserInfo = ({ loginUser }) => {
       };
 
       axios({
-        url: 'https://i8a404.p.ssafy.io/api/users',
+        url: 'https://i8a404.p.ssafy.io/api/signUp',
         method: 'patch',
         headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
         data: {
