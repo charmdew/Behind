@@ -176,16 +176,7 @@ const MyPage = () => {
     <Box>
       <Box ref={editareaRef} height="revert">
         {/* 뒤로가기 */}
-        <Box
-          alignItems="center"
-          display="flex"
-          w="100%"
-          bg="gray.100"
-          height={{
-            base: 7,
-            lg: 12,
-          }}
-        >
+        <Box alignItems="center" display="flex" w="100%" bg="gray.100">
           <IconButton
             onClick={() => {
               navigate(-1);
@@ -194,18 +185,7 @@ const MyPage = () => {
             color="black"
             icon={<FiArrowLeft />}
           />
-          <Text
-            fontWeight={{
-              base: 'bold',
-              lg: 'bold',
-            }}
-            fontSize={{
-              base: '12',
-              lg: '20',
-            }}
-          >
-            My Page
-          </Text>
+          <Text as="b">My Page</Text>
         </Box>
 
         {/* 컨테이너, 상세정보 */}

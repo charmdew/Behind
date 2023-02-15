@@ -248,16 +248,7 @@ const UserInfo = ({ loginUser }) => {
   };
   return (
     <div>
-      <Box
-        alignItems="center"
-        display="flex"
-        w="100%"
-        bg="gray.100"
-        height={{
-          base: 7,
-          lg: 12,
-        }}
-      >
+      <Box alignItems="center" display="flex" w="100%" bg="gray.100">
         <IconButton
           onClick={() => {
             navigate(-1);
@@ -266,16 +257,7 @@ const UserInfo = ({ loginUser }) => {
           color="black"
           icon={<FiArrowLeft />}
         />
-        <Text
-          fontWeight={{
-            base: 'bold',
-            lg: 'bold',
-          }}
-          fontSize={{
-            base: '12',
-            lg: '20',
-          }}
-        >{`${headWord()}`}</Text>
+        <Text as="b">{`${headWord()}`}</Text>
         {/* <Text as="b">회원정보수정</Text> */}
       </Box>
 
