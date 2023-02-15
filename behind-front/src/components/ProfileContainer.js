@@ -114,7 +114,7 @@ const ProfileContainer = ({
           case 'major':
             temp.push('전공');
             break;
-          case 'nonmajor':
+          case 'nonMajor':
             temp.push('비전공');
             break;
           // case 'bigdata':

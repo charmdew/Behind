@@ -139,9 +139,9 @@ const UserInfo = ({ loginUser }) => {
       return { ...preTrack, major: e.target.checked };
     });
   };
-  const nonmajorHandleChange = e => {
+  const nonMajorHandleChange = e => {
     setTrack(preTrack => {
-      return { ...preTrack, nonmajor: e.target.checked };
+      return { ...preTrack, nonMajor: e.target.checked };
     });
   };
   // const trackIotHandleChange = e => {
@@ -521,8 +521,8 @@ const UserInfo = ({ loginUser }) => {
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={loginUser.track.nonmajor}
-                        onChange={nonmajorHandleChange}
+                        defaultChecked={loginUser.track.nonMajor}
+                        onChange={nonMajorHandleChange}
                       >
                         비전공
                       </Checkbox>
