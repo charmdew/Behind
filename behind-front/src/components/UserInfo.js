@@ -134,12 +134,12 @@ const UserInfo = ({ loginUser }) => {
     setEditedUser({ ...editedUser, track: track });
   }, [track]);
 
-  const trackAiHandleChange = e => {
+  const majorHandleChange = e => {
     setTrack(preTrack => {
       return { ...preTrack, ai: e.target.checked };
     });
   };
-  const trackBlockchainHandleChange = e => {
+  const nonmajorHandleChange = e => {
     setTrack(preTrack => {
       return { ...preTrack, blockchain: e.target.checked };
     });
@@ -513,16 +513,16 @@ const UserInfo = ({ loginUser }) => {
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={loginUser.track.ai}
-                        onChange={trackAiHandleChange}
+                        defaultChecked={loginUser.track.major}
+                        onChange={majorHandleChange}
                       >
                         전공
                       </Checkbox>
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={loginUser.track.blockchain}
-                        onChange={trackBlockchainHandleChange}
+                        defaultChecked={loginUser.track.nonmajor}
+                        onChange={nonmajorHandleChange}
                       >
                         비전공
                       </Checkbox>
