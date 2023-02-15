@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,12 +27,16 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        String url = "http://i8a404.p.ssafy.io/";
+        String url = "https://i8a404.p.ssafy.io/";
         LOGGER.info("[onAuthenticationSuccess] url 생성 : {}", url);
 
         User user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
-        url += "?X-AUTH-TOKEN="+jwtTokenProvider.createToken(user.getId(), user.getRole());// &를 지우고 ?
-
+        url += "?X-AUTH-TOKEN="+jwtTokenProvider.createToken(user.getId(), user.getRole(), false);
+        Cookie cookie = new Cookie("behind_RefreshToken", jwtTokenProvider.createToken(,user.getRole(),true));
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
         LOGGER.info("[onAuthenticationSuccess] redirect 실행");
         getRedirectStrategy().sendRedirect(request, response, url);
 
