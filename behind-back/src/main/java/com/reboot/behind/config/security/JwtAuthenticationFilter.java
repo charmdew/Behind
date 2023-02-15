@@ -47,8 +47,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     }
                 }
                 if (jwtTokenProvider.validateRefreshToken(refreshToken)) {
-                    int id = Integer.parseInt(jwtTokenProvider.getId(token));
-                    String role = jwtTokenProvider.getRole(token);
+                    int id = Integer.parseInt(jwtTokenProvider.getId(refreshToken));
+                    String role = jwtTokenProvider.getRole(refreshToken);
                     String newToken = jwtTokenProvider.createToken(id, role, false);
                     Cookie cookie = new Cookie("token", newToken);
                     response.addCookie(cookie);
