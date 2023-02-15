@@ -17,18 +17,6 @@ const LoginQRScanPage = ({ socketClient }) => {
       socketClient.send('camreset')
       navigate('/reset', { state: { prevPage: '/login-qr-scan' } })
     }
-    // Temp start
-    if (e.key === 'Enter') {
-      stopStreamedVideos()
-      socketClient.send('camreset')
-      navigate('/login-response', {
-        state: {
-          'X-AUTH-TOKEN':
-            'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNjc2MjUwMzcyLCJleHAiOjE2NzYyNTIxNzJ9.qH8TWR-luafWxiK7lS-hSjvcholIBIMFhQsFHKqwl2E'
-        }
-      })
-    }
-    // Temp end
   }
 
   useEffect(() => {
@@ -45,6 +33,7 @@ const LoginQRScanPage = ({ socketClient }) => {
             try {
               jwt_decode(result)
               stopStreamedVideos()
+              socketClient.send('camreset')
               navigate('/login-response', { state: { 'X-AUTH-TOKEN': result } })
             } catch (error) {
               console.error(error)
