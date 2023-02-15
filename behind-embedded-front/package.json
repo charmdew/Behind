@@ -1,7 +1,7 @@
 {
   "name": "behind-embedded-front",
   "productName": "behind-embedded-front",
-  "version": "0.2.0",
+  "version": "0.5.0",
   "description": "Frontend app for the Behind",
   "main": ".webpack/main",
   "scripts": {
@@ -28,7 +28,6 @@
     "babel-loader": "^9.1.2",
     "css-loader": "^6.7.3",
     "electron": "22.1.0",
-    "json-loader": "^0.5.7",
     "node-loader": "^2.0.0",
     "prettier": "2.8.3",
     "prettier-config-standard": "^5.0.0",
