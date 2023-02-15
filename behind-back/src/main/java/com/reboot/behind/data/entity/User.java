@@ -59,14 +59,9 @@ public class User {
 
     private boolean showPhoneNum;
 
-    private boolean ai;
+    private boolean major;
 
-    private boolean iot;
-
-    private boolean blockChain;
-
-    private boolean bigData;
-    private boolean metaBus;
+    private boolean nonmajor;
 
     private String detail;
 
@@ -75,6 +70,8 @@ public class User {
     private String profile;
 
     private int likeCnt;
+
+    private String refreshToken;
 
     @ElementCollection
     private List<Integer> followingUsers;
@@ -90,11 +87,8 @@ public class User {
         this.front=userUpdateDto.getPosition().isFrontend();
         this.back=userUpdateDto.getPosition().isBackend();
         this.embedded=userUpdateDto.getPosition().isEmbedded();
-        this.ai=userUpdateDto.getTrack().isAi();
-        this.iot=userUpdateDto.getTrack().isIot();
-        this.bigData=userUpdateDto.getTrack().isBigdata();
-        this.blockChain=userUpdateDto.getTrack().isBlockchain();
-        this.metaBus=userUpdateDto.getTrack().isMetabus();
+        this.major=userUpdateDto.getTrack().isMajor();
+        this.nonmajor=userUpdateDto.getTrack().isNonmajor();
         this.tag=userUpdateDto.getTag();
         this.role=("USER");
     }
