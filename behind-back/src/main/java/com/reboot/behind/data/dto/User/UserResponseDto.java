@@ -62,7 +62,7 @@ public class UserResponseDto {
     @ToString
     public static class Track{
         private boolean major ;
-        private  boolean nonmajor;
+        private  boolean nonMajor;
     }
 
     public UserResponseDto(){
