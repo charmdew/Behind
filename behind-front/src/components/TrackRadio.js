@@ -60,7 +60,7 @@ const TrackRadio = () => {
     setSelectedTrack(trackOptions.indexOf(e));
   };
 
-  const trackOptions = ['ALL', 'AI', 'IoT', 'BigData', 'BlockChain', 'Metabus'];
+  const trackOptions = ['ALL', '전공', '비전공'];
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'track',

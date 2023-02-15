@@ -81,7 +81,7 @@ const ProfileContainer = ({
     }
   };
 
-  // 선호 포지션, 선호 트랙 추출
+  // 선호 포지션, 전공 | 비전공 추출
   const getPreferPosition = () => {
     const positionList = Object.keys(position);
     let temp = [];
@@ -111,21 +111,21 @@ const ProfileContainer = ({
     TrackList.forEach(element => {
       if (track[element] === true) {
         switch (element) {
-          case 'ai':
-            temp.push('AI');
+          case 'major':
+            temp.push('전공');
             break;
-          case 'iot':
-            temp.push('IoT');
+          case 'nonmajor':
+            temp.push('비전공');
             break;
-          case 'bigdata':
-            temp.push('BigData');
-            break;
-          case 'blockchain':
-            temp.push('BlockChain');
-            break;
-          case 'metabus':
-            temp.push('Metabus');
-            break;
+          // case 'bigdata':
+          //   temp.push('BigData');
+          //   break;
+          // case 'blockchain':
+          //   temp.push('BlockChain');
+          //   break;
+          // case 'metabus':
+          //   temp.push('Metabus');
+          //   break;
           default:
             console.log('트랙에서 특정못함');
         }
@@ -301,14 +301,14 @@ const ProfileContainer = ({
                 </chakra.h1>
               </Box>
 
-              {/* 선호 트랙 */}
+              {/* 전공 | 비전공 */}
               <Box>
                 <Flex
                   alignItems="center"
                   color="gray.700"
                   _dark={{ color: 'gray.200' }}
                 >
-                  <chakra.h1 fontSize="sm">선호 트랙</chakra.h1>
+                  <chakra.h1 fontSize="sm">전공 | 비전공</chakra.h1>
                 </Flex>
                 <chakra.h1
                   fontSize="lg"

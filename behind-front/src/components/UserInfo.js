@@ -136,12 +136,12 @@ const UserInfo = ({ loginUser }) => {
 
   const majorHandleChange = e => {
     setTrack(preTrack => {
-      return { ...preTrack, ai: e.target.checked };
+      return { ...preTrack, major: e.target.checked };
     });
   };
   const nonmajorHandleChange = e => {
     setTrack(preTrack => {
-      return { ...preTrack, blockchain: e.target.checked };
+      return { ...preTrack, nonmagor: e.target.checked };
     });
   };
   // const trackIotHandleChange = e => {
