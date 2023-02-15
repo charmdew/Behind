@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor //초기화되지 않은 final 필드나 @NonNull이 선언된 필드의 생성자를 만들어주고, 의존성을 주입한다.
@@ -29,7 +28,7 @@ public class JwtTokenProvider {
 
     private final UserDetailsService userDetailsService;
 
-    @Value("${springboot.jwt.secret")
+    @Value("${springboot.jwt.secret}")
     /*
     application.properties에서 springboot.jwt.secret에 접근하여 값을 가져오고,
     값을 가져오지 못하면 기본 지정 값을 가진다.
@@ -48,18 +47,27 @@ public class JwtTokenProvider {
         LOGGER.info("[init] JwtTokenProvider 내 secretKey 초기화 시작");
     }
 
-    public String createToken(int id, String role){
+    public String createToken(int id, String role, boolean isRefresh){
         LOGGER.info("[createToken] 토큰 생성 시작");
         Claims claims = Jwts.claims().setSubject(id+"");
         claims.put("role", role);
-
+        String token;
         Date now = new Date();
-        String token = Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + tokenValidMillisecond))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
+        if(isRefresh){
+            token = Jwts.builder()
+                    .setClaims(claims)
+                    .setIssuedAt(now)
+                    .setExpiration(new Date(now.getTime() + tokenValidMillisecond*2*24*14))
+                    .signWith(SignatureAlgorithm.HS256, secretKey)
+                    .compact();
+        }else{
+             token = Jwts.builder()
+                    .setClaims(claims)
+                    .setIssuedAt(now)
+                    .setExpiration(new Date(now.getTime() + tokenValidMillisecond))
+                    .signWith(SignatureAlgorithm.HS256, secretKey)
+                    .compact();
+        }
 
         LOGGER.info("[createToken] 토큰 생성 완료");
         return token;
@@ -88,15 +96,19 @@ public class JwtTokenProvider {
         return request.getHeader("X-AUTH-TOKEN"); // 리퀘스트의 헤더로 전달된 값을 추출한다. 헤더의 이름은 변경 가능하다.
     }
 
-    public boolean validateToken(String token){
+    public int validateToken(String token){
         LOGGER.info("[validateToken] 토큰 유효 체크 시작");
         try{
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             LOGGER.info("[validateToken] 토큰 유효 체크 완료");
-            return !claims.getBody().getExpiration().before(new Date());
+            if(!claims.getBody().getExpiration().before(new Date())){
+                return 1;
+            }else{
+                return 2;
+            }
         }catch (Exception e){
             LOGGER.info("[validateToken] 토큰 유효 체크 예외 발생");
-            return false;
+            return 0;
         }
     }
 }

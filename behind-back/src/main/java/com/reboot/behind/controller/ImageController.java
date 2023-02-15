@@ -1,7 +1,7 @@
 package com.reboot.behind.controller;
 
 import com.reboot.behind.config.security.auth.PrincipalDetails;
-import com.reboot.behind.service.S3Uploader;
+import com.reboot.behind.service.impl.S3Uploader;
 import com.reboot.behind.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
