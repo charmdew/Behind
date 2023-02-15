@@ -1,5 +1,7 @@
 package com.reboot.behind.config.security;
 
+import com.reboot.behind.data.entity.User;
+import com.reboot.behind.data.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -27,6 +29,8 @@ public class JwtTokenProvider {
     private final Logger LOGGER = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     private final UserDetailsService userDetailsService;
+
+    private final UserRepository userRepository;
 
     @Value("${springboot.jwt.secret}")
     /*
@@ -91,6 +95,12 @@ public class JwtTokenProvider {
         return info;
     }
 
+    public String getRole(String token){
+        String role = (String)Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                .getBody().get("role");
+        return role;
+    }
+
     public String resolveToken(HttpServletRequest request){
         LOGGER.info("[resolveToken] HTTP 헤더에서 Token 값 추출");
         return request.getHeader("X-AUTH-TOKEN"); // 리퀘스트의 헤더로 전달된 값을 추출한다. 헤더의 이름은 변경 가능하다.
@@ -110,5 +120,15 @@ public class JwtTokenProvider {
             LOGGER.info("[validateToken] 토큰 유효 체크 예외 발생");
             return 0;
         }
+    }
+
+    public boolean validateRefreshToken(String refreshToken){
+        if(validateToken(refreshToken) != 1) return false;
+        String id = getId(refreshToken);
+        User user = userRepository.findById(Integer.parseInt(id)).get();
+        if(user.getRefreshToken().equals(refreshToken)){
+            return true;
+        }
+        return false;
     }
 }
