@@ -7,14 +7,12 @@ import com.reboot.behind.data.dto.User.UserUpdateDto;
 import com.reboot.behind.data.entity.User;
 import com.reboot.behind.service.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +27,10 @@ public class SignController {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    @ApiOperation(
+            value = "Id(pk)를 이용한 마이페이지 회원정보 조회"
+            , notes = "Id(pk)를 이용한 1명의 회원정보를 가져온다")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getUserInfo(@PathVariable int id){
         try {
             String name = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -43,6 +45,10 @@ public class SignController {
         }
     }
 
+    @ApiOperation(
+            value = "디테일을 제외한 회원정보 수정"
+            , notes = "디테일을 제외한 회원정보를 수정한다")
+    @PatchMapping()
     public ResponseEntity<?> signUp(@RequestBody UserUpdateDto userUpdateDto, HttpServletResponse response){
         try{
             PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
