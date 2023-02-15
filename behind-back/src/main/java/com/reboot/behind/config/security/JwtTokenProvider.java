@@ -118,6 +118,7 @@ public class JwtTokenProvider {
             LOGGER.info("[validateToken] 토큰 유효 체크 예외 발생");
             return 0;
         }
+        return 0;
     }
 
     public boolean validateRefreshToken(String refreshToken){
