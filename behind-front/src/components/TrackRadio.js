@@ -16,7 +16,12 @@ const TrackRadio = () => {
     return (
       <Box as="label">
         <input {...input} />
+
         <Box
+          fontSize={{
+            base: '2xs',
+            lg: 'md',
+          }}
           {...checkbox}
           cursor="pointer"
           borderWidth="1px"
@@ -33,8 +38,14 @@ const TrackRadio = () => {
           _focus={{
             boxShadow: 'outline',
           }}
-          px={5}
-          py={3}
+          px={{
+            base: '1',
+            lg: '5',
+          }}
+          py={{
+            base: '1',
+            lg: '3',
+          }}
         >
           {props.children}
         </Box>
@@ -49,7 +60,7 @@ const TrackRadio = () => {
     setSelectedTrack(trackOptions.indexOf(e));
   };
 
-  const trackOptions = ['ALL', 'AI', 'IoT', 'BigData', 'BlockChain', 'Metabus'];
+  const trackOptions = ['ALL', '전공', '비전공'];
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'track',

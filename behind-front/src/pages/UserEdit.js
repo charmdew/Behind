@@ -28,7 +28,7 @@ const UserEdit = () => {
 
   async function getLoginUserInfo() {
     const info = await axios({
-      url: `/api/users/${LoginUserId}`,
+      url: `api/users/${LoginUserId}`,
       method: 'get',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     })

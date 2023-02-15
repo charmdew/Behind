@@ -3,10 +3,18 @@ import { BsPhone } from 'react-icons/bs';
 import { FiAtSign } from 'react-icons/fi';
 import React, { useState } from 'react';
 
-const ProfileCard = ({ phoneNum, tag, email, name, images, profile }) => {
+const ProfileCard = ({
+  phoneNum,
+  tag,
+  email,
+  name,
+  images,
+  profile,
+  showPhoneNum,
+}) => {
   // 포토 카드 실물 사이즈 : ( 54*86 )mm
 
-  const profileSrc = `https://behind-pic.s3.ap-northeast-2.amazonaws.com/${profile}`;
+  const profileSrc = `https://d2p3k144i3awma.cloudfront.net/${profile}`;
 
   const [colorToggle, setColorToggle] = useState(false);
   const tags = () => {
@@ -167,27 +175,47 @@ const ProfileCard = ({ phoneNum, tag, email, name, images, profile }) => {
                 {email}
               </Text>
             </Box>
-            <Box
+            {/* <Box
               display="flex"
               pl={2}
               fontSize={14}
               flexGrow="1"
               alignContent="center"
-            >
-              <Box pt={1}>
-                <Icon as={BsPhone} boxSize={4} color="gray.300" />
-              </Box>
-
-              <Text
-                color="gray.300"
-                pt={0.7}
+            > */}
+            {!showPhoneNum ? (
+              <Box
+                display="flex"
                 pl={2}
-                fontStyle="italic"
-                fontWeight="semibold"
+                fontSize={14}
+                flexGrow="1"
+                alignContent="center"
               >
-                {phoneNum}
-              </Text>
-            </Box>
+                <Box pt={1}>
+                  <Icon as={BsPhone} boxSize={4} color="gray.300" />
+                </Box>
+                <Text
+                  color="gray.300"
+                  pt={0.7}
+                  pl={2}
+                  fontStyle="italic"
+                  fontWeight="semibold"
+                >
+                  {phoneNum}
+                </Text>
+              </Box>
+            ) : (
+              <Box
+                opacity="0.6"
+                mr="15px"
+                fontSize="15px"
+                fontWeight="semibold"
+                textAlign="end"
+                color="cyan.400"
+              >
+                SSAFY
+              </Box>
+            )}
+            {/* </Box> */}
           </Box>
         </Box>
       </div>

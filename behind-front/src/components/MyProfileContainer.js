@@ -69,7 +69,7 @@ const ProfileContainer = ({
 
   const updateFollowingIdList = () => {
     axios({
-      url: `/api/users/${LoginUserId}`,
+      url: `api/users/${LoginUserId}`,
       method: 'get',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     })
@@ -95,7 +95,7 @@ const ProfileContainer = ({
     }
   };
 
-  // 선호 포지션, 선호 트랙 추출
+  // 선호 포지션, 전공 | 비전공 추출
   const getPreferPosition = () => {
     const positionList = Object.keys(position);
     let temp = [];
@@ -144,21 +144,21 @@ const ProfileContainer = ({
     TrackList.forEach(element => {
       if (track[element] === true) {
         switch (element) {
-          case 'ai':
-            temp.push('AI');
+          case 'major':
+            temp.push('전공');
             break;
-          case 'iot':
-            temp.push('IoT');
+          case 'nonmajor':
+            temp.push('비전공');
             break;
-          case 'bigdata':
-            temp.push('BigData');
-            break;
-          case 'blockchain':
-            temp.push('BlockChain');
-            break;
-          case 'metabus':
-            temp.push('Metabus');
-            break;
+          // case 'bigdata':
+          //   temp.push('BigData');
+          //   break;
+          // case 'blockchain':
+          //   temp.push('BlockChain');
+          //   break;
+          // case 'metabus':
+          //   temp.push('Metabus');
+          //   break;
           default:
             console.log('트랙에서 특정못함');
         }
@@ -250,8 +250,14 @@ const ProfileContainer = ({
       direction="column"
       bg="white"
       _dark={{ bg: '#3e3e3e' }}
-      p={50}
-      w="full"
+      pt={{
+        base: '5',
+        lg: '50',
+      }}
+      px={{
+        base: '1vw',
+        lg: '5vw',
+      }}
       alignItems="center"
       justifyContent="center"
     >
@@ -261,16 +267,50 @@ const ProfileContainer = ({
       {/* 프로필 사진 useState저장해서 수정요청 보내는 동시에 state 수정하는거 실험해보자 */}
       {/* 되면 사진 수정버튼으로 토글 조정해서 화면 전환 */}
       {/* <Button onClick={toggleChange}>Profile 이미지 수정</Button> */}
-      <Box mb="10px">
+      <Box
+        w={{
+          base: '90vw',
+          lg: 'md',
+        }}
+        display="flex"
+        justifyContent="end"
+        mb="5px"
+      >
         {imgToggle ? (
-          <Button onClick={toggleChange}>이미지 수정 완료</Button>
+          <Box
+            width="100%"
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Box
+              fontWeight="semibold"
+              fontStyle="italic"
+              ml="10px"
+              fontSize={{
+                base: 'sm',
+                lg: 'md',
+              }}
+            >
+              사진을 클릭 후 Done을 눌러주세요
+            </Box>
+            <Button size="sm" onClick={toggleChange}>
+              Done
+            </Button>
+          </Box>
         ) : (
-          <Button onClick={toggleChange}>이미지 수정</Button>
+          <Button size="sm" onClick={toggleChange}>
+            Change photo
+          </Button>
         )}
       </Box>
 
       {imgToggle ? (
         <Box
+          w={{
+            base: '90vw',
+            lg: 'md',
+          }}
           border="solid 2px"
           borderColor="#4E6C50"
           pt={7}
@@ -278,7 +318,6 @@ const ProfileContainer = ({
           mb={50}
           mx="auto"
           h="fit-content"
-          w="md"
           bg="white"
           _dark={{ bg: 'gray.800' }}
           shadow="lg"
@@ -308,9 +347,7 @@ const ProfileContainer = ({
                     onClick={() => {
                       changeProfileImg(it);
                     }}
-                    src={
-                      'https://behind-pic.s3.ap-northeast-2.amazonaws.com/' + it
-                    }
+                    src={'https://d2p3k144i3awma.cloudfront.net/' + it}
                   />
                 </SplideSlide>
               ))}
@@ -326,8 +363,11 @@ const ProfileContainer = ({
         borderColor="#4E6C50"
         ref={container}
         pt={7}
-        w="md"
-        mx="auto"
+        w={{
+          base: '90vw',
+          lg: 'md',
+        }}
+        // mx="auto"
         bg="white"
         _dark={{ bg: 'gray.800' }}
         shadow="lg"
@@ -391,14 +431,14 @@ const ProfileContainer = ({
               </chakra.h1>
             </Box>
 
-            {/* 선호 트랙 */}
+            {/* 전공 | 비전공 */}
             <Box>
               <Flex
                 alignItems="center"
                 color="gray.700"
                 _dark={{ color: 'gray.200' }}
               >
-                <chakra.h1 fontSize="sm">선호 트랙</chakra.h1>
+                <chakra.h1 fontSize="sm">전공 | 비전공</chakra.h1>
               </Flex>
               <chakra.h1
                 fontSize="lg"

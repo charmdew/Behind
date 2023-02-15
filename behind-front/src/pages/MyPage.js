@@ -69,7 +69,7 @@ const MyPage = () => {
   const [loginUser, setLoginUser] = useState({});
   const getLoginUser = () => {
     axios({
-      url: `/api/users/${LoginUserId}`,
+      url: `api/users/${LoginUserId}`,
       method: 'get',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     })
@@ -176,19 +176,53 @@ const MyPage = () => {
     <Box>
       <Box ref={editareaRef} height="revert">
         {/* 뒤로가기 */}
-        <Box alignItems="center" display="flex" w="100%" bg="gray.100">
+        <Box
+          alignItems="center"
+          display="flex"
+          w="100%"
+          bg="gray.100"
+          height={{
+            base: 7,
+            lg: 12,
+          }}
+        >
           <IconButton
             onClick={() => {
               navigate(-1);
             }}
-            size="lg"
+            size={{
+              base: 'xs',
+              lg: 'lg',
+            }}
+            color="black"
             icon={<FiArrowLeft />}
           />
-          <Text as="b">My Page</Text>
+          <Text
+            fontWeight={{
+              base: 'bold',
+              lg: 'bold',
+            }}
+            fontSize={{
+              base: '12',
+              lg: '20',
+            }}
+          >
+            My Page
+          </Text>
         </Box>
 
         {/* 컨테이너, 상세정보 */}
-        <Box>
+        <Box
+          minChildWidth={{
+            base: '50vw',
+            lg: '500px',
+          }}
+          spacing={{
+            base: '20px',
+            lg: '40px',
+          }}
+          mx="4px"
+        >
           {/* 컨테이너 */}
           {Object.keys(loginUser).length !== 0 ? (
             <MyProfileContainer {...loginUser} />
@@ -197,7 +231,12 @@ const MyPage = () => {
           )}
 
           {/* 상세정보 */}
-          <Box>
+          <Box
+            mt={{
+              base: '35px',
+              lg: 'md',
+            }}
+          >
             <Flex
               flexDirection="column"
               _dark={{ bg: '#3e3e3e' }}
@@ -208,8 +247,10 @@ const MyPage = () => {
               <Box
                 border="solid 2px"
                 borderColor="#4E6C50"
-                w="md"
-                mx="auto"
+                w={{
+                  base: '90vw',
+                  lg: 'md',
+                }}
                 bg="white"
                 _dark={{ bg: 'gray.800' }}
                 shadow="lg"

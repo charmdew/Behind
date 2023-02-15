@@ -10,6 +10,15 @@ import { useContext, useEffect, useState, useMemo } from 'react';
 import { UsersStateContext, UsersDispatchContext } from '../App';
 import jwt_decode from 'jwt-decode';
 import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverAnchor,
   SimpleGrid,
   GridItem,
   chakra,
@@ -125,31 +134,31 @@ const UserInfo = ({ loginUser }) => {
     setEditedUser({ ...editedUser, track: track });
   }, [track]);
 
-  const trackAiHandleChange = e => {
+  const majorHandleChange = e => {
     setTrack(preTrack => {
-      return { ...preTrack, ai: e.target.checked };
+      return { ...preTrack, major: e.target.checked };
     });
   };
-  const trackBlockchainHandleChange = e => {
+  const nonmajorHandleChange = e => {
     setTrack(preTrack => {
-      return { ...preTrack, blockchain: e.target.checked };
+      return { ...preTrack, nonmagor: e.target.checked };
     });
   };
-  const trackIotHandleChange = e => {
-    setTrack(preTrack => {
-      return { ...preTrack, iot: e.target.checked };
-    });
-  };
-  const trackBigdataHandleChange = e => {
-    setTrack(preTrack => {
-      return { ...preTrack, bigdata: e.target.checked };
-    });
-  };
-  const trackMetabusHandleChange = e => {
-    setTrack(preTrack => {
-      return { ...preTrack, metabus: e.target.checked };
-    });
-  };
+  // const trackIotHandleChange = e => {
+  //   setTrack(preTrack => {
+  //     return { ...preTrack, iot: e.target.checked };
+  //   });
+  // };
+  // const trackBigdataHandleChange = e => {
+  //   setTrack(preTrack => {
+  //     return { ...preTrack, bigdata: e.target.checked };
+  //   });
+  // };
+  // const trackMetabusHandleChange = e => {
+  //   setTrack(preTrack => {
+  //     return { ...preTrack, metabus: e.target.checked };
+  //   });
+  // };
 
   // tag 수정
   useEffect(() => {
@@ -167,7 +176,15 @@ const UserInfo = ({ loginUser }) => {
   };
 
   const tagAdd = () => {
-    if (tagWord.length !== 0) {
+    const virtualNameTag = document.querySelector('#virtual-name-tag');
+    const virtualTag = virtualNameTag.querySelector('.tag');
+    const origVirtualTagInnerHTML = virtualTag.innerHTML;
+    virtualTag.innerHTML += ' #' + tagWord;
+    if (virtualNameTag.clientWidth > 300) {
+      virtualTag.innerHTML = origVirtualTagInnerHTML;
+      alert('길이를 초과하였습니다.');
+      setTagWord('');
+    } else if (tagWord.length !== 0) {
       const newTagList = [...tag, '#' + tagWord];
       setTagWord('');
       setTag(newTagList);
@@ -194,8 +211,10 @@ const UserInfo = ({ loginUser }) => {
         trackCnt += 1;
       }
     });
-    if (positionCnt > 2 || trackCnt > 2) {
-      alert('선호 포지션과 선호 트랙은 최대 2개 선택 가능합니다');
+    if (positionCnt > 2) {
+      alert('선호 포지션은 최대 2개 선택 가능합니다');
+    } else if (trackCnt > 1 || trackCnt === 0) {
+      alert('전공과 비전공 중 하나를 선택해주세요');
     } else {
       // 서버에 전달할 유저 데이터
       const requestUserData = {
@@ -229,19 +248,47 @@ const UserInfo = ({ loginUser }) => {
   };
   return (
     <div>
-      <Box alignItems="center" display="flex" w="100%" bg="gray.100">
+      <Box
+        alignItems="center"
+        display="flex"
+        w="100%"
+        bg="gray.100"
+        height={{
+          base: 7,
+          lg: 12,
+        }}
+      >
         <IconButton
           onClick={() => {
             navigate(-1);
           }}
-          size="lg"
+          size={{
+            base: 'xs',
+            lg: 'lg',
+          }}
+          color="black"
           icon={<FiArrowLeft />}
         />
-        <Text as="b">{`${headWord()}`}</Text>
-        {/* <Text as="b">회원정보수정</Text> */}
+        <Text
+          fontWeight={{
+            base: 'bold',
+            lg: 'bold',
+          }}
+          fontSize={{
+            base: '12',
+            lg: '20',
+          }}
+        >{`${headWord()}`}</Text>
       </Box>
 
-      <Box display="flex" justifyContent="center" bg="#4E6C50" p="10" pb="20">
+      <Box
+        display="flex"
+        justifyContent="center"
+        p={{
+          base: '2',
+          lg: '10',
+        }}
+      >
         <SimpleGrid
           display={{
             base: 'initial',
@@ -253,9 +300,10 @@ const UserInfo = ({ loginUser }) => {
           spacing={{
             md: 6,
           }}
+          border="solid 2px"
+          borderColor="#4E6C50"
         >
           <GridItem
-            mt={[5, null, 0]}
             colSpan={{
               md: 2,
             }}
@@ -268,9 +316,18 @@ const UserInfo = ({ loginUser }) => {
               }}
             >
               <Stack
-                px={4}
-                py={5}
-                p={[null, 6]}
+                w={{
+                  base: '95vw',
+                  lg: '50vw',
+                }}
+                px={{
+                  base: '4%',
+                  lg: '2%',
+                }}
+                py={{
+                  base: '3%',
+                  lg: '5',
+                }}
                 bg="white"
                 _dark={{
                   bg: '#141517',
@@ -295,7 +352,10 @@ const UserInfo = ({ loginUser }) => {
                       type="text"
                       name="name"
                       id="name"
-                      mt={1}
+                      mt={{
+                        base: '0',
+                        lg: '1',
+                      }}
                       focusBorderColor="brand.400"
                       shadow="sm"
                       size="sm"
@@ -322,7 +382,10 @@ const UserInfo = ({ loginUser }) => {
                       type="text"
                       name="email_address"
                       id="email_address"
-                      mt={1}
+                      mt={{
+                        base: '0',
+                        lg: '1',
+                      }}
                       focusBorderColor="brand.400"
                       shadow="sm"
                       size="sm"
@@ -349,7 +412,10 @@ const UserInfo = ({ loginUser }) => {
                       type="text"
                       name="phone"
                       id="phone"
-                      mt={1}
+                      mt={{
+                        base: '0',
+                        lg: '1',
+                      }}
                       focusBorderColor="brand.400"
                       shadow="sm"
                       size="sm"
@@ -357,7 +423,7 @@ const UserInfo = ({ loginUser }) => {
                       rounded="md"
                       onChange={phoneNumHandleChange}
                     />
-                    <FormControl display="flex" alignItems="center">
+                    <FormControl pt="1" display="flex" alignItems="center">
                       <FormLabel htmlFor="email-alerts" mb="0">
                         전화번호 비공개
                       </FormLabel>
@@ -366,6 +432,28 @@ const UserInfo = ({ loginUser }) => {
                         defaultChecked={loginUser.showPhoneNum}
                         onChange={showPhoneNumHandleChange}
                       />
+                      <Popover>
+                        <PopoverTrigger>
+                          <Button
+                            ml="10px"
+                            size={{
+                              base: 'xs',
+                              lg: 'xs',
+                            }}
+                          >
+                            Guide
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent width="240px">
+                          <PopoverArrow />
+                          <PopoverCloseButton />
+                          <PopoverHeader>전화번호 비공개</PopoverHeader>
+                          <PopoverBody>
+                            출력될 카드에는 전화번호가 기재되지만 Web에 게시되는
+                            카드에는 전화번호가 노출되지 않습니다.
+                          </PopoverBody>
+                        </PopoverContent>
+                      </Popover>
                     </FormControl>
                   </FormControl>
 
@@ -419,26 +507,26 @@ const UserInfo = ({ loginUser }) => {
                         color: 'gray.50',
                       }}
                     >
-                      선호트랙 (2개 선택해 주세요)
+                      전공 / 비전공
                     </FormLabel>
-                    <Stack spacing={[1, 5]} direction={['column', 'row']}>
+                    <Stack spacing={[1, 2]} direction={['column', 'row']}>
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={loginUser.track.ai}
-                        onChange={trackAiHandleChange}
+                        defaultChecked={loginUser.track.major}
+                        onChange={majorHandleChange}
                       >
-                        AI
+                        전공
                       </Checkbox>
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
-                        defaultChecked={loginUser.track.blockchain}
-                        onChange={trackBlockchainHandleChange}
+                        defaultChecked={loginUser.track.nonmajor}
+                        onChange={nonmajorHandleChange}
                       >
-                        BlockChain
+                        비전공
                       </Checkbox>
-                      <Checkbox
+                      {/* <Checkbox
                         size="lg"
                         colorScheme="orange"
                         defaultChecked={loginUser.track.iot}
@@ -461,7 +549,7 @@ const UserInfo = ({ loginUser }) => {
                         onChange={trackMetabusHandleChange}
                       >
                         Metabus
-                      </Checkbox>
+                      </Checkbox> */}
                     </Stack>
                   </FormControl>
 
@@ -474,21 +562,37 @@ const UserInfo = ({ loginUser }) => {
                         color: 'gray.50',
                       }}
                     >
-                      태그를 입력해 주세요
+                      카드에 기재될 태그를 입력해 주세요
                     </FormLabel>
-                    <Stack spacing={[1, 5]} direction={['column', 'row']}>
+                    <Stack spacing={[1, 5]} direction="row">
                       <Input
+                        size={{
+                          base: 'sm',
+                          sm: 'md',
+                        }}
                         placeholder="ex) FrontEnd"
                         value={tagWord}
                         onChange={tagInputHandleChange}
                       />
-                      <Button onClick={tagAdd}>Add</Button>
+                      <Button
+                        size={{
+                          base: 'sm',
+                          sm: 'md',
+                        }}
+                        onClick={tagAdd}
+                      >
+                        Add
+                      </Button>
                     </Stack>
 
-                    <HStack spacing={4}>
+                    <HStack spacing={4} pt="2">
                       {tag.map(word => (
                         <Tag
-                          size="lg"
+                          py="3px"
+                          size={{
+                            base: 'sm',
+                            sm: 'md',
+                          }}
                           key={word}
                           borderRadius="full"
                           variant="solid"
@@ -511,7 +615,10 @@ const UserInfo = ({ loginUser }) => {
                   base: 4,
                   sm: 6,
                 }}
-                py={3}
+                py={{
+                  base: 2,
+                  sm: 3,
+                }}
                 bg="gray.50"
                 _dark={{
                   bg: '#121212',
@@ -519,12 +626,17 @@ const UserInfo = ({ loginUser }) => {
                 textAlign="right"
               >
                 <Button
+                  size={{
+                    base: 'sm',
+                    lg: 'md',
+                  }}
                   type="submit"
                   _focus={{
                     shadow: '',
                   }}
-                  fontWeight="md"
+                  fontWeight="bold"
                   onClick={userSave}
+                  bg="gray.200"
                 >
                   Save
                 </Button>
@@ -532,6 +644,34 @@ const UserInfo = ({ loginUser }) => {
             </chakra.form>
           </GridItem>
         </SimpleGrid>
+      </Box>
+      <Box
+        id="virtual-name-tag"
+        display="inline-flex"
+        visibility="hidden"
+        position="absolute"
+        bottom={0}
+      >
+        <Box
+          className="name"
+          fontSize={25}
+          fontWeight="extrabold"
+          pt={1}
+          mr={3}
+          display="flex"
+          alignItems="center"
+        >
+          {editedUser.name}
+        </Box>
+        <Box
+          className="tag"
+          pt={2}
+          color="blackAlpha.600"
+          display="flex"
+          alignItems="center"
+        >
+          {editedUser.tag.join(' ')}
+        </Box>
       </Box>
     </div>
   );
