@@ -176,7 +176,15 @@ const UserInfo = ({ loginUser }) => {
   };
 
   const tagAdd = () => {
-    if (tagWord.length !== 0) {
+    const virtualNameTag = document.querySelector('#virtual-name-tag');
+    const virtualTag = virtualNameTag.querySelector('.tag');
+    const origVirtualTagInnerHTML = virtualTag.innerHTML;
+    virtualTag.innerHTML += ' #' + tagWord;
+    if (virtualNameTag.clientWidth > 300) {
+      virtualTag.innerHTML = origVirtualTagInnerHTML;
+      alert('길이를 초과하였습니다.');
+      setTagWord('');
+    } else if (tagWord.length !== 0) {
       const newTagList = [...tag, '#' + tagWord];
       setTagWord('');
       setTag(newTagList);
@@ -636,6 +644,34 @@ const UserInfo = ({ loginUser }) => {
             </chakra.form>
           </GridItem>
         </SimpleGrid>
+      </Box>
+      <Box
+        id="virtual-name-tag"
+        display="inline-flex"
+        visibility="hidden"
+        position="absolute"
+        bottom={0}
+      >
+        <Box
+          className="name"
+          fontSize={25}
+          fontWeight="extrabold"
+          pt={1}
+          mr={3}
+          display="flex"
+          alignItems="center"
+        >
+          {editedUser.name}
+        </Box>
+        <Box
+          className="tag"
+          pt={2}
+          color="blackAlpha.600"
+          display="flex"
+          alignItems="center"
+        >
+          {editedUser.tag.join(' ')}
+        </Box>
       </Box>
     </div>
   );
