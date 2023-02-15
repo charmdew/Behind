@@ -118,11 +118,11 @@ const Home = () => {
           {/* 포지션,트랙 라디오 */}
           <Box
             pt={{
-              base: '2',
+              base: '5',
               lg: '10',
             }}
             pb={{
-              base: '2',
+              base: '5',
               lg: '10',
             }}
             display="flex"

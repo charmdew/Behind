@@ -190,10 +190,7 @@ const MyPage = () => {
             onClick={() => {
               navigate(-1);
             }}
-            size={{
-              base: 'xs',
-              lg: 'lg',
-            }}
+            size="lg"
             color="black"
             icon={<FiArrowLeft />}
           />

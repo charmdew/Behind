@@ -262,10 +262,7 @@ const UserInfo = ({ loginUser }) => {
           onClick={() => {
             navigate(-1);
           }}
-          size={{
-            base: 'xs',
-            lg: 'lg',
-          }}
+          size="lg"
           color="black"
           icon={<FiArrowLeft />}
         />
@@ -279,11 +276,18 @@ const UserInfo = ({ loginUser }) => {
             lg: '20',
           }}
         >{`${headWord()}`}</Text>
+        {/* <Text as="b">회원정보수정</Text> */}
       </Box>
 
+      {/* <Box display="flex" justifyContent="center" bg="#4E6C50" p="10" pb="20"> */}
       <Box
         display="flex"
         justifyContent="center"
+        // bg="#4E6C50"
+        // bg={{
+        //   base: '#4E6C50',
+        //   lg: 'white',
+        // }}
         p={{
           base: '2',
           lg: '10',

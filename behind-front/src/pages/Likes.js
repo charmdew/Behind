@@ -61,7 +61,6 @@ const Likes = ({}) => {
         headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       }
     );
-    console.log(response.data.followingUsers);
     setfollowingIdList(response.data.followingUsers);
   };
   const getFollowList = () => {
@@ -116,47 +115,20 @@ const Likes = ({}) => {
     getFollowList();
   }, []);
 
-  console.log('followingList', followingList);
-  console.log('followerList', followerList);
-  console.log('followingIdList', followingIdList);
   if (followingList && followerList && followingIdList) {
     return (
       <DetectorStateContext.Provider value={DetectorState}>
         <DetectorDispatchContext.Provider value={DetectorDispatches}>
-          <Box
-            alignItems="center"
-            display="flex"
-            w="100%"
-            bg="gray.100"
-            height={{
-              base: 7,
-              lg: 12,
-            }}
-          >
+          <Box alignItems="center" display="flex" w="100%" bg="gray.100">
             <IconButton
               onClick={() => {
                 navigate(-1);
               }}
-              size={{
-                base: 'xs',
-                lg: 'lg',
-              }}
+              size="lg"
               color="black"
               icon={<FiArrowLeft />}
             />
-            {/* <Text as="b">{Back_Word()}</Text> */}
-            <Text
-              fontWeight={{
-                base: 'bold',
-                lg: 'bold',
-              }}
-              fontSize={{
-                base: '12',
-                lg: '20',
-              }}
-            >
-              {Back_Word()}
-            </Text>
+            <Text as="b">{Back_Word()}</Text>
           </Box>
 
           <Tabs
@@ -164,18 +136,10 @@ const Likes = ({}) => {
             isFitted
             variant="solid-rounded"
             colorScheme="yellow"
-            size={{
-              base: 'sm',
-              lg: 'lg',
-            }}
           >
             <TabList>
-              <Tab border="solid 1px" borderColor="yellow.600" fontSize="xl">
-                Following
-              </Tab>
-              <Tab border="solid 1px" borderColor="yellow.600" fontSize="xl">
-                Follower
-              </Tab>
+              <Tab fontSize="xl">Following</Tab>
+              <Tab fontSize="xl">Follower</Tab>
             </TabList>
             <TabPanels>
               <TabPanel p="0">
