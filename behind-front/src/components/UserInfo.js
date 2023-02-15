@@ -144,21 +144,21 @@ const UserInfo = ({ loginUser }) => {
       return { ...preTrack, blockchain: e.target.checked };
     });
   };
-  const trackIotHandleChange = e => {
-    setTrack(preTrack => {
-      return { ...preTrack, iot: e.target.checked };
-    });
-  };
-  const trackBigdataHandleChange = e => {
-    setTrack(preTrack => {
-      return { ...preTrack, bigdata: e.target.checked };
-    });
-  };
-  const trackMetabusHandleChange = e => {
-    setTrack(preTrack => {
-      return { ...preTrack, metabus: e.target.checked };
-    });
-  };
+  // const trackIotHandleChange = e => {
+  //   setTrack(preTrack => {
+  //     return { ...preTrack, iot: e.target.checked };
+  //   });
+  // };
+  // const trackBigdataHandleChange = e => {
+  //   setTrack(preTrack => {
+  //     return { ...preTrack, bigdata: e.target.checked };
+  //   });
+  // };
+  // const trackMetabusHandleChange = e => {
+  //   setTrack(preTrack => {
+  //     return { ...preTrack, metabus: e.target.checked };
+  //   });
+  // };
 
   // tag 수정
   useEffect(() => {
@@ -203,8 +203,10 @@ const UserInfo = ({ loginUser }) => {
         trackCnt += 1;
       }
     });
-    if (positionCnt > 2 || trackCnt > 2) {
-      alert('선호 포지션과 선호 트랙은 최대 2개 선택 가능합니다');
+    if (positionCnt > 2) {
+      alert('선호 포지션은 최대 2개 선택 가능합니다');
+    } else if (trackCnt > 1 || trackCnt === 0) {
+      alert('전공과 비전공 중 하나를 선택해주세요');
     } else {
       // 서버에 전달할 유저 데이터
       const requestUserData = {
@@ -497,16 +499,16 @@ const UserInfo = ({ loginUser }) => {
                         color: 'gray.50',
                       }}
                     >
-                      선호트랙 (2개 선택해 주세요)
+                      전공 / 비전공
                     </FormLabel>
-                    <Stack spacing={[1, 5]} direction={['column', 'row']}>
+                    <Stack spacing={[1, 2]} direction={['column', 'row']}>
                       <Checkbox
                         size="lg"
                         colorScheme="orange"
                         defaultChecked={loginUser.track.ai}
                         onChange={trackAiHandleChange}
                       >
-                        AI
+                        전공
                       </Checkbox>
                       <Checkbox
                         size="lg"
@@ -514,9 +516,9 @@ const UserInfo = ({ loginUser }) => {
                         defaultChecked={loginUser.track.blockchain}
                         onChange={trackBlockchainHandleChange}
                       >
-                        BlockChain
+                        비전공
                       </Checkbox>
-                      <Checkbox
+                      {/* <Checkbox
                         size="lg"
                         colorScheme="orange"
                         defaultChecked={loginUser.track.iot}
@@ -539,7 +541,7 @@ const UserInfo = ({ loginUser }) => {
                         onChange={trackMetabusHandleChange}
                       >
                         Metabus
-                      </Checkbox>
+                      </Checkbox> */}
                     </Stack>
                   </FormControl>
 
