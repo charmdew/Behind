@@ -28,10 +28,6 @@ MODEL_DIR = os.path.join(os.getcwd(), CODE_DIR, 'checkpoint')
 DATA_DIR = os.path.join(os.getcwd(), IMAGE_DIR, 'data')
 OUT_DIR = os.path.join(os.getcwd(), IMAGE_DIR, 'output')
 
-
-#@title Select a style type { run: "auto", vertical-output: true, display-mode: "both" }
-# style_type = "cartoon026" #@param ["cartoon026", "cartoon299", "arcane000", "arcane077", "pixar052", "caricature039", "caricature068", "comic028", "illustration050", "illustration136"]
-
 """ 
 cartoon026:      beautiful
 *cartoon064:      princess-like
@@ -50,31 +46,23 @@ illustration136
 * 항목은 아직 모델파일 없음!
 """
 
-
 # 필터 스타일 지정
-# style_types = [style_type_w.value, "cartoon026", "cartoon299","illustration050", "comic028", "arcane000"]
 # style_types = ['cartoon026', 'cartoon299',
 #              'arcane000', 'arcane077',
 #              'pixar052',
 #              'caricature039','caricature068',
 #              'comic028',
-#              'illustration004', 'illustration009', 'illustration043', 'illustration050','illustration054','illustration057','illustration086','illustration136']
-# style_types = ['cartoon026',
-#              'arcane000',
-#              'pixar052',
-#              'caricature039',
-#              'comic028',
-#              'illustration050']
+#              'illustration004', 'illustration009', 'illustration043', 'illustration050',
+#              'illustration054','illustration057','illustration086','illustration136']
 groups = [
-            ['arcane000', 'arcane077', 'caricature039', 'caricature068'],
-            ['cartoon026', 'cartoon299', 'comic028', 'pixar052'],
-            ['illustration004', 'illustration009', 'illustration043', 'illustration050'],
-            ['illustration054','illustration057','illustration086','illustration136'],
-            ['cartoon026','caricature068','illustration004','illustration054']
-        ]
+    ['arcane000', 'arcane077', 'caricature039', 'caricature068'],
+    ['cartoon026', 'cartoon299', 'comic028', 'pixar052'],
+    ['illustration004', 'illustration009', 'illustration043', 'illustration050'],
+    ['illustration054', 'illustration057', 'illustration086', 'illustration136'],
+    ['cartoon026', 'caricature068', 'illustration004', 'illustration054']
+]
 
 style_types = groups[-1]
-
 
 ##### 'VToonify/checkpoint/' 폴더에 필요한 파일 목록 #####
 ## faceparsing.pth, shape_predictor_68_face_landmarks.dat, encoder.pt
@@ -92,7 +80,7 @@ transform = transforms.Compose([
 parsingpredictor = BiSeNet(n_classes=19)
 parsingpredictor.load_state_dict(
     torch.load(os.path.join(MODEL_DIR, 'faceparsing.pth'), map_location=lambda storage, loc: storage))
-# 추론을 실행하기 전에 model.eval()을 호출하여 드롭아웃(dropout)과 배치 정규화 층(batch normalization layers)을 평가(evaluation) 모드로 바꿔야함!
+# 추론을 실행하기 전에 model.eval()을 호출하여 드롭아웃(dropout)과 배치 정규화 층(batch normalization layers)을 평가(evaluation) 모드로 바꿔야 함!
 parsingpredictor.to(device).eval()
 
 modelname = os.path.join(MODEL_DIR, 'shape_predictor_68_face_landmarks.dat')
@@ -136,13 +124,14 @@ print("=========================================================================
 print("학습된 모델 불러오는데 걸리는 시간")
 print(f"{time.time() - start:.4f} sec")  # 종료와 함께 수행시간 출력
 
+
 # 이미지 크기 조정
 def resize(image, size):
     # 원본 이미지의 크기
     h, w = image.shape[:2]
     ash = size[1] / h
     asw = size[0] / w
-    
+
     # 이미지 비율 맞춰 자르기
     if asw > ash:
         sizeas = (int(w * asw), int(h * asw))
@@ -150,7 +139,7 @@ def resize(image, size):
         sizeas = (int(w * ash), int(h * ash))
     pic = cv2.resize(image, dsize=sizeas)
     resized_image = pic[int(sizeas[1] / 2 - size[1] / 2):int(sizeas[1] / 2 + size[1] / 2),
-                  int(sizeas[0] / 2 - size[0] / 2):int(sizeas[0] / 2 + size[0] / 2), :]
+                    int(sizeas[0] / 2 - size[0] / 2):int(sizeas[0] / 2 + size[0] / 2), :]
 
     # # 이미지 비율 맞춰 축소
     # base_pic = np.zeros((size[1], size[0], 3), np.uint8)
@@ -164,7 +153,7 @@ def resize(image, size):
     # print(base_pic.shape)
     # base_pic[int(size[1] / 2 - sizeas[1] / 2):int(size[1] / 2 + sizeas[1] / 2),
     # int(size[0] / 2 - sizeas[0] / 2):int(size[0] / 2 + sizeas[0] / 2), :] = pic
-    
+
     return resized_image
 
 
@@ -172,17 +161,20 @@ def main(input_image, input_image_fname, ouput_fname):
     # 변환할 이미지 파일
     content_image = input_image
     input_file_name = input_image_fname
-    # image_path = os.path.join(DATA_DIR, input_file_name)
-    # original_image = load_image(image_path)
+
+    # 이미지 사이즈 고정
+    target_size = (480, 570)
 
     ##### 이미지 전처리 #####
     frame = np.array(content_image)
+    frame = resize(frame, target_size)  # 리사이즈 처리
 
     scale = 1
     kernel_1d = np.array([[0.125], [0.375], [0.375], [0.125]])
     # We detect the face in the image, and resize the image so that the eye distance is 64 pixels.
     # Centered on the eyes, we crop the image to almost 400x400 (based on args.padding).
-    paras = get_video_crop_parameter(frame, landmarkpredictor, padding=[200,200,200,200]) # => 이렇게 하면 얼굴에 조금 더 초점을 맞추어 자름, 숫자가 클수록 더 넓은 범위의 사진을 처리함
+    paras = get_video_crop_parameter(frame, landmarkpredictor, padding=[200, 200, 200,
+                                                                        200])  # => 이렇게 하면 얼굴에 조금 더 초점을 맞추어 자름, 숫자가 클수록 더 넓은 범위의 사진을 처리함
     # paras = get_video_crop_parameter(frame, landmarkpredictor, padding=[300, 300, 300, 300])
     if paras is not None:
         h, w, top, bottom, left, right, scale = paras
@@ -226,14 +218,16 @@ def main(input_image, input_image_fname, ouput_fname):
     print(f"{total_time:.4f} sec")  # 종료와 함께 수행시간 출력
 
     ##### 결과 처리 #####
-    # 결과 이미지 사이즈 고정
-    target_size = (640 , 760)
 
     # 변환된 이미지 저장
     result_img = []
 
     # base64로 인코딩된 결과 이미지를 저장하는 리스트
     b64encoded_images = []
+
+    # 이미지 확장자 지정
+    img_format = "PNG"
+
     for i in range(N):
         # 변환한 이미지 저장
         result_img.append(tensor2cv2(y_tilde[i][0].cpu()))
@@ -241,9 +235,9 @@ def main(input_image, input_image_fname, ouput_fname):
         ## 리사이즈 처리
         result_img[i] = resize(result_img[i], target_size)
 
-        # '파일이름_스타일타입.jpg' 형식으로 저장
-        cv2.imwrite(os.path.join(OUT_DIR, ouput_fname + '_' + style_types[i] + '.png'), result_img[i])
-        # cv2.imwrite(os.path.join(OUT_DIR, input_file_name[:-4] + '_' + style_types[i] + '.jpg'), result_img[i])
+        # '파일이름_스타일타입.확장자' 형식으로 저장
+        # cv2.imwrite(os.path.join(OUT_DIR, ouput_fname + '_' + style_types[i] + '.' + img_format), result_img[i])
+        # cv2.imwrite(os.path.join(OUT_DIR, input_file_name[:-4] + '_' + style_types[i] + '.' + img_format), result_img[i])
 
         # 색상 표현 방식 변경
         styled_image = cv2.cvtColor(result_img[i], cv2.COLOR_BGR2RGB)
@@ -251,7 +245,7 @@ def main(input_image, input_image_fname, ouput_fname):
         ## 이미지 데이터 JSON으로 응답
         styled_image = Image.fromarray(styled_image)
         bytesIO = io.BytesIO()
-        styled_image.save(bytesIO, "PNG")
+        styled_image.save(bytesIO, img_format)
         b64encoded = base64.b64encode(bytesIO.getvalue())
         # base64로 인코딩된 이미지 리스트에 저장
         b64encoded_images.append(b64encoded)

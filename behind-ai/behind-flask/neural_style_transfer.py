@@ -8,6 +8,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # WARNING 로그 필터링
 os.environ['TFHUB_MODEL_LOAD_FORMAT'] = 'COMPRESSED'
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
+
 def resize(image, size):
     # 원본 이미지의 크기
     h, w = image.shape[:2]
@@ -20,7 +21,7 @@ def resize(image, size):
         sizeas = (int(w * ash), int(h * ash))
     pic = cv2.resize(image, dsize=sizeas)
     resized_image = pic[int(sizeas[1] / 2 - size[1] / 2):int(sizeas[1] / 2 + size[1] / 2),
-                  int(sizeas[0] / 2 - size[0] / 2):int(sizeas[0] / 2 + size[0] / 2), :]
+                    int(sizeas[0] / 2 - size[0] / 2):int(sizeas[0] / 2 + size[0] / 2), :]
     return resized_image
 
 
@@ -53,10 +54,10 @@ def main_multiple_styles(input_image, input_image_fname, output_fname):
     # content_image = Image.open(os.path.join('static', 'images', 'data', content_image_file))
 
     # 이미지 사이즈 고정
-    target_size = (640, 760)
+    target_size = (480, 570)
 
     content_image = np.array(content_image)
-    content_image = resize(content_image, target_size) # 리사이즈 처리
+    content_image = resize(content_image, target_size)  # 리사이즈 처리
     x_test = np.array([content_image])
     x_test = x_test / 255
     content_image = x_test
@@ -75,6 +76,9 @@ def main_multiple_styles(input_image, input_image_fname, output_fname):
 
     # base64로 인코딩된 결과 이미지를 저장하는 리스트
     b64encoded_images = []
+
+    # 이미지 확장자 지정
+    img_format = "PNG"
 
     for style_image_file in style_image_files:
         style_image = Image.open(os.path.join(STYLE_IMG_FOLDER, style_image_file))
@@ -95,12 +99,12 @@ def main_multiple_styles(input_image, input_image_fname, output_fname):
         y_predict = dict_output['output_0']
         styled_image = y_predict[0]
         styled_image = (styled_image * 255).astype(np.uint8)
-        styled_image = resize(styled_image, target_size)    # 이미지 크기 조정
+        styled_image = resize(styled_image, target_size)  # 이미지 크기 조정
         styled_image = Image.fromarray(styled_image)
 
         ## 이미지 데이터 JSON으로 응답
         bytesIO = io.BytesIO()
-        styled_image.save(bytesIO, "PNG")
+        styled_image.save(bytesIO, img_format)
         b64encoded = base64.b64encode(bytesIO.getvalue())
         # base64로 인코딩된 이미지 리스트에 저장
         b64encoded_images.append(b64encoded)
@@ -109,14 +113,14 @@ def main_multiple_styles(input_image, input_image_fname, output_fname):
 
         ## 결과 이미지 지정한 경로에 저장
         # 결과 이미지 파일명 : 파일이름_스타일이름.확장자
-        styled_image_fname = output_fname + "_" + style_image_file.split('.')[0]+".png"
+        styled_image_fname = output_fname + "_" + style_image_file.split('.')[0] + "." + img_format
         # styled_image_fname = input_image_fname.split('.')[0] + "_" + style_image_file
         # styled_image_fname = content_image_file.split('.')[0] + "_" + style_image_file
         # 결과 이미지 저장 경로
         styled_path = os.path.join('static', 'images', 'output', styled_image_fname)
         print(styled_path)
         # 결과 이미지 저장
-        styled_image.save(styled_path, 'PNG')
+        # styled_image.save(styled_path, img_format)
 
     print("Number of Styles: ", len(b64encoded_images))
 
@@ -125,8 +129,7 @@ def main_multiple_styles(input_image, input_image_fname, output_fname):
     # 이미지 변환 수행 시간 측정
     print("Total time: {:.1f}".format(end - start))
 
-    return b64encoded_images             # base64로 인코딩한 이미지
+    return b64encoded_images  # base64로 인코딩한 이미지
     # return round(end - start, 1)    # 변환하는데 걸린 시간 (임시)
-
 
 # main_multiple_styles(Image.open(os.path.join('static', 'images', 'data', 'person01.jpg')), 'person01.jpg')
