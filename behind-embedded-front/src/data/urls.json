@@ -1,5 +1,5 @@
 {
   "imageTransformServerURL": "https://2c91-221-138-65-42.jp.ngrok.io/images/style-transfer",
-  "imageUploadURL": "http://i8a404.p.ssafy.io/api/images",
-  "userInfoURL": "http://i8a404.p.ssafy.io/api/users"
+  "imageUploadURL": "https://i8a404.p.ssafy.io/api/images",
+  "userInfoURL": "https://i8a404.p.ssafy.io/api/users"
 }
