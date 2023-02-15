@@ -37,7 +37,6 @@ function getCookie(cookie_name) {
 }
 
 const Home = () => {
-  console.log('home 렌더링');
   const navigate = useNavigate();
   const query = useLocation();
   useEffect(() => {
@@ -96,10 +95,6 @@ const Home = () => {
         setUsers(pre => []);
       }
       setUsers(pre => [...users, ...res.data]);
-      console.log('users', users);
-      console.log('selectedPosition', selectedPosition);
-      console.log('selectedTrack', selectedTrack);
-      console.log('pageNum', pageNum);
     });
   };
 

@@ -15,6 +15,8 @@ const ProfileCard = ({
   // 포토 카드 실물 사이즈 : ( 54*86 )mm
 
   const profileSrc = `https://d2p3k144i3awma.cloudfront.net/${profile}`;
+  const altSrc =
+    'https://via.placeholder.com/322x400/FEEBC8/000000.png?text=Come+to+take+pictures';
 
   const [colorToggle, setColorToggle] = useState(false);
   const tags = () => {
@@ -47,7 +49,7 @@ const ProfileCard = ({
             // 프로필 카드 이미지 자리
             // src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
             src={profileSrc}
-            alt="avatar"
+            fallbackSrc="altSrc"
           />
           <Box pb={2} pl={4} display="flex" flexDirection="column" flex="1">
             <Box display="flex" flexGrow="3">
@@ -127,7 +129,7 @@ const ProfileCard = ({
             // 프로필 카드 이미지 자리
             // src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
             src={profileSrc}
-            alt="avatar"
+            fallbackSrc="altSrc"
           />
           <Box
             backgroundColor="black"
