@@ -55,7 +55,7 @@ public class SearchRepository {
                 whereCondition.add("u.major is true");
                 break;
             case 2:
-                whereCondition.add("u.nonmajor is true");
+                whereCondition.add("u.nonMajor is true");
                 break;
         }
         System.out.println(whereCondition);

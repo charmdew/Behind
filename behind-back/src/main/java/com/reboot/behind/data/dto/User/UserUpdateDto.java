@@ -44,7 +44,7 @@ public class UserUpdateDto {
     @ToString
     public static class Track{
         private boolean major ;
-        private boolean nonmajor;
+        private boolean nonMajor;
     }
 
     @Builder

@@ -61,7 +61,7 @@ public class User {
 
     private boolean major;
 
-    private boolean nonmajor;
+    private boolean nonMajor;
 
     private String detail;
 
@@ -88,7 +88,7 @@ public class User {
         this.back=userUpdateDto.getPosition().isBackend();
         this.embedded=userUpdateDto.getPosition().isEmbedded();
         this.major=userUpdateDto.getTrack().isMajor();
-        this.nonmajor=userUpdateDto.getTrack().isNonmajor();
+        this.nonMajor=userUpdateDto.getTrack().isNonMajor();
         this.tag=userUpdateDto.getTag();
         this.role=("USER");
     }

@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
 
             track.setMajor(userlist.get(i).isMajor());
-            track.setNonmajor(userlist.get(i).isNonmajor());
+            track.setNonMajor(userlist.get(i).isNonMajor());
 
             if (userlist.get(i).getImages() != null) {
                 String[] array = userlist.get(i).getImages().split(",");
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
         position.setEmbedded(user.isEmbedded());
 
         track.setMajor(user.isMajor());
-        track.setNonmajor(user.isNonmajor());
+        track.setNonMajor(user.isNonMajor());
 
         if (user.getImages() != null) {
             String[] array = user.getImages().split(",");
@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService {
 
 
         track.setMajor(changedUser.isMajor());
-        track.setNonmajor(changedUser.isNonmajor());
+        track.setNonMajor(changedUser.isNonMajor());
 
         if (changedUser.getImages() != null) {
             String[] array = changedUser.getImages().split(",");
@@ -178,7 +178,7 @@ public class UserServiceImpl implements UserService {
         position.setEmbedded(changedUser.isEmbedded());
 
         track.setMajor(changedUser.isMajor());
-        track.setNonmajor(changedUser.isNonmajor());
+        track.setNonMajor(changedUser.isNonMajor());
 
 
         if (changedUser.getImages() != null) {
@@ -309,7 +309,7 @@ public class UserServiceImpl implements UserService {
 
 
             track.setMajor(foundFollwingUser.isMajor());
-            track.setNonmajor(foundFollwingUser.isNonmajor());
+            track.setNonMajor(foundFollwingUser.isNonMajor());
 
             if (foundFollwingUser.getImages() != null) {
                 String[] array = foundFollwingUser.getImages().split(",");
@@ -359,7 +359,7 @@ public class UserServiceImpl implements UserService {
 
 
             track.setMajor(foundFollowedUser.isMajor());
-            track.setNonmajor(foundFollowedUser.isNonmajor());
+            track.setNonMajor(foundFollowedUser.isNonMajor());
 
             if (foundFollowedUser.getImages() != null) {
                 String[] array = foundFollowedUser.getImages().split(",");
