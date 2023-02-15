@@ -1,6 +1,7 @@
 package com.reboot.behind.config.security;
 
 import com.reboot.behind.data.dto.User.UserResponseDto;
+import com.reboot.behind.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
