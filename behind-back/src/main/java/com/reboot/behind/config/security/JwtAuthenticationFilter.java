@@ -19,7 +19,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider){
+    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
@@ -30,23 +30,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         LOGGER.info("[doFilterInternal] token 값 추출 완료. token : {}", token);
 
         LOGGER.info("[doFilterInternal] token 값 유효성 체크 시작");
-        if(token != null){
+        if (token != null) {
             int validationStatus = jwtTokenProvider.validateToken(token); // 0: invalid 1: valid 2: expired
-            if(validationStatus == 1){
+            if (validationStatus == 1) {
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 LOGGER.info("[doFilterInternal] token 값 유효성 체크 완료");
-            }else if(validationStatus == 2){
+            } else if (validationStatus == 2) {
                 Cookie[] cookies = request.getCookies();
                 String refreshToken = null;
 
-                for(Cookie cookie : cookies){
-                    if(cookie.getName().equals("behind_RefreshToken")){
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("behind_RefreshToken")) {
                         refreshToken = cookie.getValue();
                         break;
                     }
                 }
-                if(jwtTokenProvider.validateRefreshToken(refreshToken)){
+                if (jwtTokenProvider.validateRefreshToken(refreshToken)) {
                     int id = Integer.parseInt(jwtTokenProvider.getId(token));
                     String role = jwtTokenProvider.getRole(token);
                     String newToken = jwtTokenProvider.createToken(id, role, false);
@@ -63,3 +63,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         LOGGER.info("[doFilterInternal] token 값 유효성 체크 끝");
 
         filterChain.doFilter(request, response);
+    }
+}
