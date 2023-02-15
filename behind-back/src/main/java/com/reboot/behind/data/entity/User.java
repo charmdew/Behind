@@ -96,5 +96,6 @@ public class User {
         this.blockChain=userUpdateDto.getTrack().isBlockchain();
         this.metaBus=userUpdateDto.getTrack().isMetabus();
         this.tag=userUpdateDto.getTag();
+        this.role=("USER");
     }
 }
