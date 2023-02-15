@@ -2,10 +2,7 @@ package com.reboot.behind.config.security;
 
 import com.reboot.behind.data.dto.User.UserResponseDto;
 import com.reboot.behind.service.UserService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,12 +108,13 @@ public class JwtTokenProvider {
         try{
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             LOGGER.info("[validateToken] 토큰 유효 체크 완료");
-            if(!claims.getBody().getExpiration().before(new Date())){
+            if(!claims.getBody().getExpiration().before(new Date()))
                 return 1;
-            }else{
-                return 2;
-            }
-        }catch (Exception e){
+        }catch(ExpiredJwtException e){
+            LOGGER.info("토큰 만료");
+            return 2;
+        }
+        catch (Exception e){
             LOGGER.info("[validateToken] 토큰 유효 체크 예외 발생");
             return 0;
         }
