@@ -58,6 +58,7 @@ const Likes = ({}) => {
     const response = await axios.get(`api/users/${id}`, {
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     });
+    console.log(response.data.followingUsers);
     setfollowingIdList(response.data.followingUsers);
   };
   const getFollowList = () => {
