@@ -51,9 +51,9 @@ const Likes = ({}) => {
     }
   };
 
-  const [followingIdList, setfollowingIdList] = useState(null);
-  const [followingList, setFollowingList] = useState(null);
-  const [followerList, setFollowerList] = useState(null);
+  const [followingIdList, setfollowingIdList] = useState([]);
+  const [followingList, setFollowingList] = useState([]);
+  const [followerList, setFollowerList] = useState([]);
   const getFollowIdList = async () => {
     const response = await axios.get(`api/users/${id}`, {
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
