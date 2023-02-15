@@ -190,9 +190,8 @@ const NavBar = () => {
                   base: 'sm',
                   lg: 'md',
                 }}
-                width={{
-                  base: '10px',
-                  lg: '50px',
+                px={{
+                  base: '1',
                 }}
                 onMouseOver={QRButtonOnHover}
                 onMouseOut={QRButtonOffHover}
@@ -217,9 +216,8 @@ const NavBar = () => {
                   base: 'sm',
                   lg: 'md',
                 }}
-                width={{
-                  base: '35px',
-                  lg: '70px',
+                px={{
+                  base: '1',
                 }}
                 onMouseOver={LikesButtonOnHover}
                 onMouseOut={LikesButtonOffHover}
@@ -237,9 +235,8 @@ const NavBar = () => {
                   base: 'sm',
                   lg: 'md',
                 }}
-                width={{
-                  base: '50px',
-                  lg: '95px',
+                px={{
+                  base: '1',
                 }}
                 onMouseOver={MypageButtonOnHover}
                 onMouseOut={MypageButtonOffHover}
