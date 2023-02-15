@@ -1,9 +1,11 @@
 package com.reboot.behind.config.security;
 
 import com.reboot.behind.data.entity.User;
+import com.reboot.behind.data.repository.UserRepository;
 import com.reboot.behind.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,11 +23,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    private final UserService userService;
-
     public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider){
         this.jwtTokenProvider = jwtTokenProvider;
     }
+
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = jwtTokenProvider.resolveToken(request);
@@ -40,18 +42,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 LOGGER.info("[doFilterInternal] token 값 유효성 체크 완료");
             }else if(validationStatus == 2){
                 Cookie[] cookies = request.getCookies();
-                String refreshToken;
-                User user = userService.userDetail(jwtTokenProvider.getId(token));
+                String refreshToken = "";
+                User user = userRepository.getUserByUserId(jwtTokenProvider.getId(token));
                 for(Cookie cookie : cookies){
                     if(cookie.getName() == "behind_RefreshToken"){
                         refreshToken = cookie.getValue();
                         break;
                     }
                 }
-                if(jwtTokenProvider.validateToken(refreshToken) && )
-                Cookie cookie = new Cookie("token", jwtTokenProvider.createToken(user.getId(), user.getRole(),false));
-                response.addCookie(cookie);
-                System.out.println("새 엑세스 토큰 발급");
+                if(jwtTokenProvider.validateToken(refreshToken) == 1 && user.getRefreshToken()==refreshToken){
+                    Cookie cookie = new Cookie("token", jwtTokenProvider.createToken(user.getId(), user.getRole(),false));
+                    response.addCookie(cookie);
+                }
             }
         }
 
