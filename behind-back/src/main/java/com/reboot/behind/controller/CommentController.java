@@ -1,4 +1,4 @@
-package com.reboot.behind.data.controller;
+package com.reboot.behind.controller;
 
 import com.reboot.behind.config.security.auth.PrincipalDetails;
 import com.reboot.behind.data.dto.Comment.*;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @Api(description = "댓글 조회 생성 수정 삭제 ")
 @RequestMapping("/comment")
