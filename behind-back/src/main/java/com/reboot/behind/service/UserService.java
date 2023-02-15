@@ -28,4 +28,6 @@ public interface UserService {
     List<UserResponseDto> getFollowingUser(int id);
 
     List<UserResponseDto> getFollowedUser(int id);
+
+    void saveRefreshToken(Integer id, String refreshToken);
 }

@@ -390,7 +390,11 @@ public class UserServiceImpl implements UserService {
         }
         return userResponseDtoList;
     }
-
+    public void saveRefreshToken(Integer id,String refreshToken){
+        User foundUser = userRepository.findById(id).get();
+        foundUser.setRefreshToken(refreshToken);
+        userRepository.save(foundUser);
+    }
 }
 
 
