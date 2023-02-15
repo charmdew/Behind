@@ -17,6 +17,10 @@ const TrackRadio = () => {
       <Box as="label">
         <input {...input} />
         <Box
+          fontSize={{
+            base: 'sm',
+            lg: 'md',
+          }}
           {...checkbox}
           cursor="pointer"
           borderWidth="1px"
@@ -33,8 +37,14 @@ const TrackRadio = () => {
           _focus={{
             boxShadow: 'outline',
           }}
-          px={5}
-          py={3}
+          px={{
+            base: '1',
+            lg: '5',
+          }}
+          py={{
+            base: '1',
+            lg: '3',
+          }}
         >
           {props.children}
         </Box>

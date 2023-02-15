@@ -143,11 +143,11 @@ const Home = () => {
                 lg: '5',
               }}
             >
-              <PositionRadio />
+              <TrackRadio />
             </Box>
             {/* 트랙 */}
             <Box>
-              <TrackRadio />
+              <PositionRadio />
             </Box>
           </Box>
           <InfiniteScroll
