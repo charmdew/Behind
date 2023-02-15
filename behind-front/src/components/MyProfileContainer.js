@@ -267,16 +267,50 @@ const ProfileContainer = ({
       {/* 프로필 사진 useState저장해서 수정요청 보내는 동시에 state 수정하는거 실험해보자 */}
       {/* 되면 사진 수정버튼으로 토글 조정해서 화면 전환 */}
       {/* <Button onClick={toggleChange}>Profile 이미지 수정</Button> */}
-      <Box mb="10px">
+      <Box
+        w={{
+          base: '90vw',
+          lg: 'md',
+        }}
+        display="flex"
+        justifyContent="end"
+        mb="5px"
+      >
         {imgToggle ? (
-          <Button onClick={toggleChange}>이미지 수정 완료</Button>
+          <Box
+            width="100%"
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Box
+              fontWeight="semibold"
+              fontStyle="italic"
+              ml="10px"
+              fontSize={{
+                base: 'sm',
+                lg: 'md',
+              }}
+            >
+              사진을 클릭 후 Done을 눌러주세요
+            </Box>
+            <Button size="sm" onClick={toggleChange}>
+              Done
+            </Button>
+          </Box>
         ) : (
-          <Button onClick={toggleChange}>이미지 수정</Button>
+          <Button size="sm" onClick={toggleChange}>
+            Change photo
+          </Button>
         )}
       </Box>
 
       {imgToggle ? (
         <Box
+          w={{
+            base: '90vw',
+            lg: 'md',
+          }}
           border="solid 2px"
           borderColor="#4E6C50"
           pt={7}
@@ -284,7 +318,6 @@ const ProfileContainer = ({
           mb={50}
           mx="auto"
           h="fit-content"
-          w="md"
           bg="white"
           _dark={{ bg: 'gray.800' }}
           shadow="lg"
