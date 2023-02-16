@@ -15,7 +15,7 @@ export const FilteredUsersDispatchContext = React.createContext();
 
 function setCookie(cookie_name, value, days) {
   const exdate = new Date();
-  exdate.setMinutes(exdate.getMinutes() + days);
+  exdate.setDate(exdate.getDate() + days);
   const cookie_value =
     escape(value) + (days == null ? '' : '; expires=' + exdate.toUTCString());
   document.cookie = cookie_name + '=' + cookie_value;
@@ -49,8 +49,8 @@ const Home = () => {
     ) {
       const token = query.search.replace('?X-AUTH-TOKEN=', '');
       const LoginUserId = jwt_decode(token).sub;
-      setCookie('LoginUserId', `${LoginUserId}`, '1');
-      setCookie('token', `${token}`, '1');
+      setCookie('LoginUserId', `${LoginUserId}`, 1);
+      setCookie('token', `${token}`, 1);
       if (jwt_decode(token).role === 'TEMP') {
         navigate('/useredit', { replace: true });
       }
