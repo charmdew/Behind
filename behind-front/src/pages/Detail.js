@@ -82,64 +82,56 @@ const Detail = () => {
           <Text as="b">{`${detailUser.name}'s page`}</Text>
         </Box>
         <ProfileContainer {...detailUser} />
-        <Flex
-          // bg="#edf3f8"
-          _dark={{ bg: '#3e3e3e' }}
-          w="full"
-          alignItems="center"
-          justifyContent="center"
-          pb={50}
-        >
-          <Box
-            mt={{
-              base: '35px',
-              lg: 'md',
-            }}
-          >
-            <Flex
-              flexDirection="column"
-              // bg="#edf3f8"
-              _dark={{ bg: '#3e3e3e' }}
-              w="full"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Box
-                border="solid 2px"
-                borderColor="#4E6C50"
-                w={{
-                  base: '90vw',
-                  lg: 'md',
-                }}
-                bg="white"
-                _dark={{ bg: 'gray.800' }}
-                shadow="lg"
-                rounded="lg"
-                overflow="hidden"
-                p="7"
-              >
-                <Editable
-                  lineHeight="150%"
-                  letterSpacing=".1rem"
-                  textAlign="start"
-                  defaultValue={detailUser.detail}
-                  fontSize="lg"
-                  isPreviewFocusable={false}
-                >
-                  <Box display="flex" mb="2" pr="1" justifyContent="start">
-                    <Box ml="5" pb="2" fontSize="2xl" fontStyle="italic">
-                      <Text pl="3" pr="3" borderBottom="2px solid">
-                        More Info
-                      </Text>
-                    </Box>
-                  </Box>
 
-                  <EditablePreview />
-                </Editable>
-              </Box>
-            </Flex>
-          </Box>
-        </Flex>
+        <Box
+          mt={{
+            base: '35px',
+            lg: 'md',
+          }}
+        >
+          <Flex
+            flexDirection="column"
+            // bg="#edf3f8"
+            _dark={{ bg: '#3e3e3e' }}
+            w="full"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Box
+              border="solid 2px"
+              borderColor="#4E6C50"
+              w={{
+                base: '90vw',
+                lg: 'md',
+              }}
+              bg="white"
+              _dark={{ bg: 'gray.800' }}
+              shadow="lg"
+              rounded="lg"
+              overflow="hidden"
+              p="7"
+            >
+              <Editable
+                lineHeight="150%"
+                letterSpacing=".1rem"
+                textAlign="start"
+                defaultValue={detailUser.detail}
+                fontSize="lg"
+                isPreviewFocusable={false}
+              >
+                <Box display="flex" mb="2" pr="1" justifyContent="start">
+                  <Box ml="5" pb="2" fontSize="2xl" fontStyle="italic">
+                    <Text pl="3" pr="3" borderBottom="2px solid">
+                      More Info
+                    </Text>
+                  </Box>
+                </Box>
+
+                <EditablePreview />
+              </Editable>
+            </Box>
+          </Flex>
+        </Box>
       </div>
     );
   }
