@@ -7,7 +7,7 @@ const ButtonLg = ({ children, isSelected }) => {
       px="4vw"
       py="2.5vw"
       color={isSelected ? 'white' : 'black'}
-      bgColor={isSelected ? 'teal' : 'gray'}
+      bgColor={isSelected ? '#426C50' : 'gray'}
       fontSize="2.5vw"
       borderRadius="lg"
       textAlign="center">

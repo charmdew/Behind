@@ -25,7 +25,7 @@ function App() {
     styles: {
       global: {
         body: {
-          bg: 'teal'
+          bg: '#426C50'
         }
       }
     }

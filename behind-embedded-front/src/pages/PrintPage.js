@@ -58,7 +58,7 @@ const PrintPage = ({ socketClient }) => {
     })
     const body = await res.json()
     const { name, tag, email, phoneNum } = body
-    const tagString = tag.map((el) => '#' + el).join(' ')
+    const tagString = tag.join(' ')
     const userInfo = { name, tagString, email, phoneNum }
     setUserInfo(userInfo)
   }

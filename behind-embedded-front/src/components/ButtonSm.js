@@ -7,7 +7,7 @@ const ButtonSm = ({ children }) => {
       px="3vw"
       py="1.5vw"
       color="white"
-      bgColor="teal"
+      bgColor="#426C50"
       fontSize="2.5vw"
       borderRadius="lg">
       {children}
