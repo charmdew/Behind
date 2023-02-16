@@ -8,8 +8,8 @@ class SocketClient {
     })
   }
 
-  send(data) {
-    this.socket.write(data)
+  send(data, callback) {
+    this.socket.write(data, callback)
   }
 }
 
