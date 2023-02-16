@@ -39,10 +39,6 @@ def camera_tilt(input):
         if vertical_servo_angle > 900:
             vertical_servo_angle = 900
         pi.set_servo_pulsewidth(vertical_servo_pin, vertical_servo_angle)
-    elif input == "C":
-        keyboard.press(Key.enter)
-        keyboard.release(Key.enter)
-        sleep(1)  # delay to prevent multiple input
 
 
 # joystick mode (0 : remote control, 1 : camera tilting)
@@ -76,7 +72,11 @@ def bt_comms():
                         print(inp.decode())
                         sleep(0.5)  # delay for slower user input
                     else:
-                        camera_tilt(inp.decode())
+                        if inp.decode() == "C":
+                            remote_control(inp.decode())
+                            sleep(1)
+                        else:
+                            camera_tilt(inp.decode())
             except BluetoothError:
                 connected = False
                 print("Bluetooth connection lost... reconnecting..")
@@ -148,6 +148,7 @@ while True:
     print(data_str)
 
     if data_str == "remote":
+        sleep(0.5)
         mode = 0
         # stop servo
         pi.set_servo_pulsewidth(horizontal_servo_pin, 0)
@@ -184,3 +185,4 @@ print("GPIO stopped")
 conn.close()
 print("Socket closed")
 print("Finished")
+
