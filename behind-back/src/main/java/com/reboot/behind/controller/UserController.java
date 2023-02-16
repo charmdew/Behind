@@ -2,6 +2,7 @@ package com.reboot.behind.controller;
 
 import com.reboot.behind.config.security.auth.PrincipalDetails;
 import com.reboot.behind.data.dto.User.*;
+import com.reboot.behind.data.entity.User;
 import com.reboot.behind.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,6 +58,14 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserDetail(@PathVariable Integer id){
         try {
+            String name = SecurityContextHolder.getContext().getAuthentication().getName();
+            System.out.println("이름:"+name);
+            PrincipalDetails principalDetails = (PrincipalDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User user =principalDetails.getUser();
+            System.out.println("유저id:"+user.getUserId());
+            System.out.println("이름:"+user.getName());
+            System.out.println("id:"+user.getId());
+            System.out.println("이메일:"+user.getEmail());
             UserResponseDto userDetail = userService.userDetail(id);
 
             return ResponseEntity.status(HttpStatus.OK).body(userDetail);
