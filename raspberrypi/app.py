@@ -74,7 +74,7 @@ def bt_comms():
                     else:
                         if inp.decode() == "C":
                             remote_control(inp.decode())
-                            sleep(1)
+                            sleep(3)  # wainting for image process
                         else:
                             camera_tilt(inp.decode())
             except BluetoothError:
