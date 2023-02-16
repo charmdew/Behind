@@ -112,6 +112,7 @@ def vtoonify():
 
 @app.route('/images/style-transfer', methods=['POST'])
 def style_transfer():
+    print("=== 요청 받음! ===")
     # 파일 받기
     content_file = request.files['photo']
 
@@ -139,7 +140,7 @@ mode = "prod"
 
 if __name__ == '__main__':
     if mode == "dev":
-        app.run(host='0.0.0.0', port=5000)
+        app.run(host='0.0.0.0', port=5000, debug=True)
     else:
         # serve(app, host='0.0.0.0', port=5000, threads=4, url_prefix="/my-app")
         serve(app, host='0.0.0.0', port=5000, threads=4)

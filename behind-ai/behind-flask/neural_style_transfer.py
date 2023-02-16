@@ -67,7 +67,7 @@ def main_multiple_styles(input_image, input_image_fname, output_fname):
     STYLE_IMG_FOLDER = os.path.join('static', 'images', 'style')
     # 스타일 이미지 파일명
     # style_image_files = ['picasso.jpg', 'dalmado.jpg', 'seurat.jpg', 'klimpt.jpg']
-    style_image_files = ['picasso.jpg', 'starry_night.jpg', 'scream.jpg', 'candinsky.jpg']
+    style_image_files = [ 'gogh.jpg', 'marilyn.jpg', 'candinsky.jpg', 'girl.jpg']
     # style_image_files = ['starry_night.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg']
     # style_image_files = ['candinsky.jpg', 'monarisa.jpg', 'rain_princess.jpg', 'scream.jpg']
     # style_image_files = ['candinsky.jpg', 'dalmado.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg', 'monarisa.jpg',
@@ -78,7 +78,7 @@ def main_multiple_styles(input_image, input_image_fname, output_fname):
     b64encoded_images = []
 
     # 이미지 확장자 지정
-    img_format = "PNG"
+    img_format = "JPEG"
 
     for style_image_file in style_image_files:
         style_image = Image.open(os.path.join(STYLE_IMG_FOLDER, style_image_file))

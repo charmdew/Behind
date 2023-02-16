@@ -59,7 +59,7 @@ groups = [
     ['cartoon026', 'cartoon299', 'comic028', 'pixar052'],
     ['illustration004', 'illustration009', 'illustration043', 'illustration050'],
     ['illustration054', 'illustration057', 'illustration086', 'illustration136'],
-    ['cartoon026', 'caricature068', 'illustration004', 'illustration054']
+    ['cartoon026', 'arcane000', 'illustration004', 'illustration054']
 ]
 
 style_types = groups[-1]
@@ -225,7 +225,7 @@ def main(input_image, input_image_fname, ouput_fname):
     b64encoded_images = []
 
     # 이미지 확장자 지정
-    img_format = "PNG"
+    img_format = "JPEG"
 
     for i in range(N):
         # 변환한 이미지 저장
