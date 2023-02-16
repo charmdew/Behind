@@ -14,6 +14,8 @@ const ProfileCard = ({
 }) => {
   // 포토 카드 실물 사이즈 : ( 54*86 )mm
 
+  const tempPhoneToggle = true;
+
   const profileSrc = `https://d2p3k144i3awma.cloudfront.net/${profile}`;
   const altSrc =
     'https://via.placeholder.com/322x400/FEEBC8/000000.png?text=Come+to+take+pictures';
@@ -184,7 +186,7 @@ const ProfileCard = ({
               flexGrow="1"
               alignContent="center"
             > */}
-            {!showPhoneNum ? (
+            {!tempPhoneToggle ? (
               <Box
                 display="flex"
                 pl={2}
