@@ -85,7 +85,14 @@ const Detail = () => {
         <Flex
           // bg="#edf3f8"
           _dark={{ bg: '#3e3e3e' }}
-          w="full"
+          pt={{
+            base: '5',
+            lg: '50',
+          }}
+          px={{
+            base: '1vw',
+            lg: '5vw',
+          }}
           alignItems="center"
           justifyContent="center"
           pb={50}
