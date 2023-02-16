@@ -283,12 +283,13 @@ const MyPage = () => {
         <Box display="inline-block" position="sticky" left="94%" bottom="5%">
           <Menu isLazy lazyBehavior="keepMounted">
             <MenuButton
+              size="lg"
               px={4}
               py={2}
               transition="all 0.2s"
               borderRadius="md"
               borderWidth="1px"
-              backgroundColor="white"
+              backgroundColor="#B99B6B"
               borderColor="#4E6C50"
               _hover={{ bg: 'green.200' }}
               _expanded={{ bg: 'green.200' }}

@@ -182,7 +182,9 @@ const UserInfo = ({ loginUser }) => {
     virtualTag.innerHTML += ' #' + tagWord;
     if (virtualNameTag.clientWidth > 290) {
       virtualTag.innerHTML = origVirtualTagInnerHTML;
-      alert('길이를 초과하였습니다.');
+      alert(
+        '출력될 카드 너비를 초과하였습니다. 더 짧은 단어를 입력해 주시거나 기존 단어를 수정해 주세요!'
+      );
       setTagWord('');
     } else if (tagWord.length !== 0) {
       const newTagList = [...tag, '#' + tagWord];
@@ -215,6 +217,8 @@ const UserInfo = ({ loginUser }) => {
       alert('선호 포지션은 최대 2개 선택 가능합니다');
     } else if (trackCnt > 1 || trackCnt === 0) {
       alert('전공과 비전공 중 하나를 선택해주세요');
+    } else if (phoneNum.length === 0) {
+      alert('전화번호를 입력해 주세요');
     } else {
       // 서버에 전달할 유저 데이터
       const requestUserData = {
@@ -453,7 +457,7 @@ const UserInfo = ({ loginUser }) => {
                         color: 'gray.50',
                       }}
                     >
-                      선호 포지션 (2개 선택해 주세요)
+                      선호 포지션 (2개까지 선택 가능)
                     </FormLabel>
                     <Stack spacing={[1, 5]} direction={['column', 'row']}>
                       <Checkbox
