@@ -1,6 +1,5 @@
 package com.reboot.behind.config.security;
 
-import com.reboot.behind.data.dto.User.UserResponseDto;
 import com.reboot.behind.service.UserService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Date;
 
@@ -37,7 +37,7 @@ public class JwtTokenProvider {
     private String secretKey = "secretKey";
 
     //토큰 유효기간
-    private final long tokenValidMillisecond = 1000L * 60 * 30;
+    private final long tokenValidMillisecond = 1000L * 60;
 
     @PostConstruct
     protected void init() {
@@ -88,7 +88,12 @@ public class JwtTokenProvider {
         LOGGER.info("[getId] 토큰 기반 회원 구별 정보 추출");
         String info = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
                 .getBody().getSubject();
+        Date date = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                .getBody().getExpiration();
         LOGGER.info("[getId] 토큰 기반 회원 구별 정보 추출 완료, info : {}", info);
+        LOGGER.info("[getId] 토큰 기반 회원 구별 정보 추출 완료, date : {}", date);
+        LOGGER.info("[getId] 토큰 기반 회원 구별 정보 추출 완료, 현재시간", LocalDateTime.now());
+
         return info;
     }
 
