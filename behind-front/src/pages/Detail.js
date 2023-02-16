@@ -81,20 +81,15 @@ const Detail = () => {
           />
           <Text as="b">{`${detailUser.name}'s page`}</Text>
         </Box>
-
-        <Box
-          minChildWidth={{
-            base: '50vw',
-            lg: '500px',
-          }}
-          spacing={{
-            base: '20px',
-            lg: '40px',
-          }}
-          mx="4px"
+        <ProfileContainer {...detailUser} />
+        <Flex
+          // bg="#edf3f8"
+          _dark={{ bg: '#3e3e3e' }}
+          w="full"
+          alignItems="center"
+          justifyContent="center"
+          pb={50}
         >
-          <ProfileContainer {...detailUser} />
-
           <Box
             mt={{
               base: '35px',
@@ -144,7 +139,7 @@ const Detail = () => {
               </Box>
             </Flex>
           </Box>
-        </Box>
+        </Flex>
       </div>
     );
   }
