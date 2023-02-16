@@ -12,9 +12,8 @@ import ButtonLg from '../components/ButtonLg'
 import IconWithLabel from '../components/IconWithLabel'
 import ProfileCard from '../components/ProfileCard'
 import saveElToImage from '../utils/saveElToImage.js'
-import urls from '../data/urls.json'
 
-const PrintPage = ({ socketClient }) => {
+const PrintPage = ({ socketClient, urls }) => {
   const { state } = useLocation()
   const navigate = useNavigate()
   const [selection, setSelection] = useState(1)

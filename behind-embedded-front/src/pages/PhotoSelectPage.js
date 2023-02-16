@@ -11,9 +11,8 @@ import Container from '../components/Container'
 import Header from '../components/Header'
 import IconWithLabel from '../components/IconWithLabel'
 import dataURLtoFile from '../utils/dataURLToFile'
-import urls from '../data/urls.json'
 
-const PhotoSelectPage = () => {
+const PhotoSelectPage = ({ urls }) => {
   const { state } = useLocation()
   const navigate = useNavigate()
   const splideRef = useRef()

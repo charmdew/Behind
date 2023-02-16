@@ -1,3 +1,6 @@
+import * as fs from 'node:fs'
+const os = require('node:os')
+
 import React from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
@@ -33,6 +36,15 @@ function App() {
 
   const socketClient = new SocketClient('12345', '127.0.0.1')
 
+  let urls = null
+  fs.readFile(os.homedir() + '/behind_config.json', (error, data) => {
+    if (error) {
+      console.log(error)
+      return
+    }
+    urls = JSON.parse(data)
+  })
+
   return (
     <ChakraProvider theme={theme}>
       <HashRouter>
@@ -51,15 +63,21 @@ function App() {
             element={<PhotoShootPage socketClient={socketClient} />}
           />
           <Route path="/after-shoot" element={<AfterShootPage />} />
-          <Route path="/photo-transform" element={<PhotoTransformPage />} />
-          <Route path="/photo-select" element={<PhotoSelectPage />} />
+          <Route
+            path="/photo-transform"
+            element={<PhotoTransformPage urls={urls} />}
+          />
+          <Route
+            path="/photo-select"
+            element={<PhotoSelectPage urls={urls} />}
+          />
           <Route
             path="/photo-select-from-server"
             element={<PhotoSelectFromServerPage />}
           />
           <Route
             path="/print"
-            element={<PrintPage socketClient={socketClient} />}
+            element={<PrintPage socketClient={socketClient} urls={urls} />}
           />
           <Route
             path="/print"
