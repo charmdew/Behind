@@ -103,9 +103,6 @@ const MyPage = () => {
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     }).then(() => {
       alert('회원탈퇴가 완료되었습니다.');
-      removeCookie('LoginUserId', '', -1);
-      removeCookie('token', '', -1);
-      onClose();
       navigate('/', { replace: true });
     });
   };
@@ -347,6 +344,9 @@ const MyPage = () => {
                     colorScheme="red"
                     onClick={() => {
                       userUnregister();
+                      removeCookie('LoginUserId', '', -1);
+                      removeCookie('token', '', -1);
+                      onClose();
                     }}
                     ml={3}
                   >
