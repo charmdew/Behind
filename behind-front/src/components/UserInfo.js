@@ -180,7 +180,7 @@ const UserInfo = ({ loginUser }) => {
     const virtualTag = virtualNameTag.querySelector('.tag');
     const origVirtualTagInnerHTML = virtualTag.innerHTML;
     virtualTag.innerHTML += ' #' + tagWord;
-    if (virtualNameTag.clientWidth > 290) {
+    if (virtualNameTag.clientWidth > 285) {
       virtualTag.innerHTML = origVirtualTagInnerHTML;
       alert(
         '출력될 카드 너비를 초과하였습니다. 더 짧은 단어를 입력해 주시거나 기존 단어를 수정해 주세요!'
