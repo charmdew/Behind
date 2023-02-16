@@ -111,8 +111,8 @@ sleep(1)
 
 pi = pigpio.pi()  # grant access to GPIO
 
-horizontal_servo_pin = 10  # range 1200 ~ 1700, mid = 1450
-vertical_servo_pin = 9  # range 600 ~ 900, top = 600
+horizontal_servo_pin = 10  # left - right (range = 1200 ~ 1700, mid = 1450)
+vertical_servo_pin = 9  # up - down (range = 600 ~ 900, top = 600)
 
 horizontal_servo_angle = 1450
 vertical_servo_angle = 600
@@ -155,16 +155,17 @@ while True:
     elif data_str == "camera":
         mode = 1
         # start servo
-        pi.set_servo_pulsewidth(
-            horizontal_servo_pin, horizontal_servo_angle)
+        pi.set_servo_pulsewidth(horizontal_servo_pin, horizontal_servo_angle)
         pi.set_servo_pulsewidth(vertical_servo_pin, vertical_servo_angle)
     elif data_str == "print":
-        pid = printer_conn.printFile(
-            printer_using, "./image.png", "Profile card", {})  # print image
-        print(pid)
-        while printer_conn.getJobs().get(pid, None) is not None:
-            sleep(1)
-        print("print done")
+        while True:
+            try:
+                printer_conn.printFile(printer_using, "./image.png", "Profile card", {})  # print image
+                print("print done")
+                break
+            except:
+                print("Print failed")
+                sleep(1)
         os.remove("./image.png")  # delete printed image
     elif data_str == "camreset":
         # webcam usb port parsing
