@@ -49,8 +49,8 @@ const Home = () => {
     ) {
       const token = query.search.replace('?X-AUTH-TOKEN=', '');
       const LoginUserId = jwt_decode(token).sub;
-      setCookie('LoginUserId', `${LoginUserId}`, 1);
-      setCookie('token', `${token}`, 1);
+      setCookie('LoginUserId', `${LoginUserId}`, '1');
+      setCookie('token', `${token}`, '1');
       if (jwt_decode(token).role === 'TEMP') {
         navigate('/useredit', { replace: true });
       }
