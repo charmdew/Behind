@@ -59,9 +59,6 @@ const Home = () => {
       !(document.cookie.length === 0 || !document.cookie.token || !token)
     ) {
       const token = getCookie('token');
-      if (jwt_decode(token).role === 'TEMP') {
-        navigate('/useredit', { replace: true });
-      }
       const LoginUserId = jwt_decode(token).sub;
     } else {
       const token = getCookie('token');

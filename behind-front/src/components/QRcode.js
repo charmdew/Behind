@@ -20,11 +20,11 @@ const QRcode = () => {
   if (jwt_decode(token).role === 'TEMP') {
     return (
       <div>
-        return <div>회원정보를 입력해 주세요</div>;
+        <div>회원정보를 입력해 주세요</div>;
       </div>
     );
   } else {
-    <QRCodeCanvas value={token} />;
+    return <QRCodeCanvas value={token} />;
   }
 };
 
