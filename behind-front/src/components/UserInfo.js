@@ -180,7 +180,7 @@ const UserInfo = ({ loginUser }) => {
     const virtualTag = virtualNameTag.querySelector('.tag');
     const origVirtualTagInnerHTML = virtualTag.innerHTML;
     virtualTag.innerHTML += ' #' + tagWord;
-    if (virtualNameTag.clientWidth > 300) {
+    if (virtualNameTag.clientWidth > 290) {
       virtualTag.innerHTML = origVirtualTagInnerHTML;
       alert('길이를 초과하였습니다.');
       setTagWord('');
