@@ -76,8 +76,8 @@ public class UserController {
             int tokenId = pd.getUser().getId();
             System.out.println(tokenId);
             if (tokenId == userUpdateDto.getId()) {
-                UserResponseDto userChangeDto = userService.changeUser(userUpdateDto);
-                return ResponseEntity.status(HttpStatus.OK).body(userChangeDto);
+            UserResponseDto userChangeDto = userService.changeUser(userUpdateDto);
+            return ResponseEntity.status(HttpStatus.OK).body(userChangeDto);
             } else {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
             }
