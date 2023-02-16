@@ -27,6 +27,8 @@ public class UserResponseDto {
 
     private String phoneNum;
 
+    private String role;
+
 
     private Boolean showPhoneNum;
 
@@ -70,7 +72,7 @@ public class UserResponseDto {
     }
 
     @Builder
-    public UserResponseDto(int id, String userId,String name,String email, Position position,String phoneNum, boolean showPhoneNum, List<String> tag, Track track,String detail, List<String> images,String profile,List<Integer> followingUsers,List<Integer> followedUsers,int likeCnt){
+    public UserResponseDto(int id, String userId,String name,String email, Position position,String phoneNum, boolean showPhoneNum, List<String> tag, Track track,String detail, List<String> images,String profile,List<Integer> followingUsers,List<Integer> followedUsers,int likeCnt,String role){
         this.id = id;
         this.userId = userId;
         this.name = name;
@@ -86,5 +88,6 @@ public class UserResponseDto {
         this.followingUsers=followingUsers;
         this.followedUsers=followedUsers;
         this.likeCnt=likeCnt;
+        this.role=role;
     }
 }

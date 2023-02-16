@@ -158,6 +158,7 @@ public class UserServiceImpl implements UserService {
                 .likeCnt(changedUser.getLikeCnt())
                 .position(position)
                 .track(track)
+                .role(changedUser.getRole())
                 .build();
 
         return changeduserResponseDto;
@@ -403,6 +404,11 @@ public class UserServiceImpl implements UserService {
         User foundUser = userRepository.findById(id).get();
         foundUser.setRefreshToken(refreshToken);
         userRepository.save(foundUser);
+    }
+
+    public String getUserRefreshToken(int id){
+        User foundUser = userRepository.findById(id).get();
+        return foundUser.getRefreshToken();
     }
 }
 
