@@ -1,60 +1,76 @@
-//자체 로그인, 회원가입은 서비스에 사용되지 않는다.
-
 package com.reboot.behind.controller;
 
-import com.reboot.behind.data.dto.SignInRequestDto;
-import com.reboot.behind.data.dto.SignInResultDto;
-import com.reboot.behind.data.dto.SignUpRequestDto;
-import com.reboot.behind.data.dto.SignUpResultDto;
-import com.reboot.behind.service.SignService;
+import com.reboot.behind.config.security.JwtTokenProvider;
+import com.reboot.behind.config.security.auth.PrincipalDetails;
+import com.reboot.behind.data.dto.User.UserResponseDto;
+import com.reboot.behind.data.dto.User.UserUpdateDto;
+import com.reboot.behind.data.entity.User;
+import com.reboot.behind.service.UserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/sign")
+@Api(description = "회원 가입")
+@RequestMapping("/signUp")
 public class SignController {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(SignController.class);
-    private final SignService signService;
+    private final UserService userService;
 
-    @Autowired
-    public SignController(SignService signService){
-        this.signService = signService;
-    }
+    private final JwtTokenProvider jwtTokenProvider;
 
     @ApiOperation(
-            value = "로그인"
-            , notes = "로그인을 합니다")
-    @PostMapping("/in")
-    public ResponseEntity<SignInResultDto> signIn(@RequestBody SignInRequestDto signInRequestDto) throws  RuntimeException{
-        LOGGER.info("[signIn] 로그인 시도 중 id : {}, pw : ****", signInRequestDto.getId() );
-        SignInResultDto signInResultDto= signService.signIn(signInRequestDto);
+            value = "Id(pk)를 이용한 마이페이지 회원정보 조회"
+            , notes = "Id(pk)를 이용한 1명의 회원정보를 가져온다")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserInfo(@PathVariable int id){
+        try {
+            String name = SecurityContextHolder.getContext().getAuthentication().getName();
+            PrincipalDetails principalDetails = (PrincipalDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User user =principalDetails.getUser();
+            UserResponseDto userDetail = userService.userDetail(id);
 
-        if(signInResultDto.getCode() == 0){
-            LOGGER.info("[signIn] 정상적으로 로그인되었습니다. id : {}, token : {}",
-                    signInRequestDto.getId(),
-                    signInResultDto.getToken());
+            return ResponseEntity.status(HttpStatus.OK).body(userDetail);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(signInResultDto);
-
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
     }
 
     @ApiOperation(
-            value = "회원가입"
-            , notes = "회원가입을 합니다")
-    @PostMapping(value = "/up")
-    public ResponseEntity<SignUpResultDto> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
-        LOGGER.info("[signUp] 회원가입을 수행합니다. id : {}, password : ****, name : {}",
-                signUpRequestDto.getId(), signUpRequestDto.getName());
-        SignUpResultDto signUpResultDto = signService.signUp(signUpRequestDto);
-
-        LOGGER.info("[signUp] 회원가입을 완료했습니다. id : {}", signUpRequestDto.getId());
-
-        return ResponseEntity.status(HttpStatus.OK).body(signUpResultDto);
+            value = "디테일을 제외한 회원정보 수정"
+            , notes = "디테일을 제외한 회원정보를 수정한다")
+    @PatchMapping()
+    public ResponseEntity<?> signUp(@RequestBody UserUpdateDto userUpdateDto, HttpServletResponse response){
+        try{
+            PrincipalDetails pd = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            int tokenId = pd.getUser().getId();
+            if (tokenId == userUpdateDto.getId()) {
+                UserResponseDto userChangeDto = userService.changeUser(userUpdateDto);
+                String refreshToken = jwtTokenProvider.createToken(userChangeDto.getId(), userChangeDto.getRole(), true);
+                String accessToken = jwtTokenProvider.createToken(userChangeDto.getId(), userChangeDto.getRole(), false);
+                Cookie cookie = new Cookie("token", accessToken);
+                response.addCookie(cookie);
+                Cookie secureCookie = new Cookie("behind_RefreshToken", refreshToken);
+                secureCookie.setHttpOnly(true);
+                secureCookie.setSecure(true);
+                secureCookie.setPath("/");
+                response.addCookie(secureCookie);
+                return ResponseEntity.status(HttpStatus.OK).body(userChangeDto);
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
+            }
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청이 잘못 들어왔습니다");
+        }
     }
 }

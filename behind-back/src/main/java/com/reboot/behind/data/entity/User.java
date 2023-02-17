@@ -3,7 +3,9 @@ package com.reboot.behind.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.reboot.behind.data.dto.User.UserUpdateDto;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,8 +26,9 @@ import java.util.stream.Collectors;
 @Builder
 @Table
 @Entity
+@DynamicUpdate
 //implements UserDetails
-public class User{
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -50,20 +53,15 @@ public class User{
     private boolean embedded;
 
     @ElementCollection
-    private List<String> tag ;
+    private List<String> tag;
 
     private String phoneNum;
 
     private boolean showPhoneNum;
 
-    private boolean ai;
+    private boolean major;
 
-    private boolean iot;
-
-    private boolean blockChain;
-
-    private boolean bigData;
-    private boolean metaBus;
+    private boolean nonMajor;
 
     private String detail;
 
@@ -73,10 +71,25 @@ public class User{
 
     private int likeCnt;
 
+    private String refreshToken;
+
     @ElementCollection
     private List<Integer> followingUsers;
 
     @ElementCollection
     private List<Integer> followedUsers;
 
+    public void updateUser(UserUpdateDto userUpdateDto){
+        this.name = userUpdateDto.getName();
+        this.email=userUpdateDto.getEmail();
+        this.phoneNum=userUpdateDto.getPhoneNum();
+        this.showPhoneNum=userUpdateDto.getShowPhoneNum();
+        this.front=userUpdateDto.getPosition().isFrontend();
+        this.back=userUpdateDto.getPosition().isBackend();
+        this.embedded=userUpdateDto.getPosition().isEmbedded();
+        this.major=userUpdateDto.getTrack().isMajor();
+        this.nonMajor=userUpdateDto.getTrack().isNonMajor();
+        this.tag=userUpdateDto.getTag();
+        this.role=("USER");
+    }
 }

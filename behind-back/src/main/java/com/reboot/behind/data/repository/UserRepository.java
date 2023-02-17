@@ -12,8 +12,6 @@ import java.util.List;
 
 
 
-//@Repository
-//@RequiredArgsConstructor
 public interface UserRepository extends JpaRepository<User, Integer> {
     User getUserByUserId(String userId);
 
