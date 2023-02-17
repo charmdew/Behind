@@ -1,3 +1,6 @@
+import * as fs from 'node:fs'
+const os = require('node:os')
+
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Center, Flex, Image } from '@chakra-ui/react'
@@ -16,7 +19,8 @@ const AfterShootPage = () => {
   const [selection, setSelection] = useState('up')
   const [croppedCaptureDataURL, setCroppedCaptureDataURL] = useState(null)
 
-  cropImageToFitProfileCard(state.captureDataURL, setCroppedCaptureDataURL)
+  const imageBase64 = fs.readFileSync(os.homedir() + '/img.png', 'base64')
+  const captureDataURL = `data:image/png;base64,${imageBase64}`
 
   const keyDownHandler = (e) => {
     if (e.key === 'ArrowLeft')
@@ -39,6 +43,7 @@ const AfterShootPage = () => {
 
   useEffect(() => {
     window.addEventListener('keydown', keyDownHandler)
+    setCroppedCaptureDataURL(captureDataURL)
     return () => window.removeEventListener('keydown', keyDownHandler)
   }, [selection, croppedCaptureDataURL])
 
