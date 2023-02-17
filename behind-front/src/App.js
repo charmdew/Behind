@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
-import { ChakraProvider, theme } from '@chakra-ui/react';
+import { ChakraProvider, theme, extendTheme } from '@chakra-ui/react';
 import jwt_decode from 'jwt-decode';
 
 import Navbar from './components/Navbar';
@@ -30,16 +30,24 @@ function getCookie(cookie_name) {
 }
 
 const App = () => {
-  console.log('app 렌더링');
+  const breakpoints = {
+    lg: '1024px',
+  };
+
+  const theme = extendTheme({
+    breakpoints,
+  });
+
   // 로그인한 유저id 저장
   const [loginUser, setLoginUser] = useState({});
   // const token = getCookie('token');
   const getUser = () => {
     const token = getCookie('token');
-    if (token.length) {
+    if (token) {
       const LoginUserId = jwt_decode(token).sub;
       axios({
-        url: `/api/users/${LoginUserId}`,
+        // url: `api/users/${LoginUserId}`,
+        url: `https://i8a404.p.ssafy.io/api/users/${LoginUserId}`,
         method: 'get',
         headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       })
@@ -62,7 +70,7 @@ const App = () => {
   const refreshLoginUserInfo = LoginUserId => {
     const token = getCookie('token');
     axios({
-      url: `/api/users/${LoginUserId}`,
+      url: `https://i8a404.p.ssafy.io/api/users/${LoginUserId}`,
       method: 'get',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     })

@@ -51,7 +51,7 @@ const CommentListItem = it => {
   };
   const editComment = () => {
     axios({
-      url: 'api/comment',
+      url: 'https://i8a404.p.ssafy.io/api/comment',
       method: 'patch',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       data: {
@@ -72,7 +72,7 @@ const CommentListItem = it => {
   const deleteComment = () => {
     axios({
       method: 'delete',
-      url: 'api/comment',
+      url: 'https://i8a404.p.ssafy.io/api/comment',
       params: {
         id: it.commentId,
         writerUser: parseInt(LoginUserId),
@@ -96,7 +96,7 @@ const CommentListItem = it => {
       commentId: parseInt(it.commentId),
     };
     axios({
-      url: 'api/reply',
+      url: 'https://i8a404.p.ssafy.io/api/reply',
       method: 'post',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       data: {

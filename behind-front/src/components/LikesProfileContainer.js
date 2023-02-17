@@ -39,6 +39,7 @@ const ProfileContainer = ({
   track,
   images,
   profile,
+  showPhoneNum,
 }) => {
   const token = getCookie('token');
   const LoginUserId = jwt_decode(token).sub;
@@ -59,7 +60,7 @@ const ProfileContainer = ({
     }
   };
 
-  // 선호 포지션, 선호 트랙 추출
+  // 선호 포지션, 전공 | 비전공 추출
   const getPreferPosition = () => {
     const positionList = Object.keys(position);
     let temp = [];
@@ -89,21 +90,21 @@ const ProfileContainer = ({
     TrackList.forEach(element => {
       if (track[element] === true) {
         switch (element) {
-          case 'ai':
-            temp.push('AI');
+          case 'major':
+            temp.push('전공');
             break;
-          case 'iot':
-            temp.push('IoT');
+          case 'nonMajor':
+            temp.push('비전공');
             break;
-          case 'bigdata':
-            temp.push('BigData');
-            break;
-          case 'blockchain':
-            temp.push('BlockChain');
-            break;
-          case 'metabus':
-            temp.push('Metabus');
-            break;
+          // case 'bigdata':
+          //   temp.push('BigData');
+          //   break;
+          // case 'blockchain':
+          //   temp.push('BlockChain');
+          //   break;
+          // case 'metaverse':
+          //   temp.push('metaverse');
+          //   break;
           default:
             console.log('트랙에서 특정못함');
         }
@@ -135,7 +136,7 @@ const ProfileContainer = ({
     if (likeToggle) {
       axios({
         method: 'delete',
-        url: 'api/users/like',
+        url: 'https://i8a404.p.ssafy.io/api/users/like',
         headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
         data: {
           followUser: String(id),
@@ -152,7 +153,7 @@ const ProfileContainer = ({
     else {
       axios({
         method: 'post',
-        url: 'api/users/like',
+        url: 'https://i8a404.p.ssafy.io/api/users/like',
         headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
         data: {
           followUser: parseInt(id),
@@ -202,8 +203,14 @@ const ProfileContainer = ({
       <Flex
         bg="white"
         _dark={{ bg: '#3e3e3e' }}
-        p={50}
-        w="full"
+        pt={{
+          base: '5',
+          lg: '50',
+        }}
+        px={{
+          base: '1vw',
+          lg: '5vw',
+        }}
         alignItems="center"
         justifyContent="center"
       >
@@ -212,8 +219,10 @@ const ProfileContainer = ({
           borderColor="#4E6C50"
           ref={container}
           pt={7}
-          w="md"
-          mx="auto"
+          w={{
+            base: 'lg',
+            lg: 'md',
+          }}
           bg="white"
           _dark={{ bg: 'gray.800' }}
           shadow="lg"
@@ -242,6 +251,7 @@ const ProfileContainer = ({
                   name={name}
                   images={images}
                   profile={profile}
+                  showPhoneNum={showPhoneNum}
                 />
               </Box>
             )}
@@ -277,14 +287,14 @@ const ProfileContainer = ({
                 </chakra.h1>
               </Box>
 
-              {/* 선호 트랙 */}
+              {/* 전공 | 비전공 */}
               <Box>
                 <Flex
                   alignItems="center"
                   color="gray.700"
                   _dark={{ color: 'gray.200' }}
                 >
-                  <chakra.h1 fontSize="sm">선호 트랙</chakra.h1>
+                  <chakra.h1 fontSize="sm">전공 | 비전공</chakra.h1>
                 </Flex>
                 <chakra.h1
                   fontSize="lg"

@@ -4,7 +4,9 @@ import { useContext } from 'react';
 import { FilteredUsersDispatchContext } from '../pages/Home';
 
 const TrackRadio = () => {
-  const { setSelectedTrack } = useContext(FilteredUsersDispatchContext);
+  const { setSelectedTrack, setHasMore, setPageNum, setUsers } = useContext(
+    FilteredUsersDispatchContext
+  );
   function RadioCard(props) {
     const { getInputProps, getCheckboxProps } = useRadio(props);
 
@@ -15,6 +17,10 @@ const TrackRadio = () => {
       <Box as="label">
         <input {...input} />
         <Box
+          fontSize={{
+            base: 'sm',
+            lg: 'md',
+          }}
           {...checkbox}
           cursor="pointer"
           borderWidth="1px"
@@ -31,8 +37,14 @@ const TrackRadio = () => {
           _focus={{
             boxShadow: 'outline',
           }}
-          px={5}
-          py={3}
+          px={{
+            base: '1',
+            lg: '5',
+          }}
+          py={{
+            base: '1',
+            lg: '3',
+          }}
         >
           {props.children}
         </Box>
@@ -41,10 +53,13 @@ const TrackRadio = () => {
   }
 
   const getUsers = e => {
+    setUsers([]);
+    setHasMore(true);
+    setPageNum(0);
     setSelectedTrack(trackOptions.indexOf(e));
   };
 
-  const trackOptions = ['ALL', 'AI', 'IoT', 'BigData', 'BlockChain', 'Metabus'];
+  const trackOptions = ['ALL', '전공', '비전공'];
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'track',

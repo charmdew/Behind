@@ -16,6 +16,7 @@ function getCookie(cookie_name) {
 
 const QRcode = () => {
   const token = getCookie('token');
+
   return (
     <div>
       <QRCodeCanvas value={token} />

@@ -186,9 +186,20 @@ const NavBar = () => {
               // }}
             >
               <Button
+                size={{
+                  base: 'sm',
+                  lg: 'md',
+                }}
+                px={{
+                  base: 1,
+                  lg: 3,
+                }}
                 onMouseOver={QRButtonOnHover}
                 onMouseOut={QRButtonOffHover}
-                fontSize="xl"
+                fontSize={{
+                  base: 'sm',
+                  lg: 'xl',
+                }}
                 onClick={() => {
                   const token = getCookie('token');
                   if (!token) {
@@ -202,18 +213,40 @@ const NavBar = () => {
                 QR
               </Button>
               <Button
+                size={{
+                  base: 'sm',
+                  lg: 'md',
+                }}
+                px={{
+                  base: 1,
+                  lg: 3,
+                }}
                 onMouseOver={LikesButtonOnHover}
                 onMouseOut={LikesButtonOffHover}
-                fontSize="xl"
+                fontSize={{
+                  base: 'sm',
+                  lg: 'xl',
+                }}
                 onClick={GoMyLikes}
                 variant="ghost"
               >
                 Likes
               </Button>
               <Button
+                size={{
+                  base: 'sm',
+                  lg: 'md',
+                }}
+                px={{
+                  base: 1,
+                  lg: 3,
+                }}
                 onMouseOver={MypageButtonOnHover}
                 onMouseOut={MypageButtonOffHover}
-                fontSize="xl"
+                fontSize={{
+                  base: 'sm',
+                  lg: 'xl',
+                }}
                 onClick={GoMyPage}
                 variant="ghost"
               >

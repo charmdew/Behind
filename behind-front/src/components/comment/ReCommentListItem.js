@@ -48,7 +48,7 @@ const ReCommentListItem = it => {
 
   const editReply = () => {
     axios({
-      url: 'api/reply',
+      url: 'https://i8a404.p.ssafy.io/api/reply',
       method: 'patch',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       data: {
@@ -69,7 +69,7 @@ const ReCommentListItem = it => {
   const deleteReply = () => {
     axios({
       method: 'delete',
-      url: 'api/reply',
+      url: 'https://i8a404.p.ssafy.io/api/reply',
       params: {
         id: it.replyId,
         writerUser: parseInt(LoginUserId),

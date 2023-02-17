@@ -55,15 +55,18 @@ const Likes = ({}) => {
   const [followingList, setFollowingList] = useState(null);
   const [followerList, setFollowerList] = useState(null);
   const getFollowIdList = async () => {
-    const response = await axios.get(`api/users/${id}`, {
-      headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
-    });
+    const response = await axios.get(
+      `https://i8a404.p.ssafy.io/api/users/${id}`,
+      {
+        headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
+      }
+    );
     setfollowingIdList(response.data.followingUsers);
   };
   const getFollowList = () => {
     axios({
       method: 'get',
-      url: 'api/users/following',
+      url: 'https://i8a404.p.ssafy.io/api/users/following',
       params: {
         id: id,
       },
@@ -80,7 +83,7 @@ const Likes = ({}) => {
       });
     axios({
       method: 'get',
-      url: 'api/users/followed',
+      url: 'https://i8a404.p.ssafy.io/api/users/followed',
       params: {
         id: id,
       },
@@ -122,6 +125,7 @@ const Likes = ({}) => {
                 navigate(-1);
               }}
               size="lg"
+              color="black"
               icon={<FiArrowLeft />}
             />
             <Text as="b">{Back_Word()}</Text>

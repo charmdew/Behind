@@ -6,8 +6,9 @@ import React, { useState } from 'react';
 const MyProfileCard = ({ phoneNum, tag, email, name, images, profile }) => {
   // 포토 카드 실물 사이즈 : ( 54*86 )mm
 
-  const profileSrc = `https://behind-pic.s3.ap-northeast-2.amazonaws.com/${profile}`;
-  console.log('profileSrc', profileSrc);
+  const profileSrc = `https://d2p3k144i3awma.cloudfront.net//${profile}`;
+  const altSrc =
+    'https://via.placeholder.com/322x400/FEEBC8/000000.png?text=Come+to+take+pictures';
 
   const [colorToggle, setColorToggle] = useState(false);
   const tags = () => {
@@ -116,10 +117,8 @@ const MyProfileCard = ({ phoneNum, tag, email, name, images, profile }) => {
             h={400}
             fit="cover"
             objectPosition="center"
-            // 프로필 카드 이미지 자리
-            // src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
             src={profileSrc}
-            alt="avatar"
+            fallbackSrc={altSrc}
           />
           <Box
             backgroundColor="black"

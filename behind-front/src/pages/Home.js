@@ -13,12 +13,11 @@ import TrackRadio from '../components/TrackRadio';
 import { UsersStateContext, UsersDispatchContext } from '../App';
 export const FilteredUsersDispatchContext = React.createContext();
 
-function setCookie(cookie_name, value, miuntes) {
+function setCookie(cookie_name, value, days) {
   const exdate = new Date();
-  exdate.setMinutes(exdate.getMinutes() + miuntes);
+  exdate.setDate(exdate.getDate() + days);
   const cookie_value =
-    escape(value) +
-    (miuntes == null ? '' : '; expires=' + exdate.toUTCString());
+    escape(value) + (days == null ? '' : '; expires=' + exdate.toUTCString());
   document.cookie = cookie_name + '=' + cookie_value;
 }
 
@@ -37,7 +36,6 @@ function getCookie(cookie_name) {
 }
 
 const Home = () => {
-  console.log('home 렌더링');
   const navigate = useNavigate();
   const query = useLocation();
   useEffect(() => {
@@ -51,8 +49,8 @@ const Home = () => {
     ) {
       const token = query.search.replace('?X-AUTH-TOKEN=', '');
       const LoginUserId = jwt_decode(token).sub;
-      setCookie('LoginUserId', `${LoginUserId}`, 30);
-      setCookie('token', `${token}`, 30);
+      setCookie('LoginUserId', `${LoginUserId}`, 1);
+      setCookie('token', `${token}`, 1);
       if (jwt_decode(token).role === 'TEMP') {
         navigate('/useredit', { replace: true });
       }
@@ -78,7 +76,7 @@ const Home = () => {
     const token = getCookie('token');
     axios({
       method: 'get',
-      url: 'api/users/search',
+      url: 'https://i8a404.p.ssafy.io/api/users/search',
       params: {
         position: parseInt(selectedPosition),
         track: parseInt(selectedTrack),
@@ -96,10 +94,6 @@ const Home = () => {
         setUsers(pre => []);
       }
       setUsers(pre => [...users, ...res.data]);
-      console.log('users', users);
-      console.log('selectedPosition', selectedPosition);
-      console.log('selectedTrack', selectedTrack);
-      console.log('pageNum', pageNum);
     });
   };
 
@@ -122,22 +116,37 @@ const Home = () => {
         <Box>
           {/* 포지션,트랙 라디오 */}
           <Box
-            pt="10"
-            pb="10"
+            pt={{
+              base: '5',
+              lg: '10',
+            }}
+            pb={{
+              base: '5',
+              lg: '10',
+            }}
             display="flex"
             flexDirection="column"
             alignItems="center"
             bg="white"
-            borderBottom="solid 40px"
-            borderBottomColor="#4E6C50"
+            // borderBottom="solid 40px"
+
+            borderBottom={{
+              base: 'solid 20px #4E6C50',
+              lg: 'solid 40px #4E6C50',
+            }}
           >
             {/* 포지션 */}
-            <Box mb="5">
-              <PositionRadio />
+            <Box
+              mb={{
+                base: '3',
+                lg: '5',
+              }}
+            >
+              <TrackRadio />
             </Box>
             {/* 트랙 */}
             <Box>
-              <TrackRadio />
+              <PositionRadio />
             </Box>
           </Box>
           <InfiniteScroll

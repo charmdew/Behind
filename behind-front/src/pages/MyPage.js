@@ -69,7 +69,7 @@ const MyPage = () => {
   const [loginUser, setLoginUser] = useState({});
   const getLoginUser = () => {
     axios({
-      url: `/api/users/${LoginUserId}`,
+      url: `https://i8a404.p.ssafy.io/api/users/${LoginUserId}`,
       method: 'get',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
     })
@@ -96,7 +96,7 @@ const MyPage = () => {
   const userUnregister = () => {
     axios({
       method: 'delete',
-      url: 'api/users/',
+      url: 'https://i8a404.p.ssafy.io/api/users/',
       params: {
         id: parseInt(LoginUserId),
       },
@@ -109,13 +109,12 @@ const MyPage = () => {
 
   // 상세 정보 수정
   const [detailInfo, setDetailInfo] = useState(loginUser.detail);
-  // useEffect(() => {}, []);
   const detailContentHandleChange = e => {
     setDetailInfo(e);
   };
   const userSave = () => {
     axios({
-      url: 'api/users/detail',
+      url: 'https://i8a404.p.ssafy.io/api/users/detail',
       method: 'patch',
       headers: { 'Content-Type': 'application/json', 'X-AUTH-TOKEN': token },
       data: {
@@ -183,13 +182,24 @@ const MyPage = () => {
               navigate(-1);
             }}
             size="lg"
+            color="black"
             icon={<FiArrowLeft />}
           />
           <Text as="b">My Page</Text>
         </Box>
 
         {/* 컨테이너, 상세정보 */}
-        <Box>
+        <Box
+          minChildWidth={{
+            base: '50vw',
+            lg: '500px',
+          }}
+          spacing={{
+            base: '20px',
+            lg: '40px',
+          }}
+          mx="4px"
+        >
           {/* 컨테이너 */}
           {Object.keys(loginUser).length !== 0 ? (
             <MyProfileContainer {...loginUser} />
@@ -198,7 +208,12 @@ const MyPage = () => {
           )}
 
           {/* 상세정보 */}
-          <Box>
+          <Box
+            mt={{
+              base: '35px',
+              lg: 'md',
+            }}
+          >
             <Flex
               flexDirection="column"
               _dark={{ bg: '#3e3e3e' }}
@@ -209,8 +224,10 @@ const MyPage = () => {
               <Box
                 border="solid 2px"
                 borderColor="#4E6C50"
-                w="md"
-                mx="auto"
+                w={{
+                  base: '90vw',
+                  lg: 'md',
+                }}
                 bg="white"
                 _dark={{ bg: 'gray.800' }}
                 shadow="lg"
@@ -266,15 +283,16 @@ const MyPage = () => {
         <Box display="inline-block" position="sticky" left="94%" bottom="5%">
           <Menu isLazy lazyBehavior="keepMounted">
             <MenuButton
+              fontSize="lg"
               px={4}
               py={2}
               transition="all 0.2s"
               borderRadius="md"
-              borderWidth="1px"
-              backgroundColor="white"
+              borderWidth="2px"
+              backgroundColor="#B99B6B"
               borderColor="#4E6C50"
-              _hover={{ bg: 'green.200' }}
-              _expanded={{ bg: 'green.200' }}
+              _hover={{ bg: '#4E6C500' }}
+              _expanded={{ bg: '#4E6C50' }}
               _focus={{ boxShadow: 'outline' }}
             >
               <MdSettings />
