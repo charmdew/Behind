@@ -19,6 +19,7 @@ const PhotoShootPage = ({ socketClient }) => {
 
   const keyDownHandler = (e) => {
     if (e.key === 'Enter') {
+      window.removeEventListener('keydown', keyDownHandler)
       const captureDataURL = capture()
       stopStreamedVideos()
       socketClient.send('remote', () => {
