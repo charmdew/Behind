@@ -59,7 +59,7 @@ groups = [
     ['cartoon026', 'cartoon299', 'comic028', 'pixar052'],
     ['illustration004', 'illustration009', 'illustration043', 'illustration050'],
     ['illustration054', 'illustration057', 'illustration086', 'illustration136'],
-    ['cartoon026', 'arcane000', 'illustration004', 'illustration054']
+    ['cartoon026', 'comic028', 'illustration004', 'illustration054']
 ]
 
 style_types = groups[-1]

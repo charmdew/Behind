@@ -67,7 +67,7 @@ def main_multiple_styles(input_image, input_image_fname, output_fname):
     STYLE_IMG_FOLDER = os.path.join('static', 'images', 'style')
     # 스타일 이미지 파일명
     # style_image_files = ['picasso.jpg', 'dalmado.jpg', 'seurat.jpg', 'klimpt.jpg']
-    style_image_files = [ 'gogh.jpg', 'marilyn.jpg', 'candinsky.jpg', 'girl.jpg']
+    style_image_files = [ 'gogh.jpg', 'udnie.jpg', 'girl.jpg', 'candinsky.jpg']
     # style_image_files = ['starry_night.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg']
     # style_image_files = ['candinsky.jpg', 'monarisa.jpg', 'rain_princess.jpg', 'scream.jpg']
     # style_image_files = ['candinsky.jpg', 'dalmado.jpg', 'girl.jpg', 'gogh.jpg', 'marilyn.jpg', 'monarisa.jpg',
