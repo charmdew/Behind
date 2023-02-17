@@ -1,7 +1,7 @@
 import * as fs from 'node:fs'
 const os = require('node:os')
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 
@@ -24,6 +24,8 @@ import StartPage from './pages/StartPage'
 import SocketClient from './features/SocketClient'
 
 function App() {
+  const [urls, setUrls] = useState({})
+
   const theme = extendTheme({
     styles: {
       global: {
@@ -36,14 +38,16 @@ function App() {
 
   const socketClient = new SocketClient('12345', '127.0.0.1')
 
-  let urls = null
-  fs.readFile(os.homedir() + '/behind_config.json', (error, data) => {
-    if (error) {
-      console.log(error)
-      return
-    }
-    urls = JSON.parse(data)
-  })
+  useEffect(() => {
+    fs.readFile(os.homedir() + '/behind_config.json', (error, data) => {
+      if (error) {
+        console.log(error)
+        return
+      }
+      const dataObj = JSON.parse(data)
+      setUrls(dataObj)
+    })
+  }, [])
 
   return (
     <ChakraProvider theme={theme}>
