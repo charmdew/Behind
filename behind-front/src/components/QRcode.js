@@ -1,5 +1,4 @@
 import { QRCodeCanvas } from 'qrcode.react';
-import jwt_decode from 'jwt-decode';
 
 function getCookie(cookie_name) {
   var x, y;
@@ -17,15 +16,12 @@ function getCookie(cookie_name) {
 
 const QRcode = () => {
   const token = getCookie('token');
-  if (jwt_decode(token).role === 'TEMP') {
-    return (
-      <div>
-        <div>회원정보를 입력해 주세요</div>
-      </div>
-    );
-  } else {
-    return <QRCodeCanvas value={token} />;
-  }
+
+  return (
+    <div>
+      <QRCodeCanvas value={token} />
+    </div>
+  );
 };
 
 export default QRcode;
