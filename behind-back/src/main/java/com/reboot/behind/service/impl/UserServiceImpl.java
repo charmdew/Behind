@@ -277,7 +277,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(foundUser);
     }
     public void saveImage(Integer id, String image){
-        //이미지가 8개 이면
         User foundUser = userRepository.findById(id).get();
         if (foundUser.getImages()==null){
             String images = image;
@@ -285,18 +284,10 @@ public class UserServiceImpl implements UserService {
             userRepository.save(foundUser);
         }
         else {
-            String[] array = foundUser.getImages().split(",");
-            if (array.length>=8){
-                String images = image;
-                foundUser.setImages(images);
-                userRepository.save(foundUser);
-            }
-            else {
                 String images = foundUser.getImages() + "," + image;
                 foundUser.setImages(images);
                 userRepository.save(foundUser);
-                //리스트 8개 이상이면
-            }
+
         }
 
     }
