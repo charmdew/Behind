@@ -5,9 +5,8 @@ import { Center, Flex, Box, Spinner } from '@chakra-ui/react'
 import Container from '../components/Container'
 import Header from '../components/Header'
 import dataURLtoFile from '../utils/dataURLToFile'
-import urls from '../data/urls.json'
 
-const PhotoTransformPage = () => {
+const PhotoTransformPage = ({ urls }) => {
   const { state } = useLocation()
   const navigate = useNavigate()
 
